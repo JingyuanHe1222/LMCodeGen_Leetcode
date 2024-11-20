@@ -80,7 +80,7 @@ def main():
     )
 
     # init fast inf model 
-    tokenizer = AutoTokenizer.from_pretrained(args.model_path)
+    # tokenizer = AutoTokenizer.from_pretrained(args.model_p  ath)
     llm = LLM(args.model_path)
 
     sampling_params = SamplingParams(
@@ -99,10 +99,11 @@ def main():
     }
 
     for idx, batch in tqdm(enumerate(dataloader), total=len(dataloader)): 
-        breakpoint()
+        # inf
         prompts = batch["questions"]
         refs = batch["answers"]
         scores = eval_batch(prompts, refs, model=llm, sampling_params=sampling_params, lang=args.lang)
+        # process scores 
         for key in scores: 
             all_scores[key].append(scores[key])
 
