@@ -1,6 +1,9 @@
 import argparse
+import copy 
+import json
 import pickle
 from tqdm import tqdm 
+import random 
 
 import torch 
 from codebleu import calc_codebleu
@@ -25,6 +28,8 @@ def get_args():
     parser.add_argument("--model_path", type=str, help="model for inference", default="Qwen/Qwen2.5-Coder-1.5B-Instruct")
     parser.add_argument("--dataset", type=str, help="name of dataset")
     parser.add_argument("--lang", type=str, default="python", help="Select language from ['python', 'c++', 'java', 'javascript']")
+    parser.add_argument("--template_path", type=str, default="templates/qwen_simple.jsonl", help="a template to wrap around the context of the prompt")
+    parser.add_argument("--shots", type=int, default=0)
     parser.add_argument("--batch_size", type=int, default=32)
     parser.add_argument("--max_len", type=int, default=512)
     parser.add_argument("--gen_max_tokens", type=int, default=512)
@@ -50,6 +55,8 @@ def eval_batch(prompts, refs, model, sampling_params, lang):
 def main(): 
     args = get_args()
 
+    random.seed(args.seed)
+
     # only load the corresponding lang
     class_names = ["content", args.lang]
     ft = Features({"sequence": Value("string"), "label": ClassLabel(names=class_names)})
@@ -62,10 +69,44 @@ def main():
     eval_data = dataset_split["train"]
     test_data = dataset_split["test"]
     # only do inf on test 
-    del train_data, eval_data
+    del eval_data
+
+    # init tokenizer to wrap chat template 
+    tokenizer = AutoTokenizer.from_pretrained(args.model_path)
+
+    # read template 
+    templates = []
+    with open(args.template_path) as json_file:
+        for line in json_file:
+            templates.append(json.loads(line))
 
     # batch dataset 
     def collate_fn(features):
+
+        def format_context(): 
+            # format the n-shot example text 
+            if args.shots == 0: 
+                return ""
+            template = "Improve your coding skill from the following leetcode example questions: \n"
+            example_indices = random.sample(range(len(train_data)), args.shots)
+            for i in range(args.shots): 
+                example = train_data[example_indices[i]]
+                template += f"*** Leetcode Example Question {i+1} ***\n"  # 1-indexing 
+                template += f"{example['content']}\n"
+                template += f"**Code solution:** \n {example[args.lang]}\n" # example in target lang; data format **
+            return template 
+
+        def apply_template(context): 
+            # wrap against json dict
+            messages = copy.deepcopy(templates)
+            n_shot_contexts = format_context()
+            messages[1]["content"] = n_shot_contexts + messages[1]["content"] + context
+            # wrap template 
+            return tokenizer.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True
+            )
 
         def extract_answer_code(answer): 
             # get the code part only 
@@ -74,15 +115,15 @@ def main():
             parts = code.split('\n')
             code = '\n'.join(parts[1:])
             return code if code else ""
-            
-        questions = [sample["content"] for sample in features]
+        
+        
+        questions = [apply_template(sample["content"]) for sample in features]
         answers = [extract_answer_code(sample[args.lang]) for sample in features]
         return {
             "questions": questions, 
             "answers": answers, 
         }
     
-
     dataloader = DataLoader(
         test_data, 
         collate_fn=collate_fn, 
@@ -91,7 +132,6 @@ def main():
     )
 
     # init fast inf model 
-    # tokenizer = AutoTokenizer.from_pretrained(args.model_p  ath)
     llm = LLM(args.model_path)
 
     sampling_params = SamplingParams(
@@ -99,7 +139,7 @@ def main():
         top_p=args.top_p, 
         repetition_penalty=args.repetition_penalty, 
         max_tokens=args.gen_max_tokens, 
-        seed=args.seed
+        seed=args.seed, 
     )
 
     all_scores = {
@@ -122,7 +162,7 @@ def main():
     for key in scores: 
         all_scores[key] = sum(all_scores[key])/len(all_scores[key])
 
-    print(f"{args.model_path} on {args.dataset}-{args.lang} achieves scores: \n{all_scores}")
+    print(f"{args.model_path} on {args.dataset}-{args.lang} with {args.shots} inference achieves scores: \n{all_scores}")
 
 
 
