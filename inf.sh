@@ -16,6 +16,7 @@
 #SBATCH --time=48:00:00
 
 #SBATCH --mail-type=END
+#SBATCH --mail-user="jingyuah@cs.cmu.edu"
 
 eval "$(conda shell.bash hook)"
 conda activate sub_idx
@@ -26,12 +27,25 @@ echo "Inf Job Starts"
 model_path="Qwen/Qwen2.5-Coder-1.5B-Instruct"
 dataset="ArtificialZeng/leetcode_code_generation"
 
-
+# plain inference on model without any prompts or examples
 python inf.py \
     --model_path $model_path \
     --dataset $dataset \
     --lang 'python' \
-    --batch_size 2 \
+    --batch_size 8 \
+    --gen_max_tokens 512 
+
+
+# in-context learning 
+template="templates/qwen_simple.jsonl"
+shots=2
+python in_context.py \
+    --model_path $model_path \
+    --dataset $dataset \
+    --template $template \
+    --shots $shots \
+    --lang 'python' \
+    --batch_size 8 \
     --gen_max_tokens 512 
 
 
