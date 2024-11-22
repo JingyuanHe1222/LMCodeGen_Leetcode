@@ -92,7 +92,7 @@ def main():
 
     # init fast inf model 
     # tokenizer = AutoTokenizer.from_pretrained(args.model_p  ath)
-    llm = LLM(args.model_path)
+    llm = LLM(args.model_path,trust_remote_code=True)
 
     sampling_params = SamplingParams(
         temperature=args.temperature, 

@@ -1,0 +1,8 @@
+tqdm
+datasets==3.0.1
+wandb
+transformers==4.45.0
+codebleu
+tree-sitter-python==0.21
+vllm
+numpy==1.26.4
