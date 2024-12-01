@@ -1,0 +1,2 @@
+{"role": "system", "content": "You are a helpful assistant for code generation."}
+{"role": "user", "content": "Now it's your turn! Generate a solution for the following question in Python: \n"}
