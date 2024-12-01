@@ -9,9 +9,13 @@ import transformers
 from transformers import Trainer
 from datasets import load_dataset
 
-
+LANG = ""
 IGNORE_INDEX = -100
 EOT_TOKEN = "<|EOT|>"
+
+def set_lang(lang): 
+    global LANG
+    LANG = lang
 
 def build_instruction_prompt(instruction: str):
     return '''
@@ -28,6 +32,7 @@ class ModelArguments:
 @dataclass
 class DataArguments:
     data_path: Optional[str] = field(default="ArtificialZeng/leetcode_code_generation")
+    lang: Optional[str] = field(default="python")
 
 
 @dataclass
@@ -119,11 +124,16 @@ def train_tokenize_function(examples, tokenizer):
     return data_dict
 
 def transform_to_instruction_output(example):
-    return {"instruction": example["content"],"output": example["python"]}
+    return {"instruction": example["content"],"output": example[LANG]}
 
 def train():
+
     parser = transformers.HfArgumentParser((ModelArguments, DataArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
+
+    # set language 
+    set_lang(data_args.lang)
+    print(f"training for language: {LANG}")
     
     if training_args.local_rank == 0:
         print('='*100)
@@ -161,20 +171,48 @@ def train():
         cache_dir=training_args.cache_dir
     )
 
-    transformed_dataset = raw_train_datasets.map(
+    # split data with seed 
+    dataset_split = raw_train_datasets.train_test_split(test_size=0.2, seed=training_args.seed)
+    train_data = dataset_split["train"]
+    dataset_split = dataset_split["test"].train_test_split(test_size=0.5, seed=training_args.seed)
+    eval_data = dataset_split["train"]
+    test_data = dataset_split["test"]
+    # only keep train and eval test 
+    del test_data
+
+    # instruction transformation 
+    transformed_train_dataset = train_data.map(
         transform_to_instruction_output, 
-        remove_columns=raw_train_datasets.column_names
+        remove_columns=train_data.column_names
     )
+    transformed_eval_dataset = eval_data.map(
+        transform_to_instruction_output, 
+        remove_columns=eval_data.column_names
+    )
+
 
     if training_args.local_rank > 0: 
         torch.distributed.barrier()
         
-    train_dataset = transformed_dataset.map(
+        
+    # tokenization transformation 
+    train_dataset = transformed_train_dataset.map(
         train_tokenize_function,
         batched=True,
         batch_size=3000,
         num_proc=32,
-        remove_columns=transformed_dataset.column_names,
+        remove_columns=transformed_train_dataset.column_names,
+        load_from_cache_file=True, # not args.overwrite_cache
+        desc="Running Encoding",
+        fn_kwargs={ "tokenizer": tokenizer }
+    )
+
+    eval_dataset = transformed_eval_dataset.map(
+        train_tokenize_function,
+        batched=True,
+        batch_size=3000,
+        num_proc=32,
+        remove_columns=transformed_eval_dataset.column_names,
         load_from_cache_file=True, # not args.overwrite_cache
         desc="Running Encoding",
         fn_kwargs={ "tokenizer": tokenizer }
@@ -184,13 +222,15 @@ def train():
         torch.distributed.barrier()
     
     if training_args.local_rank == 0:
-        print("Training dataset samples:", len(train_dataset))
-        for index in random.sample(range(len(train_dataset)), 3):
-            print(f"Sample {index} of the training set: {train_dataset[index]['input_ids']}, {train_dataset[index]['labels']}.")
-            print(f"Sample {index} of the training set: {tokenizer.decode(list(train_dataset[index]['input_ids']))}.")
+        for split, dataset_split in zip(["train", "eval"], [train_dataset, eval_dataset]): 
+            print(f"Numer of samples in {split} set:", len(dataset_split))
+            for index in random.sample(range(len(dataset_split)), 3):
+                print(f"Sample {index} of the {split} set: {dataset_split[index]['input_ids']}, {dataset_split[index]['labels']}.")
+                print(f"Sample {index} of the {split} set: {tokenizer.decode(list(dataset_split[index]['input_ids']))}.")
+
 
     data_collator = DataCollatorForSupervisedDataset(tokenizer=tokenizer)
-    data_module = dict(train_dataset=train_dataset, eval_dataset=None, data_collator=data_collator)
+    data_module = dict(train_dataset=train_dataset, eval_dataset=eval_dataset, data_collator=data_collator)
 
     trainer = Trainer(model=model, tokenizer=tokenizer, args=training_args, **data_module)
 

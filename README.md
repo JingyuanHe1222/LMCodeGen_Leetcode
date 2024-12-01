@@ -2,18 +2,40 @@
 LM Code Generation project for CMU 11667 FA24
 
 
-## Inference
-
-    bash inf.sh 
-
-or in slurm: 
-
-    sbatch inf.sh
-
-
 ## CodeBleu
 
     pip install tree-sitter-python==0.21
+    pip install codebleu
+    
+    
+## Inference
+
+    bash scripts/inf.sh 
+
+or in slurm: 
+
+    sbatch scripts/inf_slurm.sh
+
+
+## In-Content
+
+    bash scripts/in_context.sh 
+
+or in slurm: 
+
+    sbatch scripts/in_context_slurm.sh
+
+
+## Finetune
+
+    bash scripts/finetune.sh
+
+or in slurm: 
+
+    sbatch scripts/finetune.sh
+
+
+
 
 
 ## Statistics 
@@ -26,6 +48,7 @@ or in slurm:
 Model                              | codebleu          | ngram_match_score   | weighted_ngram_match_score | syntax_match_score  | dataflow_match_score 
 | -------------------------------- | ---------------   | -----------------   | -------------------------- | -----------------   | -----------------    |
 | Qwen/Qwen2.5-Coder-1.5B-Instruct | 0.229710704538744 | 0.01602361731893948 | 0.08882963909258695        | 0.30382401780040463 | 0.5101655439430446
+| deepseek-ai/deepseek-coder-1.3b-instruct | 0.1299426628892564 | 0.014579863872695368| 0.0443358317753529        | 0.15995708731386077 | 0.3008978685951167
 
 
 <!-- ------------------------------ -->
@@ -42,3 +65,10 @@ Model                              | Template                    | shots     | c
 
 <!-- ------------------------------ -->
 ### Fine-Tuning
+
+#### ***Python***
+
+Model                              | codebleu          | ngram_match_score   | weighted_ngram_match_score | syntax_match_score  | dataflow_match_score 
+| -------------------------------- | ---------------   | -----------------   | -------------------------- | -----------------   | -----------------    |
+| Qwen/Qwen2.5-Coder-1.5B-Instruct | 0.2610019584292215 | 0.029828865479395342| 0.1573694166705269        | 0.3492735190945361 | 0.507536032472428
+| deepseek-ai/deepseek-coder-1.3b-instruct | 0.17047070107756407 | 0.013446862387470082| 0.05191944056633911        | 0.21340642824632017 | 0.40311007311012675

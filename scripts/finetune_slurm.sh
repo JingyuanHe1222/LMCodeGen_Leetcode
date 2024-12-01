@@ -1,11 +1,33 @@
 #!/bin/bash
+#SBATCH --job-name=finetune_qwen_1e-6
+#SBATCH --output=outputs/%x-%j.out
+#SBATCH --error=outputs/%x-%j.err
+
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+
+#SBATCH --partition=general  
+#SBATCH --mem=64G 
+#SBATCH --gres=gpu:A6000:2
+
+#SBATCH --exclude=babel-4-[1,17,25,33,37],babel-1-23 
+
+#SBATCH --time=48:00:00
+
+#SBATCH --mail-type=END
+#SBATCH --mail-user="jingyuah@cs.cmu.edu"
+
+
+eval "$(conda shell.bash hook)"
+conda activate pyserini
 
 DATA_PATH="ArtificialZeng/leetcode_code_generation"
 
 # MODEL_PATH="deepseek-ai/deepseek-coder-1.3b-instruct"
 MODEL_PATH="Qwen/Qwen2.5-Coder-1.5B-Instruct"
 
-OUTPUT_DIR="outputs"
+OUTPUT_DIR="/data/user_data/jingyuah/models" # "outputs"
 OUTPUT_PATH="${OUTPUT_DIR}/qwen_finetuned_1e-6"
 
 bz=8
