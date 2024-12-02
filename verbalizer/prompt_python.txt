@@ -1,0 +1,3 @@
+generate the shortest python code for the following leetcode question: {question}
+only give me the code.
+Here is the code solution:

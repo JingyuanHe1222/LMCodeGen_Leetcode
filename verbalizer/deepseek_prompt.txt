@@ -1,0 +1,4 @@
+generate python code for the following leetcode question: {question}
+Don't explain answer with only code 
+only provide python code
+Here is the solution class:

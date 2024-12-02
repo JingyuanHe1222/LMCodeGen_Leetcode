@@ -1,0 +1,3 @@
+generate python code for the following leetcode question: {question}
+only provide python code 
+Here is the solution class:

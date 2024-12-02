@@ -1,6 +1,7 @@
 import argparse
 import pickle
 from tqdm import tqdm 
+import random
 
 import torch 
 from codebleu import calc_codebleu
@@ -26,12 +27,14 @@ def get_args():
     parser.add_argument("--dataset", type=str, help="name of dataset")
     parser.add_argument("--lang", type=str, default="python", help="Select language from ['python', 'c++', 'java', 'javascript']")
     parser.add_argument("--batch_size", type=int, default=32)
+    parser.add_argument("--shots", type=int, default=0)
     parser.add_argument("--max_len", type=int, default=512)
     parser.add_argument("--gen_max_tokens", type=int, default=512)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--temperature", type=float, default=0.7)
     parser.add_argument("--top_p", type=float, default=0.8)
     parser.add_argument("--repetition_penalty", type=float, default=1.05)
+    parser.add_argument("--template", type=str, default="prompt.txt")
     args = parser.parse_args()
 
     return args
@@ -44,11 +47,27 @@ def generate(prompts, model, sampling_params):
 
 def eval_batch(prompts, refs, model, sampling_params, lang): 
     code_gen_out = generate(prompts, model, sampling_params)
+    '''
+    for i in range(len(code_gen_out)):
+        temp = code_gen_out[i].split("```python")
+        
+        python_code = temp[1].split("```")
+        code_gen_out[i] = python_code[0]
+    '''
+
+    for i in range(len(prompts)):
+        print("*****EXAMPLE*****\n\n\n")
+        print("generated:")
+        print(code_gen_out[i])
+        print("ref:")
+        print(refs[i])
+
     scores = calc_codebleu(refs, code_gen_out, lang=lang, weights=(0.25, 0.25, 0.25, 0.25), tokenizer=None)
     return scores 
 
 def main(): 
     args = get_args()
+    random.seed(args.seed)
 
     # only load the corresponding lang
     class_names = ["content", args.lang]
@@ -62,7 +81,7 @@ def main():
     eval_data = dataset_split["train"]
     test_data = dataset_split["test"]
     # only do inf on test 
-    del train_data, eval_data
+    del eval_data
 
     # batch dataset 
     def collate_fn(features):
@@ -109,10 +128,24 @@ def main():
         "syntax_match_score": [], 
         "dataflow_match_score": []
     }
+    with open(args.template, 'r') as file:
+        verbalizer = file.read()
 
+    if args.shots != 0: 
+        example_indices = random.sample(range(len(train_data)), args.shots)
+        
     for idx, batch in tqdm(enumerate(dataloader), total=len(dataloader)): 
         # inf
         prompts = batch["questions"]
+        for p in range(len(prompts)):
+            temp = ""
+            for i in range(args.shots): 
+                example = train_data[example_indices[i]]
+                temp += f"*** Leetcode Example Question {i+1} ***\n"  # 1-indexing 
+                temp += f"{example['content']}\n"
+                temp += f"**Code solution:** \n {example[args.lang]}\n" # example in target lang; data format **
+            prompts[p] = temp + verbalizer.format(question=prompts[p])
+
         refs = batch["answers"]
         scores = eval_batch(prompts, refs, model=llm, sampling_params=sampling_params, lang=args.lang)
         # process scores 
