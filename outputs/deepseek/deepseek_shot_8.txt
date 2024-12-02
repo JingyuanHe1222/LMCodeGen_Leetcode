@@ -1,0 +1,7696 @@
+Inf Job Starts
+WARNING 12-02 06:00:45 cuda.py:22] You are using a deprecated `pynvml` package. Please install `nvidia-ml-py` instead, and make sure to uninstall `pynvml`. When both of them are installed, `pynvml` will take precedence and cause errors. See https://pypi.org/project/pynvml for more information.
+/home/ubuntu/miniconda3/envs/cmu-llms-hw2/lib/python3.11/site-packages/vllm/connections.py:8: RuntimeWarning: Failed to read commit hash:
+No module named 'vllm._version'
+  from vllm.version import __version__ as VLLM_VERSION
+WARNING 12-02 06:00:50 arg_utils.py:953] Chunked prefill is enabled by default for models with max_model_len > 32K. Currently, chunked prefill might not work with some features or models. If you encounter any issues, please disable chunked prefill by setting --enable-chunked-prefill=False.
+INFO 12-02 06:00:50 config.py:1005] Chunked prefill is enabled with max_num_batched_tokens=512.
+INFO 12-02 06:00:50 llm_engine.py:237] Initializing an LLM engine (vdev) with config: model='deepseek-ai/deepseek-coder-1.3b-instruct', speculative_config=None, tokenizer='deepseek-ai/deepseek-coder-1.3b-instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=65536, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=deepseek-ai/deepseek-coder-1.3b-instruct, use_v2_block_manager=True, num_scheduler_steps=1, chunked_prefill_enabled=True multi_step_stream_outputs=True, enable_prefix_caching=False, use_async_output_proc=True, use_cached_outputs=False, mm_processor_kwargs=None)
+INFO 12-02 06:00:51 model_runner.py:1060] Starting to load model deepseek-ai/deepseek-coder-1.3b-instruct...
+INFO 12-02 06:00:51 weight_utils.py:243] Using model weights format ['*.safetensors']
+INFO 12-02 06:00:51 weight_utils.py:288] No model.safetensors.index.json found in remote.
+Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  3.47it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  3.47it/s]
+
+INFO 12-02 06:00:51 model_runner.py:1071] Loading model weights took 2.5583 GB
+INFO 12-02 06:00:52 gpu_executor.py:122] # GPU blocks: 5799, # CPU blocks: 1365
+INFO 12-02 06:00:52 gpu_executor.py:126] Maximum concurrency for 65536 tokens per request: 1.42x
+INFO 12-02 06:00:54 model_runner.py:1402] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 12-02 06:00:54 model_runner.py:1406] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 12-02 06:01:05 model_runner.py:1530] Graph capturing finished in 10 secs.
+  0%|          | 0/30 [00:00<?, ?it/s]
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:06<00:43,  6.16s/it, est. speed input: 1505.27 toks/s, output: 10.55 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:07<00:21,  3.60s/it, est. speed input: 2374.63 toks/s, output: 24.61 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:00,  1.41it/s, est. speed input: 8041.68 toks/s, output: 54.70 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.02s/it, est. speed input: 9135.78 toks/s, output: 65.15 toks/s]
+  3%|▎         | 1/30 [00:08<04:02,  8.36s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for singly-linked list.
+class PolyNode:
+    def __init__(self, coeff=0, power=0, next=None):
+        self.coeff = coeff
+        self.power = power
+        self.next = next
+        
+def addPoly(poly1: 'PolyNode', poly2: 'PolyNode') -> 'PolyNode':
+    dummy = PolyNode()
+    tail = dummy
+    while poly1 and poly2:
+        if poly1.power > poly2.power:
+
+ref:
+class PolyNode:
+    def __init__(self, c: int, p: int, next: 'PolyNode' = None):
+        self.coefficient = c
+        self.power = p
+        self.next = next
+
+def addPoly(poly1: PolyNode, poly2: PolyNode) -> PolyNode:
+    dummy = PolyNode(0, 0)
+    current = dummy
+
+    while poly1 and poly2:
+        if poly1.power > poly2.power:
+            current.next = poly1
+            poly1 = poly1.next
+        elif poly1.power < poly2.power:
+            current.next = poly2
+            poly2 = poly2.next
+        else:
+            sum = poly1.coefficient + poly2.coefficient
+            if sum != 0:
+                current.next = PolyNode(sum, poly1.power)
+                current = current.next
+            poly1 = poly1.next
+            poly2 = poly2.next
+        current = current.next
+
+    current.next = poly1 if poly1 else poly2
+    return dummy.next
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def beautySum(self, s: str) -> int:
+        res = 0
+        
+        # Traverse over every window of length 2 to n/2+1
+        for center in range(2, len(s) + 1):
+            for left in range(0, len(s) - center + 1):
+                right = left + center
+                
+                # Count the occurrence of each character
+                count = dict()
+                for iiii
+
+ref:
+def arrayStringsAreEqual(word1, word2):
+    return "".join(word1) == "".join(word2)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import collections
+
+class Solution:
+    @staticmethod
+    def frequencySort(nums):
+        count = collections.Counter(nums)
+        nums.sort(key=lambda x: (-count[x], x))
+        return nums
+```
+
+ref:
+def num_sub(s: str) -> int:
+    mod = 1000000007
+    result = 0
+    count = 0
+    for c in s:
+        count = count + 1 if c == '1' else 0
+        result = (result + count) % mod
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def maxCount(self, m: int, n: int, ops: [[int]]) -> int:
+        res = m * n
+        
+        for op in ops:
+            res = min(res, op[0] * op[1])
+            
+        return the code solves the Algorithm Exit represents a	...
+
+ref:
+def maxCount(m: int, n: int, ops: List[List[int]]) -> int:
+    for op in ops:
+        m = min(m, op[0])
+        n = min(n, op[1])
+    return m * n
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def canIdivide(self, n: int, dislikes: List[List[int]]) -> bool:
+        
+        graph = [[] for _ in range(n+1)]
+       
+
+ref:
+def scoreOfParentheses(s):
+    score, depth = 0, 0
+    for i in range(len(s)):
+        if s[i] == '(':
+            depth += 1
+        else:
+            depth -= 1
+            if s[i - 1] == '(':
+                score += 1 << depth
+    return score
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def checkIfPangram(self, sentence: str) -> bool:
+        if len(set(sentence)) == 1!
+
+ref:
+from bisect import bisect_left
+
+def min_operations(target, arr):
+    index_map = {num: i for i, num in enumerate(target)}
+
+    lis = []
+    for num in arr:
+        if num in index_map:
+            pos = bisect_left(lis, index_map[num])
+            if pos == len(lis):
+                lis.append(index_map[num])
+            else:
+                lis[pos] = index_map[num]
+
+    return len(target) - len(lis)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def longestSubarray(self, nums:
+
+ref:
+from collections import defaultdict
+
+def frogPosition(n, edges, t, target):
+    graph = defaultdict(list)
+    for edge in edges:
+        graph[edge[0]].append(edge[1])
+        graph[edge[1]].append(edge[0])
+    return dfs(1, -1, t, target, graph)
+
+def dfs(node, parent, t, target, graph):
+    if t == 0:
+        return 1.0 if node == target else 0.0
+    probability = 0.0
+    for neighbor in graph[node]:
+        if neighbor != parent:
+            probability += dfs(neighbor, node, t - 1, target, graph)
+    return probability / (len(graph[node]) - (0 if parent == -1 else 1))
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+++ ( ​ ​​ 
+
+ref:
+def bitwise_complement(n):
+    x = 1
+    while n > x:
+        x = x * 2 + 1
+    return x - n
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:08<00:56,  8.05s/it, est. speed input: 1227.71 toks/s, output: 0.25 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:08<00:03,  1.24s/it, est. speed input: 5702.27 toks/s, output: 41.30 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:00,  1.25it/s, est. speed input: 7811.56 toks/s, output: 62.05 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.05s/it, est. speed input: 8919.41 toks/s, output: 71.10 toks/s]
+  7%|▋         | 2/30 [00:16<03:58,  8.52s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def isAdditiveNumber(self, num: str) -> bool:
+        
+        def backtrack(start, prev, addend1, addend2):
+            
+            # Check base case
+            if start == len(num) and len(set([addend1, addend2])) == 2:
+                
+                return True
+            
+            for i in range(start+1, len(num)+1):
+                
+                temp = num[start : i]
+                
+                if len(temp) > 1 and tempArraysplit ourputtingleeters the whole algorithms might happenings.
+
+ref:
+def isAdditiveNumber(num):
+    for i in range(1, len(num) // 2 + 1):
+        for j in range(1, (len(num) - i) // 2 + 1):
+            if check(num[:i], num[i:i+j], num[i+j:]):
+                return True
+    return False
+
+def check(num1, num2, remaining):
+    if (len(num1) > 1 and num1[0] == '0') or (len(num2) > 1 and num2[0] == '0'):
+        return False
+    _sum = add(num1, num2)
+    if remaining == _sum:
+        return True
+    if not remaining.startswith(_sum):
+        return False
+    return check(num2, _sum, remaining[len(_sum):])
+
+def add(num1, num2):
+    carry, result = 0, []
+    i, j = len(num1) - 1, len(num2) - 1
+    while i >= 0 or j >= 0 or carry > 0:
+        n1 = int(num1[i]) if i >= 0 else 0
+        n2 = int(num2[j]) if j >= 0 else 0
+        _sum = n1 + n2 + carry
+        carry = _sum // 10
+        result.append(str(_sum % 10))
+        i, j = i - 1, j - 1
+    return ''.join(result[::-1])
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def increasingBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: TreeNode
+        """
+        # Create an auxiliary list to hold values sorted_
+
+ref:
+def is_prime(n):
+    if n <= 1:
+        return False
+    i = 2
+    while i * i <= n:
+        if n % i == 0:
+            return False
+        i += 1
+    return True
+
+def is_palindrome(n):
+    return str(n) == str(n)[::-1]
+
+def prime_palindrome(n):
+    while True:
+        if is_prime(n) and is_palindrome(n):
+            return n
+        n += 1
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import math
+
+class Solution:
+    def reorderedPowerOf2(self, n: int) -> bool:
+        def countDigits(n):
+            arr = [0]*10
+            while(n):
+                arr[n % 10]+=1
+                n//=10
+            return tuple(arr)
+        
+        return countDigits(n) in the problematicatedefo
+
+ref:
+def is_similar(a: str, b: str) -> bool:
+    diff_count = 0
+    for char_a, char_b in zip(a, b):
+        if char_a != char_b:
+            diff_count += 1
+            if diff_count > 2:
+                return False
+    return True
+
+def count_groups(strs: list[str]) -> int:
+    count = 0
+    visited = [False] * len(strs)
+    for i in range(len(strs)):
+        if not visited[i]:
+            count += 1
+            visited[i] = True
+            for j in range(i + 1, len(strs)):
+                if is_similar(strs[i], strs[j]):
+                    visited[j] = True
+    return count
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    @staticmethod
+    def minWindow(s: str, t: str) -> str:
+        from collections import Counter
+        
+        if not t or not s:
+            return ""
+            
+        dict_t = Counter(t)
+        left, right = 0, 0!
+
+ref:
+from collections import Counter
+
+def min_window(s, t):
+    need = Counter(t)
+    window = {}
+    
+    left = 0
+    right = 0
+    valid = 0
+    start = 0
+    length = float('inf')
+
+    while right < len(s):
+        c = s[right]
+        right += 1
+        if c in need:
+            window[c] = window.get(c, 0) + 1
+            if window[c] <= need[c]:
+                valid += 1
+
+        while valid == len(t):
+            if right - left < length:
+                start = left
+                length = right - left
+
+            d = s[left]
+            left += 1
+            if d in need:
+                if window[d] <= need[d]:
+                    valid -= 1
+                window[d] -= 1
+
+    return "" if length == float('inf') else s[start : start + length]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import collections
+
+class Solution:
+    def kSimilarity(self, s1: str, s2: str) -> int:
+        def neighbors(word):
+            for i in range(len(word)):
+                if wordArray indentireturn hereafter implementing the tricky problematic void mainput...
+
+ref:
+def kSimilarity(s1: str, s2: str) -> int:
+    k = 0
+    temp = list(s1)
+
+    for i in range(len(temp)):
+        if temp[i] != s2[i]:
+            j = i + 1
+            while temp[j] != s2[i] or s2[j] == temp[j]:
+                j += 1
+            temp[i], temp[j] = temp[j], temp[i]
+            k += 1
+
+    return k
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import sys
+sys.setrecursionlimit(20000) # Setting limit for Python recursion depth
+
+# Definition for a binary tree node.
+
+ref:
+from collections import defaultdict
+
+def dfs(node, parent, nums, graph, total, result):
+    total_sum = nums[node]
+    for neighbor in graph[node]:
+        if neighbor != parent:
+            total_sum += dfs(neighbor, node, nums, graph, total, result)
+    if total_sum == total // 2:
+        result.append(1)
+        return 0
+    return total_sum
+
+def delete_edges_to_balance_tree(nums, edges):
+    n = len(nums)
+    graph = defaultdict(list)
+    for e in edges:
+        graph[e[0]].append(e[1])
+        graph[e[1]].append(e[0])
+
+    total = sum(nums)
+    if total % 2 != 0:
+        return 0  # It is impossible to split the tree fairly.
+
+    result = []
+    dfs(0, -1, nums, graph, total, result)
+    return len(result) - 1
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def minArea(self, image: List[Listeninglyricshtheralduous asumage
+
+ref:
+def minArea(image, x, y):
+    top, bottom, left, right = x, x, y, y
+    for i, row in enumerate(image):
+        for j, cell in enumerate(row):
+            if cell == '1':
+                top, bottom = min(top, i), max(bottom, i)
+                left, right = min(left, j), max(right, j)
+    return (bottom - top + 1) * (right - left + 1)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+class Solution:
+    def largestSumOfAverages(self, nums: List[int], k: int) -> float:
+        memo = {}
+        
+        def max_partition_sum(start: int, k: int) -> float:
+            if k == 1:
+                return sum(nums[start:]) / (len(nums) - start)
+            if (start, k) in memo:
+                return memo[start, k]
+            
+            ans, curr_sum = 0, 0
+            for i in range(start, len(nums) - k + 1):
+                curr_sum += nums[i]
+                ans = max(ans, curr_sum / (i - start + 1) + max_partition_sum(i + 1, k - 1))
+            
+            memo[start, k] = ans
+            return ans
+        
+        return max_partition_sum(0, k)
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:08<00:56,  8.04s/it, est. speed input: 1154.31 toks/s, output: 11.82 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:00,  1.16it/s, est. speed input: 7994.76 toks/s, output: 51.06 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.03s/it, est. speed input: 9038.49 toks/s, output: 68.26 toks/s]
+ 10%|█         | 3/30 [00:25<03:49,  8.52s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class AllOne:
+
+    def __init__(self):
+        self.counts = dict()
+        self.keys = dict()
+
+    def inc(self, key: str) -> None:
+        if key not in self.counts:
+            self.counts[key] = [1, []]
+        else:
+            self.counts[key][0] += 1
+            
+        self.counts[key][1].remove(len(self.counts[key][1]))
+        
+        if len("abcdefinitely putaindsfirstTime Completed Code Solution:
+
+ref:
+class AllOne:
+    def __init__(self):
+        self.data = dict()
+
+    def inc(self, key: str) -> None:
+        self.data[key] = self.data.get(key, 0) + 1
+
+    def dec(self, key: str) -> None:
+        self.data[key] = self.data.get(key, 0) - 1
+        if self.data[key] == 0:
+            del self.data[key]
+
+    def getMaxKey(self) -> str:
+        if not self.data:
+            return ""
+        return max(self.data, key=lambda x: self.data[x])
+
+    def getMinKey(self) -> str:
+        if not self.data:
+            return ""
+        return min(self.data, key=lambda x: self.data[x])
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def countStrictlyIncreasingSubarrays(self, nums: List[int]) -> int:
+        mod = 10**9+7
+        N = len(nums)
+        
+        # Preprocess the prefix sums
+        preSum = [[0]*(N+1) for _ in range(21)]
+        for i in range(1, N+1):
+            preSum[nums[i-1]%2!
+
+ref:
+def num_strictly_increasing_subarrays(nums):
+    n = len(nums)
+    count = 0
+    sum = 0
+    for i in range(1, n):
+        if nums[i] > nums[i - 1]:
+            count += 1
+        else:
+            count = 0
+        sum += count
+    return sum + n
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def maxWidthRamp(self, nums: List[int]) -> int:
+        stack = []
+        
+        for idx, num in enumerate(nums):
+            if not stack or nums[stack[-1]] > num:
+                stack.append(idx)
+                
+        res = 0
+        max_num = nums[stack[-1]]
+
+ref:
+def minFlipsMonoIncr(s: str) -> int:
+    flipCount, oneCount = 0, 0
+    for c in s:
+        if c == '1':
+            oneCount += 1
+        else:
+            flipCount = min(flipCount + 1, oneCount)
+    return flipCount
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+MOD = 10**9+7
+
+def numWays(self, steps: int, arrLen: int) -> int:
+    dp = [[0]*(arrLen+1) for _ in range(steps+1)]
+    dp[0][0] = 1
+        
+    for i in the problem statement, etc...
+
+ref:
+from functools import lru_cache
+
+mod = 10**9 + 7
+
+def numOfWays(steps: int, arrLen: int) -> int:
+    @lru_cache(None)
+    def dp(s, p):
+        if p < 0 or p >= arrLen or p > steps - p:
+            return 0
+        if s == 0:
+            return p == 0
+        return (dp(s - 1, p - 1) + dp(s - 1, p) + dp(s - 1, p + 1)) % mod
+
+    return dp(steps, 0)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def minOperations(self, s: str) -> int:
+        count = 0
+        for i in range(len(s)):
+            if i % 2 == 0: # even position
+               
+
+ref:
+from typing import List
+
+def canDistribute(nums: List[int], quantity: List[int]) -> bool:
+    counts = [0] * 51
+    for num in nums:
+        counts[num] += 1
+
+    quantity.sort(reverse=True)
+
+    def dfs(idx: int) -> bool:
+        if idx == len(quantity):
+            return True
+        for i in range(1, 51):
+            if counts[i] >= quantity[idx]:
+                counts[i] -= quantity[idx]
+                if dfs(idx + 1):
+                    return True
+                counts[i] += quantity[idx]
+        return False
+
+    return dfs(0)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def getRange(self, left: int, right: int) -> int:
+        # Your Python solution goes here
+         pass
+
+ref:
+def range_bitwise_and(left: int, right: int) -> int:
+    shift = 0
+    while left != right:
+        left >>= 1
+        right >>= 1
+        shift += 1
+    return left << shift
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def gardenNoAdj(self, N:
+
+ref:
+def mergeStones(stones, k):
+    n = len(stones)
+    if (n - 1) % (k - 1) != 0:
+        return -1
+    prefixSum = [0] * (n + 1)
+    dp = [[[-1] * (k + 1) for _ in range(n)] for _ in range(n)]
+
+    for i in range(n):
+        prefixSum[i + 1] = prefixSum[i] + stones[i]
+
+    for l in range(2, n + 1):
+        for i in range(n - l + 1):
+            j = i + l - 1
+            for m in range(2, k + 1):
+                for p in range(i, j + 1 - m + 1, k - 1):
+                    dp[i][j][m] = (dp[i][p][1] + dp[p + 1][j][m - 1]) % (1e9 + 7)
+            if (j - i) % (k - 1) == 0:
+                dp[i][j][1] = (dp[i][j][k] + prefixSum[j + 1] - prefixSum[i]) % (1e9 + 7)
+
+    return dp[0][n - 1][1]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+from collections import defaultdict
+
+def maxXorSubtree(n, edges, values):
+    tree = defaultdict(list)
+
+    for edge in edges:
+        tree[edge[0]].append(edge[1])
+        tree[edge[1]].append(edge[0])
+
+    first_max = [0]
+    root_sum = dfs(0, -1, tree, values, first_max)
+
+    return root_sum ^ first_max[0]
+
+def dfs(node, parent, tree, values, first_max):
+    current_sum = values[node]
+
+    for child in tree[node]:
+        if child != parent:
+            current_sum ^= dfs(child, node, tree, values, first_max)
+
+    first_max[0] = max(first_max[0], current_sum)
+
+    return current_sum
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:04<00:30,  4.31s/it, est. speed input: 2202.61 toks/s, output: 7.66 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:07<00:23,  3.94s/it, est. speed input: 2348.38 toks/s, output: 4.38 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.01s/it, est. speed input: 9439.30 toks/s, output: 60.22 toks/s]
+ 13%|█▎        | 4/30 [00:33<03:39,  8.43s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class Solution:
+    def knapsack(self, items, capacity):
+        
+        # Sort items based on decreasing ratio of prices to weights
+        items.sort(key=lambda x: -x[0] / x[1])
+        
+        # Max heap to hold weighted prices
+        heap = []
+        
+        res, total = 0.0, 0
+        
+        for price, weight in items:
+            
+            # Add whole items to heap
+            heapq.heappush(heap, (-price, weight))
+            
+
+ref:
+def maxValue(items, capacity):
+    items.sort(key=lambda x: x[0] / x[1], reverse=True)
+
+    maxTotalPrice = 0
+    for item in items:
+        if capacity >= item[1]:
+            capacity -= item[1]
+            maxTotalPrice += item[0]
+        else:
+            maxTotalPrice += item[0] * capacity / item[1]
+            break
+
+    return maxTotalPrice
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import collections
+
+class Solution:
+    def countSubTrees(self, n: int, edges: List[List[int]], labels: str) -> List[int]:
+        G = collections.defaultdict(list)
+        for u, v in edges:
+            G[u].append(v)
+            G[v].append(u)
+            
+        res = [0] * n
+        
+        def dfs(node, parent):
+            counter = collections.
+
+ref:
+def min_subsequence(nums):
+    nums.sort(reverse=True)
+    total_sum, current_sum = sum(nums), 0
+    result = []
+    for num in nums:
+        current_sum += num
+        result.append(num)
+        if current_sum > total_sum - current_sum:
+            break
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    @staticmethod
+    def sumRange(nums, start, end):
+        pass
+```
+
+ref:
+from collections import defaultdict
+
+class LockingTree:
+
+    def __init__(self, parent):
+        self.parent = parent
+        self.children = defaultdict(set)
+        self.locks = [-1] * len(parent)
+        for i in range(1, len(parent)):
+            self.children[parent[i]].add(i)
+    
+    def lock(self, num, user):
+        if self.locks[num] == -1:
+            self.locks[num] = user
+            return True
+        return False
+    
+    def unlock(self, num, user):
+        if self.locks[num] == user:
+            self.locks[num] = -1
+            return True
+        return False
+    
+    def upgrade(self, num, user):
+        if self.locks[num] != -1: return False
+        
+        cur = num
+        while cur != -1:
+            if self.locks[cur] != -1: return False
+            cur = self.parent[cur]
+        
+        locked_descendant = self._has_locked_descendants(num)
+        if locked_descendant:
+            self.locks[num] = user
+        return locked_descendant
+    
+    def _has_locked_descendants(self, node):
+        locked_descendant = False
+        for child in self.children[node]:
+            if self.locks[child] != -1:
+                locked_descendant = True
+                self.locks[child] = -1
+            locked_descendant |= self._has_locked_descendants(child)
+        return locked_descendant
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def friendRequests(self, n: int, restrictions: List[List[int]], requests: List[List[int]]) -> List[bool]:
+        parents = list(range(n))
+        sizes = [1] * n
+        
+        def find(x):
+            }
+
+ref:
+def alphabet_position_sum(s, k):
+    sum = 0
+    for c in s:
+        sum += ord(c) - ord('a') + 1
+    for _ in range(k):
+        new_sum = 0
+        while sum > 0:
+            new_sum += sum % 10
+            sum //= 10
+        sum = new_sum
+    return sum
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class Solution:
+    def maximumBooks(self, books: List[int]) -> int:
+        prefixSum = [0]*(len(books)+1)
+        for i in range(len
+
+ref:
+def max_books(books):
+    n = len(books)
+    max_books = 0
+    
+    for l in range(n):
+        r = l + 1
+        books_taken = books[l]
+        min_taken = books[l]
+        max_books = max(max_books, books_taken)
+        
+        while r < n:
+            min_taken = min(min_taken, books[r])
+            books_taken += min_taken
+            max_books = max(max_books, books_taken)
+            
+            if min_taken <= 1:
+                break  # Can't decrease further
+            r += 1
+            
+    return max_books
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import sys
+
+class Solution:
+    def solve(self, s: str) -> int:
+        # Calculate how many substrings need to follow-leaf
+
+ref:
+def minimumLength(s: str) -> int:
+    if not s: return 0
+    i, j = 0, len(s) - 1
+    while i < j:
+        if s[i] != s[j]: break
+        remove_char = s[i]
+        while i < len(s) and s[i] == remove_char: i += 1
+        while j >= 0 and s[j] == remove_char: j -= 1
+    return max(0, j - i + 1)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def exist(self, board: List[...]
+
+ref:
+def exist(board, word):
+    m, n = len(board), len(board[0])
+
+    def dfs(i, j, k):
+        if not 0 <= i < m or not 0 <= j < n or board[i][j] != word[k]:
+            return False
+        if k == len(word) - 1:
+            return True
+
+        tmp, board[i][j] = board[i][j], '/'
+        res = dfs(i + 1, j, k + 1) or dfs(i - 1, j, k + 1) or dfs(i, j + 1, k + 1) or dfs(i, j - 1, k + 1)
+        board[i][j] = tmp
+        return res
+
+    for i in range(m):
+        for j in range(n):
+            if dfs(i, j, 0):
+                return True
+    return False
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def trimBST(self, root: TreeNode, low: int, high: int) -> TreeNode:
+    if not root:
+        return None
+
+    if root.val < low:
+        return self.trimBST(root.right, low, high)
+    elif root.val > high:
+        return self.trimBST(root.left, low, high)
+    else:
+        root.left = self.trimBST(root.left, low, high)
+        root.right = self.trimBST(root.right, low, high)
+
+    return root
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:07<00:55,  7.93s/it, est. speed input: 1182.37 toks/s, output: 16.14 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:08<00:20,  3.47s/it, est. speed input: 2250.05 toks/s, output: 22.49 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.69it/s, est. speed input: 9091.61 toks/s, output: 65.41 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.05s/it, est. speed input: 9091.61 toks/s, output: 65.41 toks/s]
+ 17%|█▋        | 5/30 [00:42<03:32,  8.51s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class MyHashSet:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.set = set()
+        
+
+    def add(self, key: int) -> None:
+        self.set.add(key)
+        
+
+    def remove(self, key: int) -> None:
+        self.set.discard(key)
+        
+
+    def contains(self, key: int) -> bool:
+        return key in self.set
+```
+
+ref:
+class MyHashSet:
+
+    def __init__(self):
+        self.storage = [False] * 1000001
+
+    def add(self, key: int):
+        self.storage[key] = True
+
+    def remove(self, key: int):
+        self.storage[key] = False
+
+    def contains(self, key: int) -> bool:
+        return self.storage[key]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import threading
+
+class VideoSharingPlatform:
+
+    def __init__(self):
+        self.videos = {}
+        self.views = {}
+        self.likes = {}
+        self.dislikes = {}
+        self.lock = threading.Lock()
+        self.vid_counter = 0
+
+    # Function to upload a video and return the id
+    def upload(self, video: str) -> int:
+        self.lock.acquirementionsuild
+
+ref:
+def isValidMatrix(matrix):
+    n = len(matrix)
+    for i in range(n):
+        row = set(matrix[i])
+        col = set(matrix[j][i] for j in range(n))
+        if len(row) != n or len(col) != n:
+            return False
+    return True
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def minimumDeleteSum(self, s1: str, s2: str) -> int:
+        m, n = len(s1), len(s2)
+        
+        # Create a memoization table to store intermediate results
+        dp = [[0]*(n+1) for _ in range(m+1)]
+        
+        # Fill out the base onfigurlsit represents the constraints.
+
+ref:
+def minimumDeleteSum(s1: str, s2: str) -> int:
+    dp = [[0] * (len(s2) + 1) for _ in range(len(s1) + 1)]
+    for i in range(1, len(s1) + 1):
+        dp[i][0] = dp[i - 1][0] + ord(s1[i - 1])
+    for j in range(1, len(s2) + 1):
+        dp[0][j] = dp[0][j - 1] + ord(s2[j - 1])
+    for i in range(1, len(s1) + 1):
+        for j in range(1, len(s2) + 1):
+            if s1[i - 1] == s2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1]
+            else:
+                dp[i][j] = min(dp[i - 1][j] + ord(s1[i - 1]), dp[i][j - 1] + ord(s2[j - 1]))
+    return dp[len(s1)][len(s2)]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def slidingPuzzle(self, board):
+        
+        def neighbors(node):
+            zero = node.index(0)
+            values = [2*zero+i for i in range(4) if 2*zero+i != 4*zero+2 and (zero//3
+
+ref:
+class TreeNode:
+    def __init__(self, isLeaf, val, topLeft=None, topRight=None, bottomLeft=None, bottomRight=None):
+        self.isLeaf = isLeaf
+        self.val = val
+        self.topLeft = topLeft
+        self.topRight = topRight
+        self.bottomLeft = bottomLeft
+        self.bottomRight = bottomRight
+
+def intersect(quadTree1, quadTree2):    
+    if quadTree1.isLeaf:
+        return quadTree1 if quadTree1.val else quadTree2
+    if quadTree2.isLeaf:
+        return quadTree2 if quadTree2.val else quadTree1
+
+    quadTree1.topLeft = intersect(quadTree1.topLeft, quadTree2.topLeft)
+    quadTree1.topRight = intersect(quadTree1.topRight, quadTree2.topRight)
+    quadTree1.bottomLeft = intersect(quadTree1.bottomLeft, quadTree2.bottomLeft)
+    quadTree1.bottomRight = intersect(quadTree1.bottomRight, quadTree2.bottomRight)
+
+    if quadTree1.topLeft.isLeaf and quadTree1.topRight.isLeaf and quadTree1.bottomLeft.isLeaf and quadTree1.bottomRight.isLeaf and quadTree1.topLeft.val == quadTree1.topRight.val == quadTree1.bottomLeft.val == quadTree1.bottomRight.val:
+        quadTree1.isLeaf = True
+        quadTree1.val = quadTree1.topLeft.val
+
+    return quadTree1
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def xorOperation(self, n: int, start: int) -> int:
+        nums = [start + 2 * i for i in range(n)]
+        res = nums[0]
+
+ref:
+def findTheDistanceValue(arr1, arr2, d):
+    count = 0
+    for i in arr1:
+        valid = True
+        for j in arr2:
+            if abs(i - j) <= d:
+                valid = False
+                break
+        if valid:
+            count += 1
+    return count
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import collections
+
+class Solution:
+    def balancedString(self, s: str) -> int:
+        count = collections.Counter(s)
+
+ref:
+def getMaxSumAndCount(board):
+    mod = 1000000007
+    n = len(board)
+    dp = [[(0, 0) for _ in range(n)] for _ in range(n)]
+    dp[n - 1][n - 1] = (0, 1)
+
+    for i in range(n - 1, -1, -1):
+        for j in range(n - 1, -1, -1):
+            if board[i][j] == 'X' or (i == n - 1 and j == n - 1):
+                continue
+            currVal = 0 if board[i][j] == 'E' else int(board[i][j])
+            up = dp[i - 1][j] if i > 0 else (-1, 0)
+            left = dp[i][j - 1] if j > 0 else (-1, 0)
+            diag = dp[i - 1][j - 1] if i > 0 and j > 0 else (-1, 0)
+
+            maxTuple = max(up, left, diag)
+            if maxTuple[0] == -1:
+                continue
+
+            dp[i][j] = (maxTuple[0] + currVal, dp[i][j][1])
+
+            if up == maxTuple:
+                dp[i][j] = (dp[i][j][0], (dp[i][j][1] + up[1]) % mod)
+            if left == maxTuple:
+                dp[i][j] = (dp[i][j][0], (dp[i][j][1] + left[1]) % mod)
+            if diag == maxTuple:
+                dp[i][j] = (dp[i][j][0], (dp[i][j][1] + diag[1]) % mod)
+
+    return dp[0][0]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def arrayNesting(self, nums
+
+ref:
+def arrayNesting(nums):
+    n = len(nums)
+    max_len = 0
+    for i in range(n):
+        if nums[i] != -1:
+            start = nums[i]
+            count = 0
+            while nums[start] != -1:
+                temp = start
+                start = nums[start]
+                count += 1
+                nums[temp] = -1
+            max_len = max(max_len, count)
+    return max_len
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+import random
+
+class Solution:
+    def __init__(self, m: int, n: int):
+        self.m, self.n = m, n
+        self.total = m * n
+        self.matrix = [[0] * n for _ in range(m)]
+
+    def flip(self):
+        idx = random.randint(0, self.total - 1)
+        self.total -= 1
+
+        for i in range(self.m):
+            for j in range(self.n):
+                if self.matrix[i][j] == 0:
+                    if idx == 0:
+                        self.matrix[i][j] = 1
+                        return [i, j]
+                    idx -= 1
+        return [-1, -1] # This line should never be reached
+
+    def reset(self):
+        self.total = self.m * self.n
+        for row in self.matrix:
+            for j in range(self.n):
+                row[j] = 0
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:04<00:28,  4.14s/it, est. speed input: 2391.00 toks/s, output: 11.60 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:05<00:13,  2.25s/it, est. speed input: 3855.60 toks/s, output: 26.26 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:07<00:11,  2.20s/it, est. speed input: 3993.29 toks/s, output: 30.24 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:07<00:06,  1.54s/it, est. speed input: 4935.68 toks/s, output: 28.45 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:07<00:00,  1.63it/s, est. speed input: 8411.22 toks/s, output: 47.12 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.94it/s, est. speed input: 9339.47 toks/s, output: 56.85 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.02s/it, est. speed input: 9339.47 toks/s, output: 56.85 toks/s]
+ 20%|██        | 6/30 [00:50<03:22,  8.46s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def chalkReplacer(self, chalk: List[int], k: int) -> int:
+        total = sum(chalk)
+        k %= total
+        
+        for i, c in enumerate(chalk):
+            if k < c:
+                return i
+            k -= c
+```
+
+ref:
+def merge_alternately(word1, word2):
+    merged = []
+    i, j = 0, 0
+    while i < len(word1) or j < len(word2):
+        if i < len(word1):
+            merged.append(word1[i])
+            i += 1
+        if j < len(word2):
+            merged.append(word2[j])
+            j += 1
+    return "".join(merged)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def isNumsSequence(self, nums: List[int], sequences: List[List[int]]) -> bool:
+         # your implementation here
+```
+
+ref:
+def is_shortest_and_unique_supersequence(nums, sequences):
+    pos = {val: idx for idx, val in enumerate(nums)}
+
+    for seq in sequences:
+        if pos[seq[0]] > pos[seq[-1]]:
+            return False
+    return True
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import sys
+
+class Solution:
+    def largestOddNumber(self, num: str) -> str:
+        res = ''
+        for ch in num:
+            if int(ch) % 2 == 1: #check if number is odd
+                res = ch + res
+            else:
+                break
+                
+        return res
+```
+
+ref:
+def largest_odd_number(num: str) -> str:
+    for i in range(len(num) - 1, -1, -1):
+        if int(num[i]) % 2 != 0:
+            return num[:i + 1]
+    return ""
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def calculateTax(self, brackets: List[List[int]], income: int) -> float:
+        
+        res = 0.0
+        prev = 0
+        
+        #iterate over the brackets
+        for upper, percent in brackets:
+            
+            #calculated by storing the Algorithm Exactually, −
+
+ref:
+def tax_amount(brackets, income):
+    tax = 0
+    prev_upper = 0
+    for upper, percent in brackets:
+        tax += (min(upper, income) - prev_upper) * (percent / 100)
+        prev_upper = upper
+        if income <= upper:
+            break
+    return tax
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        count, pre_sum = 0, {0: 1}
+        
+        cur_sum = 0!  = [[your implementation_lastList of the constraints of course, hereafter sortBy modifying the following the best_(_return\_...
+
+ref:
+def subarraySum(nums, k):
+    prefix_sum_frequency = {0: 1}
+    prefix_sum, result = 0, 0
+    
+    for num in nums:
+        prefix_sum += num
+        result += prefix_sum_frequency.get(prefix_sum - k, 0)
+        prefix_sum_frequency[prefix_sum] = prefix_sum_frequency.get(prefix_sum, 0) + 1
+
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val =====================================================================!
+
+ref:
+class Solution:
+    def findRoot(self, nodes: List['Node']) -> 'Node':
+        value_sum = 0
+        
+        for node in nodes:
+            value_sum += node.val
+            
+            for child in node.children:
+                value_sum -= child.val
+        
+        for node in nodes:
+            if node.val == value_sum:
+                return node
+                
+        return None
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import itertools
+
+class Solution:
+    def permute(self.
+
+ref:
+from typing import List
+
+def permute(nums: List[int]) -> List[List[int]]:
+    def helper(index):
+        if index == len(nums) - 1:
+            results.append(nums[:])
+            return
+
+        for i in range(index, len(nums)):
+            nums[index], nums[i] = nums[i], nums[index]
+            helper(index + 1)
+            nums[index], nums[i] = nums[i], nums[index]
+
+    results = []
+    helper(0)
+    return results
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+def closest_factors(num):
+    factor1 = int((num + 2) ** 0.5)
+    while True:
+        factor2 = (num + 2) // factor1
+        if factor1 * factor2 == num + 2:
+            return factor1, factor2
+        factor2 = (num + 1) // factor1
+        if factor1 * factor2 == num + 1:
+            return factor1, factor2
+        factor1 -= 1
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:08<00:57,  8.15s/it, est. speed input: 1176.88 toks/s, output: 0.25 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:08<00:03,  1.24s/it, est. speed input: 5706.13 toks/s, output: 40.88 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.04s/it, est. speed input: 9057.67 toks/s, output: 68.47 toks/s]
+ 23%|██▎       | 7/30 [00:59<03:16,  8.54s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def minSteps(self, s: str, t: str) -> int:
+        count1, count2 = [0] * 26, [0] * 26
+        
+        for char in s:
+            count1[ord(char)-ord('a')]+=1
+            
+        for char in t:
+            count2[ord(char)-ord('a')]+=1
+          
+        diff = 0
+        for i in range(26):
+            diff += abs(count1[i​ ​​ 
+
+ref:
+def count_vowel_substrings(word: str) -> int:
+    count = 0
+    n = len(word)
+    vowels = set()
+
+    for i in range(n):
+        if word[i] in "aeiou":
+            vowels.clear()
+            for j in range(i, n):
+                if word[j] in "aeiou":
+                    vowels.add(word[j])
+                if len(vowels) == 5:
+                    count += 1
+    return count
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def numSpecial(self, mat: List[List[int]]) -> int:
+        R, C = len(mat), len(mat[0])
+        row_count = [sum(row) for row in mat]
+        col_count = [sum(mat[i][j] for i in range(R)) for j in range(C)]
+        
+        return sum(mat[i][j]==1 and row_count[i]==undefined.
+
+ref:
+class BrowserHistory:
+
+    def __init__(self, homepage: str):
+        self.history = [homepage]
+        self.current_index = 0
+
+    def visit(self, url: str):
+        self.history = self.history[:self.current_index + 1]
+        self.history.append(url)
+        self.current_index += 1
+
+    def back(self, steps: int) -> str:
+        self.current_index -= min(steps, self.current_index)
+        return self.history[self.current_index]
+
+    def forward(self, steps:int) -> str:
+        self.current_index += min(steps, len(self.history) - 1 - self.current_index)
+        return self.history[self.current_index]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import collections
+
+class Solution:
+    def findResult(self, features, responses):
+        
+        # Create dictionary to count occurrences of each feature
+        counter = collections.Counter(features)
+        
+        # Prepare lists for storing results based on popularities
+        popular_list = []
+        idx_dict = {}
+        
+        # Go over every feature
+        for f in features:
+
+ref:
+from sortedcontainers import SortedList
+
+MOD = int(1e9) + 7
+
+def create_sorted_array(instructions):
+    s = SortedList()
+    cost = 0
+
+    for i in instructions:
+        less_than = s.bisect_left(i)
+        greater_than = len(s) - s.bisect_right(i)
+        cost = (cost + min(less_than, greater_than)) % MOD
+        s.add(i)
+
+    return cost
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+MOD = 10**9+7
+MAXN = 10**4+10
+fac = [0]*MAXN
+inv = [0]*MAXN
+pow_table = [0]*MAXN
+solve = [0]*MAXN
+
+def init():
+    fac[0] = inv[...]
+
+ref:
+MOD = 10**9 + 7
+
+def mul(a, b):
+    return (a * b) % MOD
+
+def ways(n, k, mem):
+    if n == 1:
+        return k
+    if (n_tuple := (n, k)) in mem:
+        return mem[n_tuple]
+    if k == 1:
+        mem[n_tuple] = 1
+        return 1
+    if n > k:
+        mem[n_tuple] = 0
+        return 0
+    res = mul(ways(n, k - 1, mem), n)
+    res = (res - mul(n - 1, ways(n - 1, k - 1, mem)) + MOD) % MOD
+    mem[n_tuple] = res
+    return res
+
+def waysToFillArray(queries):
+    mem = {}
+    ans = []
+    for q in queries:
+        ans.append(ways(q[0], q[1], mem))
+    return ans
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def countGoodTriplets(self, nums1: List[int], nums2: List[int]) -> int:
+        counter = 0
+        for i in range(len(nums1))`!= ===================================================================== Code solution =
+
+ref:
+def max_beauty(items, queries):
+    sorted_items = [0] * 10001
+    for price, beauty in items:
+        sorted_items[price] = max(sorted_items[price], beauty)
+
+    for i in range(1, len(sorted_items)):
+        sorted_items[i] = max(sorted_items[i], sorted_items[i - 1])
+
+    return [sorted_items[query] for query in queries]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def minOperations(self, boxes: str) -> List[int]:
+        n = len(boxes)
+        res = [[...]
+
+ref:
+def maximum_generated(n: int) -> int:
+    if n == 0:
+        return 0
+    nums = [0] * (n + 1)
+    nums[1] = 1
+    for i in range(2, n + 1):
+        nums[i] = nums[i // 2] if i % 2 == 0 else nums[i // 2] + nums[i // 2 + 1]
+    return max(nums)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def findFarmland(self, landfillupwardenumerableQuestionmarks
+
+ref:
+def findFarmland(land):
+    m, n = len(land), len(land[0])
+    groups = []
+    
+    for i in range(m):
+        for j in range(n):
+            if land[i][j] == 1:
+                r1, c1 = i, j
+                while j + 1 < n and land[i][j + 1] == 1:
+                    j += 1
+                r2, c2 = i, j
+                while r2 + 1 < m and land[r2 + 1][j] == 1:
+                    r2 += 1
+                for r in range(r1, r2 + 1):
+                    for c in range(c1, c2 + 1):
+                        land[r][c] = 0
+                groups.append([r1, c1, r2, c2])
+
+    return groups
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+def longest_subsequence_repeated_k(s, k):
+    counts = [0] * 26
+    for c in s:
+        counts[ord(c) - ord('a')] += 1
+    seq = ''.join([chr(i + ord('a')) * (counts[i] // k) for i in range(25, -1, -1)])
+    return seq
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:08<00:57,  8.17s/it, est. speed input: 1158.00 toks/s, output: 0.24 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:02,  1.02s/it, est. speed input: 6892.56 toks/s, output: 51.84 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.05s/it, est. speed input: 9035.77 toks/s, output: 66.96 toks/s]
+ 27%|██▋       | 8/30 [01:08<03:08,  8.56s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def areConnected(self, n: int, threshold: int, queries: List[List[int]]) -> List[bool]:
+        
+        parents = list(range(1, n+1))
+        sizes = [1] * n
+        
+        def find(x):
+            if parents[x] != x:
+                parents[x] = find(parents[x])
+            return parents[x]
+                
+        def union(x, y):
+            xr = find(x)
+            yr =
+
+ref:
+def lastMoment(n, left, right):
+    max_left = max(left, default=0)
+    min_right = min(right, default=n)
+
+    return max(max_left, n - min_right)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import sys
+sys.setrecursionlimit(10000) #setting limit of recursion
+
+# Python program for implementation of different approaches
+class Solution:
+    def can_convert(self, s: str, t: str, k: int) -> bool:
+        
+        memo = dict()
+        
+        def dp(i, j, k):
+            
+            # base case
+            if k == 0:
+                return True
+                
+           
+
+ref:
+def canConvertString(s: str, t: str, k: int) -> bool:
+    if len(s) != len(t):
+        return False
+    count = [0] * 26
+    for i in range(len(s)):
+        diff = (ord(t[i]) - ord(s[i]) + 26) % 26
+        if diff > 0:
+            count[diff] += 1
+    for i in range(1, 26):
+        if count[i] > 0:
+            if count[i] * 26 - 26 + i > k:
+                return False
+    return True
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def getStrings(self, s, k):
+        res = ''
+        count = 1
+        
+        # Count how many times s[:k] repeats
+        for i in range(1, len(s)):
+            if s[i] == s[i-1]:
+                count += 1
+            else:
+                res += str(count) + slove:
+
+ref:
+def is_a_only_before_b(s: str) -> bool:
+    last_index_a = -1
+    for i, c in enumerate(s):
+        if c == 'a':
+            last_index_a = i
+        elif c == 'b' and last_index_a > -1:
+            return False
+    return True
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import sys
+class Solution:
+    def minOperations(self, nums: List[int]) -> int:
+        res = 0
+        pre = -sys.maxsize
+        for i in range(len(nums)):
+            if nums[i] <= pre:
+                diff = preordering the following the Algorithm Exit represents a	...
+
+ref:
+def min_operations(nums):
+    operations = 0
+    for i in range(1, len(nums)):
+        if nums[i] <= nums[i - 1]:
+            diff = nums[i - 1] - nums[i] + 1
+            operations += math.ceil(math.log2(diff))
+            nums[i] += diff
+    return operations
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+
+ref:
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def twoSumBSTs(root1, root2, target):
+    def build_set(node, s):
+        if node:
+            s.add(node.val)
+            build_set(node.left, s)
+            build_set(node.right, s)
+
+    def find_pair(node, target, s):
+        if node:
+            if target - node.val in s:
+                return True
+            return find_pair(node.left, target, s) or find_pair(node.right, target, s)
+        return False
+
+    s = set()
+    build_set(root1, s)
+    return find_pair(root2, target, s)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import re
+
+class Solution:
+    def removePalindromeSubsequences(self, s: str) -> int:
+        return not bool dummyHello world
+
+ref:
+def countStrings(n):
+    mod = 10**9 + 7
+    a, b = 1, 1
+    for _ in range(n):
+        a = (a * 2) % mod
+        b = (b * 3) % mod
+    return (b - a + mod) % mod
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def pivotIndex(self, numsolution:
+
+ref:
+def findMiddleIndex(nums):
+    total_sum = sum(nums)
+    left_sum = 0
+
+    for i, num in enumerate(nums):
+        if left_sum == total_sum - left_sum - num:
+            return i
+        left_sum += num
+
+    return -1
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+def is_covered(ranges, left, right):
+    for i in range(left, right + 1):
+        is_covered = False
+        for range_ in ranges:
+            if i >= range_[0] and i <= range_[1]:
+                is_covered = True
+                break
+        if not is_covered:
+            return False
+    return True
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:05<00:37,  5.31s/it, est. speed input: 1767.33 toks/s, output: 13.19 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:07<00:21,  3.66s/it, est. speed input: 2389.52 toks/s, output: 9.21 toks/s] [A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:00,  1.36it/s, est. speed input: 8148.05 toks/s, output: 56.05 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.02s/it, est. speed input: 9142.73 toks/s, output: 64.98 toks/s]
+ 30%|███       | 9/30 [01:16<02:58,  8.50s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def numSubmatrices(self, mat: List[List[int]]) -> int:
+        m, n = len(mat), len(mat[0])
+        
+        # Preprocess the matrix to count the number of continuous 1's in each row
+        preprocessed = [[0]*(n+1) for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
+                if mat[i][j] == 1:
+                    preprocessed[i][j
+
+ref:
+def numSubmat(mat: List[List[int]]) -> int:
+    m, n = len(mat), len(mat[0])
+    dp = [[0] * n for _ in range(m)]
+    ans = 0
+    
+    for i in range(m):
+        for j in range(n):
+            if mat[i][j]:
+                dp[i][j] = 1 if j == 0 else dp[i][j-1] + 1
+                width = dp[i][j]
+                for k in range(i, -1, -1):
+                    width = min(width, dp[k][j])
+                    ans += width
+    
+    return ans
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def getMinDistance(self, nums: List[int], target: int, start: int) -> int:
+        return abs(next(i for i, v in enumerate(nums[start:]) if v == target) - start)
+```
+
+ref:
+def sum_of_unique_elements(nums):
+    elem_count = {}
+    for num in nums:
+        elem_count[num] = elem_count.get(num, 0) + 1
+    sum = 0
+    for elem, count in elem_count.items():
+        if count == 1:
+            sum += elem
+    return sum
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class Solution:
+    def largestEvenSum(self, nums: List[int], k: int) -> int:
+        # Negative numbers and zero are allowed.
+        nums = [-1 * x for x in nums if x % 2 == 0]
+        
+        # Heapify operation to convert negative integers to positives.
+        heapq.he example:
+
+ref:
+def largest_even_sum(nums, k):
+    evens = sorted([num for num in nums if num % 2 == 0], reverse=True)
+    odds = sorted([num for num in nums if num % 2 != 0], reverse=True)
+
+    sum = 0
+    for _ in range(k):
+        if evens:
+            sum += evens.pop()
+
+    for _ in range(0, k - 1, 2):
+        if odds:
+            first = odds.pop()
+            if odds:
+                second = odds.pop()
+                sum += first + second
+
+    return sum if sum % 2 == 0 else -1
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def findSecondMinimumValue(self, root):
+        }
+
+ref:
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def find_second_minimum_value(root, current=-1):
+    if root is None:
+        return current
+    if current == -1 or root.val < current:
+        current = root.val
+    if root.left is not None and root.right is not None:
+        if root.val == root.left.val:
+            current = find_second_minimum_value(root.left, current)
+            if root.val != root.right.val:
+                current = root.right.val if current == -1 else min(current, root.right.val)
+        else:
+            current = find_second_minimum_value(root.right, current)
+            if root.val != root.left.val:
+                current = root.left.val if current == -1 else min(current, root.left.val)
+    return current
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        count = 1
+        major = nums[0]
+        
+        for i in range(1, len(numsyntaxesultimately represents the restraintimepletuple foes the leetting asteriously,
+
+ref:
+def majority_element(nums):
+    count = 0
+    candidate = None
+
+    for num in nums:
+        if count == 0:
+            candidate = num
+        count += (num == candidate) - (num != candidate)
+
+    return candidate
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def equationsPossible(self, equations, values):
+        graph = dict()
+        for (A, op, _, B),
+
+ref:
+from math import gcd
+
+def modify_array(nums):
+    i = 1
+    while i < len(nums):
+        if gcd(nums[i-1], nums[i]) > 1:
+            nums.insert(i, 1)
+            i += 1
+        i += 1
+    return nums
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def lengthOfLongestSubstringTwoDistinctantonfiguring outlineage asumple
+
+ref:
+def lengthOfLongestSubstringTwoDistinct(s: str) -> int:
+    l, r, max_len, cur_len = 0, 0, 0, 0
+    char_count = {}
+
+    while r < len(s):
+        if s[r] in char_count:
+            char_count[s[r]] += 1
+        else:
+            char_count[s[r]] = 1
+        if len(char_count) <= 2:
+            cur_len += 1
+        else:
+            while len(char_count) > 2 and l <= r:
+                char_count[s[l]] -= 1
+                if char_count[s[l]] == 0:
+                    del char_count[s[l]]
+                l += 1
+                cur_len -= 1
+            cur_len += 1
+        max_len = max(max_len, cur_len)
+        r += 1
+    return max_len
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+def tallestBillboard(rods):
+    n = len(rods)
+    totalLength = sum(rods)
+    dp = [[-1] * (totalLength + 1) for _ in range(n + 1)]
+    dp[0][0] = 0
+    
+    for i in range(1, n + 1):
+        for j in range(totalLength + 1):
+            dp[i][j] = dp[i - 1][j]
+            if rods[i - 1] <= j:
+                dp[i][j] = max(dp[i][j], dp[i - 1][j - rods[i - 1]] + rods[i - 1])
+            if rods[i - 1] <= totalLength - j:
+                dp[i][j] = max(dp[i][j], dp[i - 1][j + rods[i - 1]])
+                
+    return dp[n][0] // 2
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:08<00:56,  8.05s/it, est. speed input: 1142.19 toks/s, output: 16.40 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:00,  1.15it/s, est. speed input: 7956.75 toks/s, output: 55.95 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.03s/it, est. speed input: 9063.08 toks/s, output: 68.72 toks/s]
+ 33%|███▎      | 10/30 [01:24<02:49,  8.50s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+        dict = {}
+        
+        for i in range(len(nums)):
+            
+            # Check if current element already exist in dictionary
+            if nums[i] in dict:
+                
+                # Compare with previously stored index
+                if i - dict[nums[i]] <= k:
+                    
+                    # Return True immediately if condition met
+                    return True
+            dict[nums[i]] = i
+
+ref:
+def containsNearbyDuplicate(nums, k):
+    value_index_map = {}
+    for i, num in enumerate(nums):
+        if num in value_index_map and i - value_index_map[num] <= k:
+            return True
+        value_index_map[num] = i
+    return False
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import re
+from collections import defaultdict
+
+class Solution:
+    def wordSubsets(self, A, words):
+        count = defaultdict(int)
+        for a in A:
+            count.update(re.findall(r'(\d+)', a))
+        
+        res = []
+        for w in sorted(words, key=lambda W:(count[W[0]], -int(W[1]), W[2:]), reverse=True):
+
+ref:
+def longestArithSeqLength(nums):
+    n = len(nums)
+    longest = 0
+    dp = [{} for _ in range(n)]
+    
+    for i in range(n):
+        for j in range(i):
+            diff = nums[i] - nums[j]
+            dp[i][diff] = dp[j].get(diff, 1) + 1
+            longest = max(longest, dp[i][diff])
+    
+    return longest
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def maxTag(self, team: List[int], dist: int) -> int:
+        N = len(team)
+        
+        # count how many people need to catch
+        needs = [0] * N
+        for i in range(N):
+            if team[i] == 0:
+                needs[i] = 1
+                
+        # sort the people, hereafter implementing the problematicode solution ====================================
+
+ref:
+def minimum_xor_sum(nums1, nums2):
+    nums2.sort()
+    xor_sum = 0
+    for i in range(len(nums1)):
+        xor_sum += nums1[i] ^ nums2[i]
+    return xor_sum
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        l1, l2 = len(s1), len(s2)
+        
+        # Check base conditions
+        if l1 > l2:
+            return False
+        
+        count_ijson
+
+ref:
+def checkInclusion(s1: str, s2: str) -> bool:
+    if len(s1) > len(s2): 
+        return False
+    
+    s1_map = [0] * 26
+    s2_map = [0] * 26
+    
+    for i in range(len(s1)):
+        s1_map[ord(s1[i]) - ord('a')] += 1
+        s2_map[ord(s2[i]) - ord('a')] += 1
+    
+    for i in range(len(s2) - len(s1)):
+        if s1_map == s2_map: 
+            return True
+        
+        s2_map[ord(s2[i]) - ord('a')] -= 1
+        s2_map[ord(s2[i + len(s1)]) - ord('a')] += 1
+
+    return s1_map == s2_map
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def findDifferentBinaryString(self, nums: List[str]) -> str:
+        return format(bin(sum(int(num, 2) for num in nums)).count('1'), 'X
+
+ref:
+def findDifferentBinaryString(nums):
+    s = set(nums)
+    n = len(nums)
+    
+    for i in range(1 << n):
+        candidate = ''.join(['1' if i & (1 << j) else '0' for j in range(n)])
+        if candidate not in s:
+            return candidate
+    return ""
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class Solution:
+    def minStones(self, piles, k):
+        # Convert negative numbers to positives
+        negatedef definition of strings = [[...]
+
+ref:
+from queue import PriorityQueue
+
+def getOrder(tasks):
+    task_indices = sorted(range(len(tasks)), key=lambda i: tasks[i][0])
+    min_heap = PriorityQueue()
+    time = 0
+    task_idx = 0
+    result = []
+
+    while task_indices:
+        while task_idx < len(task_indices) and tasks[task_indices[task_idx]][0] <= time:
+            idx = task_indices[task_idx]
+            min_heap.put((tasks[idx][1], idx))
+            task_idx += 1
+
+        if not min_heap.empty():
+            processing_time, index = min_heap.get()
+            time += processing_time
+            result.append(index)
+            task_indices.remove(index)
+        elif task_idx < len(task_indices):
+            time = max(time, tasks[task_indices[task_idx]][0])
+
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import bisect
+
+class MaxStack:
+
+    def __init__(*
+
+ref:
+from sortedcontainers import SortedList
+
+class MaxStack:
+    def __init__(self):
+        self.mainStack = []
+        self.maxSet = SortedList()
+
+    def push(self, x: int) -> None:
+        self.mainStack.append(x)
+        self.maxSet.add(x)
+
+    def pop(self) -> int:
+        top = self.mainStack.pop()
+        self.maxSet.remove(top)
+        return top
+
+    def top(self) -> int:
+        return self.mainStack[-1]
+
+    def peekMax(self) -> int:
+        return self.maxSet[-1]
+
+    def popMax(self) -> int:
+        max_val = self.maxSet.pop()
+        tempStack = []
+        while self.mainStack[-1] != max_val:
+            tempStack.append(self.mainStack.pop())
+        self.mainStack.pop()
+        while tempStack:
+            self.mainStack.append(tempStack.pop())
+        return max_val
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+def partition_labels(s: str) -> list[int]:
+    last_pos = {}
+    for i, c in enumerate(s):
+        last_pos[c] = i
+
+    partitions = []
+    start, end = 0, 0
+    for i, c in enumerate(s):
+        end = max(end, last_pos[c])
+        if i == end:
+            partitions.append(end - start + 1)
+            start = i + 1
+    return partitions
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:08<00:57,  8.21s/it, est. speed input: 1225.44 toks/s, output: 13.77 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:08<00:06,  1.58s/it, est. speed input: 4609.19 toks/s, output: 30.64 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:00,  1.33it/s, est. speed input: 7862.21 toks/s, output: 64.96 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.06s/it, est. speed input: 9006.62 toks/s, output: 68.66 toks/s]
+ 37%|███▋      | 11/30 [01:33<02:42,  8.55s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import re
+
+class Solution:
+    def parseBoolExpr(self, expression: str) -> bool:
+        while True:
+            zero_count = expression.count("0")
+            if zero_count == 0:
+                break
+            
+            expression = expression.replace("0", "")
+            
+            plus_signs = ["+"]
+            exp = ['']
+            for ch in expression:
+                if ch=='|' or ch=='&' or ch=='!' or ch=='(':
+                    plus_signs.append(charsenalterminus ====================================================================
+
+ref:
+def parseTernary(expression: str) -> str:
+    stack = []
+    for c in reversed(expression):
+        if stack and stack[-1] == '?':
+            stack.pop()  # Pop '?'
+            first = stack.pop()
+            stack.pop()  # Pop ':'
+            second = stack.pop()
+            stack.append(first if c == 'T' else second)
+        else:
+            stack.append(c)
+    return stack[-1]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import datetime
+from bisect import bisect_left, insort_left
+
+class LogSystem:
+
+    def __init__(self):
+        self.data = []
+        self.mapping = {"Year": (0, 4), "Month": (4, 7), "Day": (7, 10), "Hour": (10, 13), "Minute": (13, 16), "Second": (16, 19)}
+
+ref:
+class LogSystem:
+
+    def __init__(self):
+        self.logs = {}
+        self.time_granularity = {
+            "Year": 0, "Month": 1, "Day": 2, "Hour": 3, "Minute": 4, "Second": 5
+        }
+        self.size_map = [4, 7, 10, 13, 16, 19]
+
+    def put(self, id: int, timestamp: str) -> None:
+        self.logs[timestamp] = id
+
+    def retrieve(self, start: str, end: str, granularity: str) -> list[int]:
+        size_substring = self.size_map[self.time_granularity[granularity]]
+        res = []
+
+        for k, v in self.logs.items():
+            if start[:size_substring] <= k[:size_substring] <= end[:size_substring]:
+                res.append(v)
+
+        return res
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def insertionSortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        pseudoHead = ListNode(0)
+       
+
+ref:
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def insertionSortList(head):
+    dummy = ListNode(0)
+    cur = dummy
+
+    while head:
+        while cur.next and cur.next.val < head.val:
+            cur = cur.next
+        
+        temp = head.next
+        head.next = cur.next
+        cur.next = head
+        head = temp
+        cur = dummy
+
+    return dummy.next
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def balancedStringSplit(self, s: str) -> int:
+        count, balance = 0, {'L': 0, 'R': 0}
+        
+        for char in s:
+            balance[char] += 1
+            
+            if balance['L'] == balance['R'][[example, etc...
+
+ref:
+def find_special_integer(arr):
+    n = len(arr)
+    required_count = n // 4
+    for i in range(n):
+        if arr[i] == arr[i + required_count]:
+            return arr[i]
+    return -1
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def partition(self, s: str):
+        def isPalindrome(check):
+            return check == check[::-1]
+        
+        res = []
+        tmp = []
+        n = len(`!= ===================================================================== Code solution =
+
+ref:
+def isPalindrome(s, start, end):
+    while start < end:
+        if s[start] != s[end]:
+            return False
+        start += 1
+        end -= 1
+    return True
+
+def dfs(s, start, results, current):
+    if start == len(s):
+        results.append(current[:])
+        return
+    
+    for end in range(start, len(s)):
+        if isPalindrome(s, start, end):
+            current.append(s[start:end+1])
+            dfs(s, end + 1, results, current)
+            current.pop()
+
+def partition(s):
+    results = []
+    dfs(s, 0, results, [])
+    return results
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#!DOCTYPE html
+
+ref:
+def thousand_separator(n: int) -> str:
+    result = str(n)
+    count = 0
+    for i in range(len(result) - 1, 0, -1):
+        count += 1
+        if count % 3 == 0:
+            result = result[:i] + '.' + result[i:]
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import networkx as nx
+
+class Solution:
+    def solve the constraint programming problematiclass LinkedListening the
+
+ref:
+from collections import deque
+
+def closest_nodes(n, edges, query):
+    answer = []
+    tree = [[] for _ in range(n)]
+    
+    for edge in edges:
+        tree[edge[0]].append(edge[1])
+        tree[edge[1]].append(edge[0])
+    
+    def bfs(start, end):
+        queue = deque([start])
+        visited = {start}
+        
+        while queue:
+            current = queue.popleft()
+            
+            if current == end:
+                return current
+            
+            for neighbor in tree[current]:
+                if neighbor not in visited:
+                    queue.append(neighbor)
+                    visited.add(neighbor)
+    
+    for q in query:
+        lca = bfs(q[0], q[1])
+        node1 = bfs(lca, q[0])
+        node2 = bfs(lca, q[1])
+        answer.append(q[0] if node1 == q[2] else q[1])
+    
+    return answer
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+def highestScoreDivisions(nums):
+    count0, count1 = 0, 0
+    for n in nums:
+        if n == 1:
+            count1 += 1
+            
+    max_score, current_score = -1, 0
+    result = []
+    for i, n in enumerate(nums):
+        if n == 0:
+            current_score += 1
+        else:
+            count1 -= 1
+            
+        if current_score > max_score:
+            max_score = current_score
+            result = [i]
+        elif current_score == max_score:
+            result.append(i)
+            
+    return result
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:05<00:41,  5.97s/it, est. speed input: 1569.30 toks/s, output: 13.57 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:07<00:21,  3.58s/it, est. speed input: 2381.25 toks/s, output: 26.78 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:07<00:01,  1.19it/s, est. speed input: 7007.91 toks/s, output: 56.02 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.01s/it, est. speed input: 9258.89 toks/s, output: 65.03 toks/s]
+ 40%|████      | 12/30 [01:41<02:32,  8.47s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+MOD = 10**9+7
+
+def countPartitions(self, nums, k):
+    n = len(nums)
+    prefixSum = [0]*(n+1)
+    for i in range(n):
+        prefixSum[i+1] = prefixSum[i] + nums[i]
+        
+    dp = [[0]*(n+1) for _ in range(n+1)]
+    dp[0][0] = 1
+    
+    for i in range(1, n+1):
+
+ref:
+def countPartitions(nums, k):
+    total_sum = sum(nums)
+    n = len(nums)
+    mod = 1000000007
+
+    if total_sum < k * 2:
+        return 0
+
+    dp = [1] * (n + 1)
+
+    for i in range(1, k):
+        for j in range(n - 1, 0, -1):
+            dp[j] = (dp[j] * j + dp[j - 1]) % mod
+
+    result = 0
+
+    for i in range(n - 1):
+        total_sum -= nums[i]
+        if total_sum >= k:
+            result = (result + dp[i + 1]) % mod
+
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class Solution:
+    def removeStars(self, s: str) -> str:
+        res = []
+        for ch in s:
+            if ch == '*':
+                res.pop()
+            else:
+                res.append(ch)
+        return ''.join(res)
+```
+
+ref:
+def remove_stars(s: str) -> str:
+    result = []
+    for c in s:
+        if c == '*':
+            if result:
+                result.pop()
+        else:
+            result.append(c)
+    return ''.join(result)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def longestPalindrome(self, s: str) -> int:
+        count = [0] * 256
+        for char in s:
+            count[ord(char)] += 1
+        
+        odd = 0
+        for v in count:
+            odd |= v & 1
+            
+        return len(s) - odd
+```
+This Python
+
+ref:
+def longestPalindrome(s: str) -> int:
+    charCount = [0] * 128
+    result = 0
+    for c in s:
+        charCount[ord(c)] += 1
+    for count in charCount:
+        result += count // 2 * 2
+        if result % 2 == 0 and count % 2 == 1:
+            result += 1
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import calendar
+
+class Solution:
+    def dayOfTheWeek(self, day: int, month: int, year: int) -> str:
+        
+        # Python's built-in datetime module provides functionality for working with dates and times.
+        # Here we create a datetime object and access the day of the solution ====================================================================
+
+ref:
+def day_of_the_week(day, month, year):
+    from datetime import date
+    days = ["Sunday ", "Monday ", "Tuesday ", "Wednesday ", "Thursday ", "Friday ", "Saturday "]
+    return days[date(year, month, day).weekday()]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def findSmallestRegion(self, regions, region1, region2):
+        parents = {}
+        
+        # Find parent of each region
+        for region in regions:
+            for i in range(1!`kdecre
+
+ref:
+def robot_sort(s):
+    t = []
+    for c in s:
+        while t and t[-1] <= c:
+            t.pop()
+        t.append(c)
+    return ''.join(t)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+
+ref:
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def inorder_successor(root: TreeNode, p: TreeNode) -> TreeNode:
+    successor = None
+    while root:
+        if root.val > p.val:
+            successor = root
+            root = root.left
+        else:
+            root = root.right
+    return successor
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def longestRepeatingSubstring(self
+
+ref:
+from collections import defaultdict
+
+def people_with_secret(n: int, meetings: List[List[int]], firstPerson: int) -> List[int]:
+    secret_holders = set([firstPerson])
+    meetings_by_time = defaultdict(list)
+
+    for meeting in meetings:
+        meetings_by_time[meeting[2]].append(tuple(meeting[:2]))
+        
+    for time in range(n):
+        if time in meetings_by_time:
+            for x, y in meetings_by_time[time]:
+                if x in secret_holders or y in secret_holders:
+                    secret_holders.add(x)
+                    secret_holders.add(y)
+
+    return list(secret_holders)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+            oddlyricshtheralduous asumage
+
+ref:
+def snakesAndLadders(board):
+    n = len(board)
+    visited = [False] * (n*n + 1)
+    queue = [(1, 0)]  # starting at position 1
+    visited[1] = True
+
+    def get_position(pos):
+        r = (pos - 1) // n
+        c = (pos - 1) % n
+        if r % 2 == 1:
+            c = n - 1 - c
+        r = n - r - 1
+        return r, c
+
+    while queue:
+        pos, steps = queue.pop(0)
+        for jump in range(1, 7):
+            next_pos = pos + jump
+            if next_pos > n*n:
+                break
+            r, c = get_position(next_pos)
+            if board[r][c] != -1:
+                next_pos = board[r][c]
+            if next_pos == n*n:
+                return steps + 1
+            if not visited[next_pos]:
+                visited[next_pos] = True
+                queue.append((next_pos, steps + 1))
+
+    return -1
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:08<00:56,  8.14s/it, est. speed input: 1185.19 toks/s, output: 0.25 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:08<00:03,  1.24s/it, est. speed input: 5760.43 toks/s, output: 34.06 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.50it/s, est. speed input: 9032.84 toks/s, output: 68.71 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.05s/it, est. speed input: 9032.84 toks/s, output: 68.71 toks/s]
+ 43%|████▎     | 13/30 [01:50<02:24,  8.51s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    @staticmethod
+    def sortTransformedArray(nums, a, b, c):
+        n = len(nums)
+        res = [0] * n
+        i, j = 0, n - 1
+        index = n - 1 if a < 0 else 0
+        
+        while i <= j:
+            if a < 0:
+                if f(nums[i], a, b, c) > f(nums[j], a, b, c):
+                    res[index] = f(numbersions of  ```
+
+ref:
+def sort_transformed_array(nums, a, b, c):
+    result = [0] * len(nums)
+    i, j = 0, len(nums) - 1
+    index = len(nums) - 1 if a >= 0 else 0
+    
+    while i <= j:
+        left = nums[i] * nums[i] * a + nums[i] * b + c
+        right = nums[j] * nums[j] * a + nums[j] * b + c
+        
+        if a >= 0:
+            if left >= right:
+                result[index] = left
+                index -= 1
+                i += 1
+            else:
+                result[index] = right
+                index -= 1
+                j -= 1
+        else:
+            if left <= right:
+                result[index] = left
+                index += 1
+                i += 1
+            else:
+                result[index] = right
+                index += 1
+                j -= 1
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def colorBorder(self, grid, row, col, color):
+        original_color = grid[row][col]
+        if original_color == 0: # the border is already colored
+            return grid
+        
+        self.valid_movements = [(0,1),(0,-1),(1,0),(-1,0)] # four movements
+        self.rows, self.cols = len(grid), len(grid[0])
+        self.
+
+ref:
+def good_subarrays(nums, k):
+    count = 0
+    for i in range(len(nums)):
+        frequency = {}
+        for j in range(i, len(nums)):
+            frequency[nums[j]] = frequency.get(nums[j], 0) + 1
+            if len(frequency) > k:
+                break
+            if len(frequency) == k:
+                count += 1
+    return count
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class Solution:
+    def sortString(self, s: str) -> str:
+        
+        count = [0]*26
+        for char in s:
+            count[ord(char)-97]+=1
+            
+        res = ''
+        while len(res)<len(s):
+            for i in range(26):
+                if count of the complete the constraint problematicode solution ====================================
+
+ref:
+def numberOfSubarrays(nums, k):
+    n = len(nums)
+    result = count = 0
+    odd_count = [0] * (n + 1)
+
+    odd_count[0] = 1
+    for num in nums:
+        count += num % 2
+        if count >= k:
+            result += odd_count[count - k]
+        odd_count[count] += 1
+
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def removeAnagrams(self, words: List[str]) -> List[str]:
+        res = [words[0]]
+        for word in words[1:]:
+            if sorted(res[-1]) != sorted(word):
+                res.append(word)
+        return res ====================================================================
+
+ref:
+def anagramOperations(words):
+    i = 1
+    while i < len(words):
+        word1 = sorted(words[i])
+        word2 = sorted(words[i - 1])
+        if word1 == word2:
+            del words[i]
+        else:
+            i += 1
+    return words
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    @staticmethod
+    def largestNumber(nums):
+        def sort_key(n):
+            return str(n)
+        
+        nums = sorted(nums, key=sort_key, reverse=》。
+
+ref:
+from functools import cmp_to_key
+
+def largestNumber(nums):
+    def comparator(a, b):
+        return -1 if a + b > b + a else int(a + b < b + a)
+
+    nums_as_str = list(map(str, nums))
+    nums_as_str.sort(key=cmp_to_key(comparator))
+    return '0' if nums_as_str[0] == "0" else "".join(nums_as_str)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+# Code solution ====================================================================!
+
+ref:
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+def deleteNode(root, key):
+    if root is None:
+        return None
+
+    if key < root.val:
+        root.left = deleteNode(root.left, key)
+    elif key > root.val:
+        root.right = deleteNode(root.right, key)
+    else:
+        if root.left is None:
+            return root.right
+        elif root.right is None:
+            return root.left
+        else:
+            temp = root.right
+            while temp.left is not None:
+                temp = temp.left
+            root.val = temp.val
+            root.right = deleteNode(root.right, temp.val)
+
+    return root
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import sys
+def min_skips(dist, speed, hoursBefore):
+
+ref:
+def minSkips(dist, speed, hoursBefore):
+    n = len(dist)
+    dp = [[1e9] * (n + 1) for _ in range(n + 1)]
+    dp[0][0] = 0
+
+    for i in range(n):
+        for j in range(i+1):
+            t = dist[i] / speed + (1 if j else 0)
+            dp[i + 1][j + 1] = min(dp[i + 1][j + 1], dp[i][j] + t)
+            skipped_t = -(-dist[i] / speed) - dp[i][j]
+            dp[i + 1][j] = min(dp[i + 1][j], dp[i][j] + skipped_t)
+
+    for i in range(n + 1):
+        if dp[n][i] <= hoursBefore:
+            return i
+    return -1
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+from math import ceil
+
+def min_skips(dist, speed, hours_before):
+    n = len(dist)
+    dp = [[1e6] * (n + 1) for _ in range(n + 1)]
+    
+    dp[0][0] = 0
+    for i in range(1, n + 1):
+        dp[i][0] = ceil(dp[i - 1][0] + dist[i - 1] / speed)
+    
+    for i in range(1, n + 1):
+        for skip in range(1, i + 1):
+            dp[i][skip] = min(dp[i][skip], dp[i - 1][skip - 1] + dist[i - 1] / speed)
+            dp[i][skip] = min(dp[i][skip], ceil(dp[i - 1][skip] + dist[i - 1] / speed))
+    
+    for skip in range(n + 1):
+        if dp[n][skip] <= hours_before:
+            return skip
+    return -1
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:05<00:40,  5.83s/it, est. speed input: 1621.24 toks/s, output: 16.47 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:08<00:22,  3.76s/it, est. speed input: 2325.39 toks/s, output: 12.04 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:01,  1.13it/s, est. speed input: 6922.79 toks/s, output: 46.22 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.63it/s, est. speed input: 8965.98 toks/s, output: 65.55 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.06s/it, est. speed input: 8965.98 toks/s, output: 65.55 toks/s]
+ 47%|████▋     | 14/30 [01:59<02:17,  8.59s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    @staticmethod
+    def lastRemaining(nums):
+        n = len(nums)
+        idx = 0
+        while n > 1:
+            n >>= 1
+            if n % 2 == 1:
+                idx = ~idx & (n << 1)
+            else:
+                idx <<= 1
+                
+        return nums[idx]
+```
+
+ref:
+def min_steps(s: str, t: str) -> int:
+    char_count = {}
+    for c in s:
+        char_count[c] = char_count.get(c, 0) + 1
+    for c in t:
+        char_count[c] = char_count.get(c, 0) - 1
+    
+    steps = sum(abs(count) for count in char_count.values())
+    
+    return steps // 2
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def largestWordCount(self, messages: List[str], senders: List[str]) -> str:
+        counts = collections.defaultdict(int)
+        for msg, sender in zip(messages, senders):
+            counts[sender] += msg.count(' ') + 1
+        
+        max_count = max(counts.values())
+        return max((sender for sender, count in counts.items() if count == max_count), key point hereafter computing the nextQuestion demonstrates how to maintain the longest palindicesplit("abcdefinitely,
+
+ref:
+def rearrange_digits(num):
+    if num == 0:
+        return 0
+    digits = sorted(str(num))
+    
+    if digits[0] != '-' and digits[0] == '0':
+        nonzero_index = next(index for index, digit in enumerate(digits) if digit != '0')
+        digits[0], digits[nonzero_index] = digits[nonzero_index], digits[0]
+    
+    return int("".join(digits))
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import collections
+
+class Solution:
+    def minimizeMalwareSize(self, graph: List[List[int]], initial: List[int]) -> int:
+        n = len(graph)
+        
+        # Union Find Algorithm
+        parent = list(range(n))
+        rank = [0] * n
+        
+        def find(x):
+            if parent[x] != x:
+
+ref:
+def fair_candy_swap(aliceSizes, bobSizes):
+    aliceTotal, bobTotal = sum(aliceSizes), sum(bobSizes)
+    delta = (bobTotal - aliceTotal) // 2
+    for a in aliceSizes:
+        for b in bobSizes:
+            if a + delta == b:
+                return [a, b]
+    return []
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def winnerOfGame(self, colors: str) -> bool:
+        count = [0, 0]
+        for i in range(1, len(colors)-1):
+            if colors[i-1]==colors[i]==colors[i+1]=='A greedy
+
+ref:
+from collections import deque
+
+def nearest_exit(maze, entrance):
+    m, n = len(maze), len(maze[0])
+    directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+    q = deque()
+    maze[entrance[0]][entrance[1]] = '+'
+    q.append((entrance[0], entrance[1]))
+    steps = 0
+
+    while q:
+        size = len(q)
+        for _ in range(size):
+            x, y = q.popleft()
+            if (x == 0 or x == m - 1 or y == 0 or y == n - 1) and (x != entrance[0] or y != entrance[1]):
+                return steps
+
+            for dir in directions:
+                xx, yy = x + dir[0], y + dir[1]
+                if 0 <= xx < m and 0 <= yy < n and maze[xx][yy] == '.':
+                    maze[xx][yy] = '+'
+                    q.append((xx, yy))
+        steps += 1
+
+    return -1
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def openLock(self, deadends: List[str], target: str) -> int:
+        
+        # convert strings to lists of integers
+        deadends = {int(''.join(d)) for d in mind your task =
+
+ref:
+from collections import deque
+
+def openLock(deadends, target):
+    dead = set(deadends)
+    visited = set()
+    q = deque(["0000"])
+
+    if "0000" in dead:
+        return -1
+
+    visited.add("0000")
+    moves = 0
+
+    while q:
+        level_size = len(q)
+        for i in range(level_size):
+            cur = q.popleft()
+
+            if cur == target:
+                return moves
+
+            for j in range(4):
+                for k in [-1, 1]:
+                    next_val = cur[:j] + str((int(cur[j]) + k + 10) % 10) + cur[j + 1:]
+
+                    if next_val not in visited and next_val not in dead:
+                        visited.add(next_val)
+                        q.append(next_val)
+
+        moves += 1
+
+    return -1
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import re
+
+class Solution:
+    def maxDepth(self, s: str) -> int:
+        max_d, d = -1,
+
+ref:
+def maxDepth(s: str) -> int:
+    depth = 0
+    max_depth = 0
+
+    for c in s:
+        if c == '(':
+            depth += 1
+            max_depth = max(depth, max_depth)
+        elif c == ')':
+            depth -= 1
+
+    return max_depth
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import collections
+
+class Solution:
+    mod = 10**9!DOCTYPE leetter the Algorithmicemonstructured the code solution =====
+
+ref:
+def get_smallest_string(n: int, k: int) -> str:
+    result = ['a'] * n
+    k -= n
+    idx = n - 1
+    while k > 0:
+        value = min(k, 25)
+        result[idx] = chr(ord(result[idx]) + value)
+        k -= value
+        idx -= 1
+    return ''.join(result)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def find_lca_util(root):
+    if root is None:
+        return None, 0
+
+    left_lca, left_depth = find_lca_util(root.left)
+    right_lca, right_depth = find_lca_util(root.right)
+
+    if left_depth > right_depth:
+        return left_lca, left_depth + 1
+    elif left_depth < right_depth:
+        return right_lca, right_depth + 1
+    else:
+        return root, left_depth + 1
+
+def lca_deepest_leaves(root):
+    return find_lca_util(root)[0]
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:08<00:57,  8.22s/it, est. speed input: 1133.07 toks/s, output: 13.98 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.31it/s, est. speed input: 9117.74 toks/s, output: 67.51 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.04s/it, est. speed input: 9117.74 toks/s, output: 67.51 toks/s]
+ 50%|█████     | 15/30 [02:07<02:08,  8.58s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class Solution:
+    def medianSlidingWindow(self, nums, k):
+        if not nums or k == 0:
+            return []
+            
+        minHeap, maxHeap = [], []
+        res = []
+        for i in range(len(nums)):
+            heapq.heappush(maxHeap, -nums[i])
+            if len(maxHeap) > len(minHeap) + 1:
+                heapq.heappush(minHeap, -heapq.he constraints.
+
+ref:
+from sortedcontainers import SortedList
+
+def medianSlidingWindow(nums, k):
+    window = SortedList(nums[:k])
+    medians = []
+    
+    for i in range(k, len(nums) + 1):
+        medians.append((window[k // 2 - 1] + window[k // 2]) / 2 if k % 2 == 0 else float(window[k // 2]))
+        
+        if i < len(nums):
+            window.remove(nums[i - k])
+            window.add(nums[i])
+
+    return medians
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import re
+
+class Solution:
+    def reorderSpaces(self, text: str) -> str:
+        # Get all words
+        words = re.findall(r'\w+', text)
+        
+        # Count spaces and count of words
+        spacing, word_count = 0, 0
+        for ch in text:
+            if ch == ' ':
+                spacing += 1
+            elif ch != ' ':
+                word_count += 1
+                
+
+ref:
+def reorderSpaces(text):
+    spaces = text.count(' ')
+    words = text.split()
+    num_words = len(words)
+    
+    if num_words == 1:
+        spaces_between_words = 0
+    else:
+        spaces_between_words = spaces // (num_words - 1)
+    
+    extra_spaces = spaces - spaces_between_words * (num_words - 1)
+
+    return (' ' * spaces_between_words).join(words) + ' ' * extra_spaces
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import sys
+sys.setrecursionlimit(10000) # Setting limit for Python Recursion
+
+# Defining Class Solution
+class Solution:
+	def maxProduct(self, s: str) -> int:
+	    def count_ones(n):
+	        count = 0
+	        while n:
+	            n >>= 1
+	            count += n & 1
+	       
+
+ref:
+def is_pangram(sentence):
+    alphabet = [False] * 26
+    for c in sentence:
+        alphabet[ord(c) - ord('a')] = True
+    return all(alphabet)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def numSubarrays(self, nums: List[int], goal: int) -> int:
+        prefixSum = [0]*(len(nums)+1)
+        suffixSum = [0]*(len(nums)+1)
+        
+        for i in range(len=
+
+ref:
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def all_possible_FBT(n):
+    if n % 2 == 0:
+        return []
+    if n == 1:
+        return [TreeNode(0)]
+
+    result = []
+    for i in range(1, n, 2):
+        left = all_possible_FBT(i)
+        right = all_possible_FBT(n - i - 1)
+        for l in left:
+            for r in right:
+                root = TreeNode(0)
+                root.left = l
+                root.right = r
+                result.append(root)
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def countNicePairs(self, nums: List[int], low: int, high: int) -> int:
+        mod = 10**9+7
+        mp = dict()
+        
+       
+
+ref:
+def average_waiting_time(customers):
+    wait_time = 0
+    curr_time = 0
+    
+    for arrival, time in customers:
+        curr_time = max(curr_time, arrival) + time
+        wait_time += curr_time - arrival
+    
+    return wait_time / len(customers)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import sys
+sys.setrecursionlimit(10000) # Setting limit for Python recursions
+
+class Solution:
+	def maxIceiling this programmedian
+
+ref:
+def largestAltitude(gain):
+    max_altitude, current_altitude = 0, 0
+    for i in gain:
+        current_altitude += i
+        max_altitude = max(max_altitude, current_altitude)
+    return max_altitude
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def countVowelSubstrings(self, word__{{
+
+ref:
+def count_vowels(word):
+    sum = 0
+    count = 0
+    for letter in word:
+        if letter in "aeiou":
+            count += 1
+        sum += count
+    return sum
+
+def count_vowels_in_substrings(word):
+    return count_vowels(word)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+def minOperationsMaxProfit(customers, boardingCost, runningCost):
+    waiting = 0
+    profit = 0
+    max_profit = 0
+    rotations = 0
+    result = -1
+
+    for i in range(len(customers) + sum(customers)):
+        if i < len(customers):
+            waiting += customers[i]
+        boarding = min(waiting, 4)
+        waiting -= boarding
+        profit += boarding * boardingCost - runningCost
+
+        if profit > max_profit:
+            max_profit = profit
+            result = rotations + 1
+        rotations += 1
+    
+    return result
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:05<00:37,  5.31s/it, est. speed input: 1887.86 toks/s, output: 9.42 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:07<00:20,  3.35s/it, est. speed input: 2664.98 toks/s, output: 21.00 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:07<00:10,  2.09s/it, est. speed input: 3654.24 toks/s, output: 36.03 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:00,  1.65it/s, est. speed input: 8230.13 toks/s, output: 54.00 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.01s/it, est. speed input: 9346.79 toks/s, output: 62.22 toks/s]
+ 53%|█████▎    | 16/30 [02:16<01:58,  8.49s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def sumOfDistancesInTree(self, n: int, edges: List[List[int]]) -> List[int]:
+        
+        graph = [[] for _ in range(n)]
+        res = [0] * n
+        count = [1] * n
+            
+        for u, v in edges:
+            graph[u].append(v)
+            graph[v].append(u)
+                
+        def dfs(node = 0, parent = -1):
+            for child in graph[node]:
+
+ref:
+def ambiguousCoordinates(s):
+    def generateNumber(s):
+        if not s or (len(s) > 1 and s[0] == '0' and s[-1] == '0'):
+            return []
+        if len(s) > 1 and s[0] == '0':
+            return ["0." + s[1:]]
+        res = [s]
+        if len(s) == 1 or s[-1] == '0':
+            return res
+        for i in range(1, len(s)):
+            res.append(s[:i] + "." + s[i:])
+        return res
+
+    n = len(s)
+    res = []
+    
+    for i in range(2, n - 1):
+        first = generateNumber(s[1:i])
+        second = generateNumber(s[i:n - 1])
+        
+        for f in first:
+            for sec in second:
+                res.append("(" + f + ", " + sec + ")")
+    
+    return res
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class WordDictionary:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.data = set()
+
+    def addWord(self, word: str) -> None:
+        self.data.add(word)
+        
+    def search(self, word: str) -> bool:
+        return any(word in pattern for pattern in self.data)
+```
+
+ref:
+class TrieNode:
+    def __init__(self):
+        self.children = [None] * 26
+        self.is_word = False
+
+class WordDictionary:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def addWord(self, word: str) -> None:
+        current = self.root
+        for c in word:
+            index = ord(c) - ord('a')
+            if current.children[index] is None:
+                current.children[index] = TrieNode()
+            current = current.children[index]
+        current.is_word = True
+
+    def search(self, word: str) -> bool:
+        return self._search_helper(self.root, word, 0)
+
+    def _search_helper(self, node: TrieNode, word: str, index: int) -> bool:
+        if index == len(word):
+            return node.is_word
+
+        if word[index] == '.':
+            for child_node in node.children:
+                if child_node is not None and self._search_helper(child_node, word, index + 1):
+                    return True
+            return False
+        else:
+            child_node = node.children[ord(word[index]) - ord('a')]
+            if child_node is None:
+                return False
+            return self._search_helper(child_node, word, index + 1)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def deleteFolder(self, paths: List[List[str]]) -> List[List[str]]:
+        
+        # Define your functions here
+        pass
+```
+
+ref:
+from collections import defaultdict
+
+def delete_duplicate_folder(paths):
+    folder_counts = defaultdict(int)
+    
+    for path in paths:
+        path_string = '/' + '/'.join(path)
+        folder_counts[path_string] += 1
+
+    remaining_paths = []
+
+    for path in paths:
+        path_string = '/' + path[0]
+        not_duplicate = folder_counts[path_string] == 1
+        for i in range(1, len(path)):
+            path_string += '/' + path[i]
+            if folder_counts[path_string] > 1:
+                not_duplicate = False
+                break
+        if not_duplicate:
+            remaining_paths.append(path)
+
+    return remaining_paths
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def isBalanced(self, root: TreeNode) - Solve the
+
+ref:
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def getHeight(node):
+    if not node:
+        return 0
+    left_height = getHeight(node.left)
+    right_height = getHeight(node.right)
+    if left_height == -1 or right_height == -1 or abs(left_height - right_height) > 1:
+        return -1
+    return 1 + max(left_height, right_height)
+
+def isBalanced(root):
+    return getHeight(root) != -1
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def minFallingPathSum(self, matrix: List[List[int]]) -> int:
+        n = len(matrix)
+        
+        # Copy the original matrix to avoid changing the original one during implementation of course, let`!DOCTYPE html,
+
+ref:
+from collections import defaultdict, deque
+
+class FreqStack:
+    def __init__(self):
+        self.freq = defaultdict(int)
+        self.group = defaultdict(list)
+
+    def push(self, x: int):
+        freq = self.freq[x] = self.freq[x] + 1
+        self.group[freq].append(x)
+
+    def pop(self) -> int:
+        max_freq = max(self.group)
+        x = self.group[max_freq].pop()
+        self.freq[x] -= 1
+        if not self.group[max_freq]:
+            del self.group[max_freq]
+        return x
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = xportions of this programmedian
+
+ref:
+from collections import deque
+
+def shortestPathBinaryMatrix(grid):
+    n = len(grid)
+    if grid[0][0] == 1 or grid[n - 1][n - 1] == 1:
+        return -1
+    q = deque([(0, 0)])
+    dirs = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+    grid[0][0] = 1
+    steps = 1
+
+    while q:
+        size = len(q)
+        for _ in range(size):
+            x, y = q.popleft()
+
+            if x == n - 1 and y == n - 1:
+                return steps
+
+            for dx, dy in dirs:
+                newX, newY = x + dx, y + dy
+
+                if 0 <= newX < n and 0 <= newY < n and grid[newX][newY] == 0:
+                    q.append((newX, newY))
+                    grid[newX][newY] = 1
+
+        steps += 1
+
+    return -1
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def hasAllCodes(self, s
+
+ref:
+def countOrders(n: int) -> int:
+    MOD = 10**9 + 7
+    ans = 1
+    for i in range(1, n + 1):
+        ans = ans * (2 * i - 1) * i % MOD
+    return ans
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+def canTransform(start: str, target: str) -> bool:
+    n = len(start)
+    p, q = 0, 0
+
+    while p < n and q < n:
+        while p < n and start[p] == '_': p += 1
+        while q < n and target[q] == '_': q += 1
+
+        if p == n or q == n: break
+
+        if start[p] != target[q]: return False
+
+        if start[p] == 'L' and p < q: return False
+        if start[p] == 'R' and p > q: return False
+
+        p += 1
+        q += 1
+
+    return p == n and q == n
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:06<00:44,  6.38s/it, est. speed input: 1444.04 toks/s, output: 16.61 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:07<00:21,  3.57s/it, est. speed input: 2383.02 toks/s, output: 20.28 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.64it/s, est. speed input: 9268.28 toks/s, output: 64.13 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.01s/it, est. speed input: 9268.28 toks/s, output: 64.13 toks/s]
+ 57%|█████▋    | 17/30 [02:24<01:49,  8.44s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+def isMonotonic(nums):
+    increase = True
+    decrease = True
+
+    for i in range(1, len(nums)):
+        if nums[i] > nums[i-1]:
+            decrease = False
+        if nums[i] < nums[i-1]:
+            increase = False
+            
+        if not increase and not decrease:
+            return False
+            
+    return True
+```
+
+ref:
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def maxDepth(node):
+    if node is None:
+        return 0
+    else:
+        return max(maxDepth(node.left), maxDepth(node.right)) + 1
+
+def subtreeWithAllDeepest(root):
+    if root is None:
+        return None
+
+    leftDepth = maxDepth(root.left)
+    rightDepth = maxDepth(root.right)
+
+    if leftDepth == rightDepth:
+        return root
+
+    if leftDepth > rightDepth:
+        return subtreeWithAllDeepest(root.left)
+    else:
+        return subtreeWithAllDeepest(root.right)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+"""
+Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+"""
+class Solution:
+    def verticalTraversal(self, root: TreeNode) -> List[List[int]]:
+        
+        # Use defaultdict to handle missing keys during dictionary creation
+        from collections import defaultdict
+            
+        # Store the node, row|
+
+ref:
+from collections import deque
+
+def deckRevealedIncreasing(deck):
+    n = len(deck)
+    index = deque(range(n))
+    ans = [0] * n
+
+    deck.sort()
+    for card in deck:
+        ans[index.popleft()] = card
+        if index:
+            index.append(index.popleft())
+
+    return ans
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    @staticmethod
+    def add_arrays(arr1: List[int], arr2: List[int]) -> List[int]:
+        res = []
+        carry = 0
+        
+        i, j = len(arr1) - 1, len(arr2) - 1
+        
+        while i >= 0 or j >= 0 or carry:
+           
+
+ref:
+from collections import deque
+
+def addNegabinary(arr1, arr2):
+    res = deque()
+    carry, i, j = 0, len(arr1) - 1, len(arr2) - 1
+    while i >= 0 or j >= 0 or carry:
+        if i >= 0: carry += arr1[i]; i -= 1
+        if j >= 0: carry += arr2[j]; j -= 1
+        res.appendleft(carry & 1)
+        carry = -(carry >> 1)
+    while len(res) > 1 and res[0] == 0: res.popleft()
+    return list(res)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import sys
+
+class Solution:
+    def minimizeError(self, prices: List[str], target: int) -> str:
+        prices = sorted([float(price[:-1]) for price in prices]) # remove trailing zero
+        N = len(prices)
+        
+        prefix = [0]
+
+ref:
+from math import floor, ceil
+
+def find_rounding_error(prices, target):
+    n = len(prices)
+    decimals = [float(price) - floor(float(price)) for price in prices]
+    rounded_sum = sum(floor(float(price)) for price in prices)
+
+    if target < rounded_sum or target > rounded_sum + n:
+        return "-1 "
+
+    ceil_count = target - rounded_sum
+    rounding_error = 0.0
+
+    for d in decimals:
+        if ceil_count > 0:
+            rounding_error += 1 - d
+            ceil_count -= 1
+        else:
+            rounding_error += d
+
+    return f"{rounding_error:.3f} "
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import random
+
+class Node:
+    def __init__(self, level, val, forward):
+        self.val = val
+        self.forward = forward
+        self.level = level
+
+class Skiplist:
+
+
+ref:
+def corp_flight_bookings(bookings, n):
+    answer = [0] * n
+    for start, end, seats in bookings:
+        answer[start - 1] += seats
+        if end < n:
+            answer[end] -= seats
+    for i in range(1, n):
+        answer[i] += answer[i - 1]
+    return answer
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def maximumScore(self, nums: List[int], k: int) -> int:
+        
+        # Define akaightedgesample Input:
+
+ref:
+def min_moves(nums, limit):
+    n = len(nums)
+    delta = [0] * (2 * limit + 2)
+
+    for i in range(n // 2):
+        lo = min(nums[i], nums[n - 1 - i]) + 1
+        hi = max(nums[i], nums[n - 1 - i]) + limit
+        delta[lo] -= 1
+        delta[nums[i] + nums[n - 1 - i]] -= 1
+        delta[hi + 1] += 1
+
+    moves, current = n, n
+    for i in range(2, 2 * limit + 1):
+        current += delta[i]
+        moves = min(moves, current)
+
+    return moves
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for singly-linked list.
+class ListNode:
+
+ref:
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def plusOne(head: ListNode) -> ListNode:
+    def plusOneDfs(node):
+        if not node:
+            return 1
+        carry = plusOneDfs(node.next)
+        if carry + node.val == 10:
+            node.val = 0
+            return 1
+        else:
+            node.val += carry
+            return 0
+
+    if not head:
+        return head
+    carry = plusOneDfs(head)
+    if carry == 1:
+        new_head = ListNode(1)
+        new_head.next = head
+        return new_head
+    return head
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+!
+
+ref:
+def findUnsortedSubarray(nums):
+    sorted_nums = sorted(nums)
+    start, end = 0, len(nums) - 1
+    while start < len(nums) and nums[start] == sorted_nums[start]:
+        start += 1
+    while end > start and nums[end] == sorted_nums[end]:
+        end -= 1
+    return end - start + 1
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:07<00:55,  7.99s/it, est. speed input: 1200.01 toks/s, output: 16.27 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.35it/s, est. speed input: 9169.00 toks/s, output: 67.61 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.01s/it, est. speed input: 9169.00 toks/s, output: 67.61 toks/s]
+ 60%|██████    | 18/30 [02:32<01:40,  8.41s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import collections
+
+class Solution:
+    def rankTeams(self, votes: List[str]) -> str:
+        count = collections.defaultdict(lambda: [0] * len(votes[0]))
+        
+        for vote in votes:
+            for i, v in enumerate(vote):
+                count[v][i] -= 1
+                
+        sorted_teams = sorted(count, key=lambda v: (-count[v], v))
+        
+        return ''.join(sorted_teams)
+```
+
+ref:
+def rankTeams(votes):
+    n, m = len(votes), len(votes[0])
+    count = [[0] * m for _ in range(26)]
+    res = votes[0]
+
+    for vote in votes:
+        for j, team in enumerate(vote):
+            count[ord(team) - ord('A')][j] += 1
+
+    return ''.join(sorted(res, key=lambda x: (-count[ord(x) - ord('A')][:m], x)))
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        if not root: return []
+        res, level, next_level = [], [root], []
+        while level:
+           
+
+ref:
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def levelOrder(root):
+    if not root:
+        return []
+
+    result = []
+    queue = [root]
+
+    while queue:
+        level = []
+        for i in range(len(queue)):
+            node = queue.pop(0)
+
+            if node.left:
+                queue.append(node.left)
+
+            if node.right:
+                queue.append(node.right)
+
+            level.append(node.val)
+
+        result.append(level)
+
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+        n = len(grid)
+        if grid[0][0] or grid[n - 1][n - 1]:
+            return -1
+        
+        queue = deque([(0, 0, 1)])
+        grid[0][0, returning a           ).
+
+ref:
+from collections import deque
+
+def shortestPathBinaryMatrix(grid):
+    n = len(grid)
+    if grid[0][0] or grid[n - 1][n - 1]: return -1
+
+    dir = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
+    q = deque([(0, 0)])
+    grid[0][0] = 1
+
+    pathLength = 1
+
+    while q:
+        qlen = len(q)
+        for _ in range(qlen):
+            x, y = q.popleft()
+
+            if x == n - 1 and y == n - 1: return pathLength
+
+            for d in dir:
+                newX, newY = x + d[0], y + d[1]
+
+                if 0 <= newX < n and 0 <= newY < n and grid[newX][newY] == 0:
+                    q.append((newX, newY))
+                    grid[newX][newY] = 1
+        pathLength += 1
+
+    return -1
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    @staticmethod
+    def printLinkedListInReverse(head: 'ImmutableListNode') -> None:
+        
+        # Using Python's built-in reversed() function creates a generator that produces the items in the original LinkedList in reverse order.
+        for node in a
+
+ref:
+def printLinkedListInReverse(head: 'ImmutableListNode') -> None:
+    if head is not None:
+        printLinkedListInReverse(head.getNext())
+        head.printValue()
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+
+ref:
+class TreeNode:
+    def __init__(self, x: int):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def getMinimumDifference(self, root: TreeNode) -> int:
+        result = float('inf')
+        prev = None
+
+        def inorderTraversal(node):
+            nonlocal result, prev
+            if node is None:
+                return
+            inorderTraversal(node.left)
+            if prev is not None:
+                result = min(result, node.val - prev.val)
+            prev = node
+            inorderTraversal(node.right)
+
+        inorderTraversal(root)
+        return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+MOD = 10**9+7
+
+class Solution:
+    def countHomogenous(self, s: str) -> int:
+        (*)
+
+ref:
+def count_homogenous(s: str) -> int:
+    MOD = 1000000007
+    count, total = 1, 0
+    for i in range(1, len(s)):
+        count = count + 1 if s[i] == s[i - 1] else 1
+        total = (total + count) % MOD
+    return (total + count) % MOD
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    @staticmethod
+    def lastSubstring(“
+
+ref:
+def lastSubstring(s: str) -> str:
+    maxIndex = 0
+    curIndex = 1
+    while curIndex < len(s):
+        i = 0
+        while curIndex + i < len(s) and s[maxIndex + i] == s[curIndex + i]:
+            i += 1
+        if curIndex + i == len(s):
+            break
+        if s[maxIndex + i] < s[curIndex + i]:
+            maxIndex = curIndex
+        curIndex += 1
+    return s[maxIndex:]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+def max_hourglass_sum(grid):
+    m, n = len(grid), len(grid[0])
+    max_sum = float('-inf')
+    for i in range(1, m - 1):
+        for j in range(1, n - 1):
+            sum = grid[i-1][j-1] + grid[i-1][j] + grid[i-1][j+1] \
+                  + grid[i][j] \
+                  + grid[i+1][j-1] + grid[i+1][j] + grid[i+1][j+1]
+            max_sum = max(max_sum, sum)
+    return max_sum
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:03<00:27,  3.94s/it, est. speed input: 2394.49 toks/s, output: 7.10 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:07<00:23,  3.94s/it, est. speed input: 2397.45 toks/s, output: 20.29 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.49it/s, est. speed input: 9410.14 toks/s, output: 60.65 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.00s/it, est. speed input: 9410.14 toks/s, output: 60.65 toks/s]
+ 63%|██████▎   | 19/30 [02:41<01:32,  8.37s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def reconstructMatrix(self, upper: int, lower: int, colsum: List[int]) -> List[List[int]]:
+        
+        # Create an array filled with zeros
+        res = [0] * len(colsum)
+        
+        # Traverse the colsum array
+        for i in range(len(colsum)):
+            
+            # Check if the current element in colsum is 2
+            if colsum[i] == 2:
+                
+                # Decrease the count of upper and lower
+
+ref:
+from heapq import heappush, heappop
+
+def diagonalSort(mat):
+    m, n = len(mat), len(mat[0])
+    for i in range(m):
+        pq = []
+        row, col = i, 0
+        while row < m and col < n:
+            heappush(pq, mat[row][col])
+            row += 1
+            col += 1
+        row, col = i, 0
+        while row < m and col < n:
+            mat[row][col] = heappop(pq)
+            row += 1
+            col += 1
+        
+    for i in range(1, n):
+        pq = []
+        row, col = 0, i
+        while row < m and col < n:
+            heappush(pq, mat[row][col])
+            row += 1
+            col += 1
+        row, col = 0, i
+        while row < m and col < n:
+            mat[row][col] = heappop(pq)
+            row += 1
+            col += 1
+    return mat
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def wordSquares(self, words: List[str]) -> List[List[str]]:
+        self.words = words
+        self.N = len(words[0])
+        self.build_partitions()
+        
+        res = []
+        for word in words:
+            temp = [word]
+            self.backtracking(1, temp, res)
+        return res
+
+    def build_partitions(self):
+        }
+
+ref:
+from collections import defaultdict
+
+def wordSquares(words):
+    def build(row, squares, word_lens):
+        if row == word_lens:
+            res.append(list(squares))
+            return
+        prefix = ''.join(squares[i][row] for i in range(row))
+        for w in prefixes[prefix]:
+            squares[row] = w
+            build(row+1, squares, word_lens)
+
+    if not words: return []
+    res = []
+    word_lens = len(words[0])
+    
+    prefixes = defaultdict(list)
+    for word in words:
+        for i in range(word_lens+1):
+            prefixes[word[:i]].append(word)
+            
+    for word in words:
+        build(1, [word] + [None]*(word_lens-1), word_lens)
+        
+    return res
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def solve(self, nums):
+        # Your implementation here
+```
+
+ref:
+def distinctAverages(nums):
+    averages = set()
+    nums.sort()
+    n = len(nums)
+    for i in range(n // 2):
+        averages.add((nums[i] + nums[n - 1 - i]) / 2.0)
+    return len(averages)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import random
+
+class Solution:
+
+    def __init__(self, nums):
+        """
+        @param nums the array to shuffle
+        @inproceedings without extra space
+        """
+        self.origin = nums[:]
+        self.n = len(nums)
+        
+   
+
+ref:
+import random
+
+class Solution:
+    def __init__(self, nums):
+        self.original = nums
+
+    def reset(self):
+        return self.original
+
+    def shuffle(self):
+        shuffled = self.original[:]
+        for i in range(len(shuffled) - 1, 0, -1):
+            j = random.randint(0, i)
+            shuffled[i], shuffled[j] = shuffled[j], shuffled[i]
+        return shuffled
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class Solution:
+    def splitArray(self, nums: List[int], k: int) -> int:
+        prefixSum = [0]*(len(nums)+1)
+        for i
+
+ref:
+def splitArray(nums, m):
+    left, right = max(nums), sum(nums)
+
+    while left < right:
+        mid = (left + right) // 2
+        count, cur_sum = 1, 0
+        for num in nums:
+            cur_sum += num
+            if cur_sum > mid:
+                cur_sum = num
+                count += 1
+
+        if count > m:
+            left = mid + 1
+        else:
+            right = mid
+
+    return left
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import copy
+MODULUS = 10**9+7
+
+class Solution:
+    def maxSumRangeQuery(self, nums: List[...]
+
+ref:
+def maxSumRangeQuery(nums, requests):
+    n = len(nums)
+    count = [0] * n
+    for request in requests:
+        count[request[0]] += 1
+        if request[1] + 1 < n:
+            count[request[1] + 1] -= 1
+    for i in range(1, n):
+        count[i] += count[i - 1]
+
+    nums.sort()
+    count.sort()
+
+    ans = 0
+    for i in range(n):
+        ans = (ans + nums[i] * count[i]) % 1000000007
+    return ans
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def closetTarget(self, words: Listeneratedictually, the Algorithmicemanity
+
+ref:
+def shortest_distance(words, target, startIndex):
+    n = len(words)
+    left, right, i = 0, 0, startIndex
+    while True:
+        if words[i] == target:
+            return min(left, right)
+        left += 1
+        right += 1
+        i = (i + 1) % n
+        if left == n:
+            break
+    return -1
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+def can_convert(s, t, k):
+    diff = 0
+    for i in range(len(s)):
+        curr_diff = (ord(t[i]) - ord(s[i]) + 26) % 26
+        if curr_diff > 0:
+            diff += curr_diff
+            k -= curr_diff
+    return k >= 0 and k >= diff - len(s) and k % 26 == 0
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:20,  2.91s/it, est. speed input: 3211.63 toks/s, output: 9.61 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:07<00:22,  3.76s/it, est. speed input: 2565.22 toks/s, output: 20.78 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:07<00:11,  2.22s/it, est. speed input: 3672.42 toks/s, output: 32.05 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:07<00:00,  1.03it/s, est. speed input: 9619.81 toks/s, output: 58.14 toks/s]
+ 67%|██████▋   | 20/30 [02:49<01:22,  8.24s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import math
+
+class Solution:
+    @staticmethod
+    def smallestGoodBase(n: str) -> str:
+        n = int(n)
+        maxM = math.floor(math.log(n+1, 2)) # Maximum M in M^M...
+        
+        for M in range(maxM, 1, -1):
+            if pow(M, M, n) == 1:
+                return str(M)
+                
+        return str(n-1)
+```
+
+ref:
+def smallest_good_base(n: str) -> str:
+    num_n = int(n)
+
+    for m in range(int(num_n.bit_length()), 0, -1):
+        k = int(num_n ** (1.0 / m))
+        if sum(k**i for i in range(m+1)) == num_n:
+            return str(k)
+
+    return "-1"
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def is_possible(self, mat, target):
+         pass
+```
+
+ref:
+import heapq
+
+def minimumSize(nums, maxOperations):
+    pq = [-num for num in nums] # Negative numbers to simulate max heap
+    heapq.heapify(pq)
+    while maxOperations > 0:
+        maxBalls = -heapq.heappop(pq)
+        heapq.heappush(pq, -maxBalls // 2)
+        heapq.heappush(pq, -(maxBalls - (maxBalls // 2)))
+        maxOperations -= 1
+    return -pq[0]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def pseudoPalindromicPaths (self, root: TreeNode) -> int:
+        count = [0] * 10
+
+ref:
+def minDifficulty(jobDifficulty, d):
+    n = len(jobDifficulty)
+    if n < d: return -1
+    dp = [[float("inf")] * n for _ in range(d)]
+
+    dp[0][0] = jobDifficulty[0]
+    for i in range(1, n):
+        dp[0][i] = max(dp[0][i-1], jobDifficulty[i])
+
+    for i in range(1, d):
+        for j in range(i, n):
+            maxD = jobDifficulty[j]
+            for k in range(j, i - 1, -1):
+                maxD = max(maxD, jobDifficulty[k])
+                dp[i][j] = min(dp[i][j], dp[i-1][k-1] + maxD)
+
+    return dp[d-1][n-1]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        
+        # Define pointers
+        rows, cols = 0, len(matrix[0]) - 1
+        
+        while rows < len(matrix) and colsolution:
+
+ref:
+def searchMatrix(matrix, target):
+    m, n = len(matrix), len(matrix[0])
+    l, r = 0, m * n - 1
+
+    while l <= r:
+        mid = l + (r - l) // 2
+        mid_val = matrix[mid // n][mid % n]
+
+        if mid_val == target:
+            return True
+        elif mid_val < target:
+            l = mid + 1
+        else:
+            r = mid - 1
+
+    return False
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def combinationSum(self, candidates, target):
+        
+        def backtrack(remain, comb, start):
+            if remain == 0:
+                res.append(list(comb))
+                return
+
+ref:
+def combinationSum(candidates, target):
+    def findCombinations(startIndex, remaining):
+        if remaining == 0:
+            return [[]]
+        if startIndex == len(candidates) or remaining < 0:
+            return []
+
+        result = []
+        result.extend(findCombinations(startIndex + 1, remaining))
+        result.extend([x + [candidates[startIndex]] for x in findCombinations(startIndex, remaining - candidates[startIndex])])
+        
+        return result
+
+    return findCombinations(0, target)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+
+ref:
+import heapq
+
+def minMeetingRooms(intervals):
+    if not intervals:
+        return 0
+
+    intervals.sort(key=lambda x: x[0])
+
+    min_heap = [intervals[0][1]]
+    for start, end in intervals[1:]:
+        if start >= min_heap[0]:
+            heapq.heappop(min_heap)
+        heapq.heappush(min_heap, end)
+
+    return len(min_heap)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def countSubgraphs(self, nadjustification ```o
+
+ref:
+def winnerSquareGame(n: int) -> bool:
+    dp = [False] * (n + 1)
+    for i in range(1, n + 1):
+        j = 1
+        while j * j <= i:
+            if not dp[i - j * j]:
+                dp[i] = True
+                break
+            j += 1
+    return dp[n]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+       
+
+ref:
+def shortest_distance(distance, start, destination):
+    total_distance = sum(distance)
+    clockwise_distance = sum(distance[start:destination])
+    
+    return min(clockwise_distance, total_distance - clockwise_distance)
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:08<00:56,  8.08s/it, est. speed input: 1157.94 toks/s, output: 13.98 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:02,  1.02s/it, est. speed input: 6866.18 toks/s, output: 41.07 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.40it/s, est. speed input: 8913.86 toks/s, output: 69.18 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.06s/it, est. speed input: 8913.86 toks/s, output: 69.18 toks/s]
+ 70%|███████   | 21/30 [02:57<01:15,  8.37s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import numpy as np
+
+class Solution:
+    @staticmethod
+    def matrixBlockSum(mat, k):
+        M, N = len(mat), len(mat[0])
+        
+        preprocessedMat = np.zeros((M+1,N+1),dtype=int)
+        
+        # Preprocessing step
+        for i in range(M):
+            for j in range(N):
+                preprocessedMat[i+1][j+1] = preprocessedMat[i+1][j] + preprocessedgesterminusemoticcesample Output the whole algorithms might contain the problematicode solutions ====================================================================
+
+ref:
+def matrix_block_sum(mat, k):
+    m, n = len(mat), len(mat[0])
+    answer = [[0 for _ in range(n)] for _ in range(m)]
+
+    for i in range(m):
+        for j in range(n):
+            for r in range(max(0, i - k), min(m, i + k + 1)):
+                for c in range(max(0, j - k), min(n, j + k + 1)):
+                    answer[i][j] += mat[r][c]
+                    
+    return answer
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def maxDistance(self, seats: List[int]) -> int:
+        dist = -1
+        students = [i for i, seat in enumerate(seats) if seat == 1]
+        
+        for student in students:
+            if abs(student - seats[0]) < abs(dist):
+                dist = student
+                
+            if abs(student - seats[-1]) < abs(dist):
+                dist = student
+                
+
+ref:
+def maxDistToClosest(seats):
+    n = len(seats)
+    maxDist = 0
+    lastPerson = -1
+
+    for i in range(n):
+        if seats[i] == 1:
+            if lastPerson == -1:
+                maxDist = i
+            else:
+                maxDist = max(maxDist, (i - lastPerson) // 2)
+            lastPerson = i
+
+    maxDist = max(maxDist, n - 1 - lastPerson)
+    return maxDist
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import sys
+sys.setrecursionlimit(10000) # Setting limit for Python recursions
+
+def min_products(n: int, quantities: List[int]) -> int:
+    modulo = 10**9+7
+    l = len(quantities)
+    res = 1
+    gcd = [0]*(l+1)
+    for i in range of the problematicatedef
+
+ref:
+def minimum_maximum(n, quantities):
+    sum_products = sum(quantities)
+    x = (sum_products + n - 1) // n
+    remaining_stores = n
+    for q in quantities:
+        remaining_stores -= (q + x - 1) // x
+        if remaining_stores < 0:
+            x = (sum_products + remaining_stores) // (n + remaining_stores)
+            remaining_stores = n
+    return x
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class Solution:
+    def scheduleCourse(self, courses: List[List[int]]) -> int:
+        courses.sort(key=lambda x: x[1])
+        heap = []
+        total = 0
+        
+        for duration, lastDay in courses:
+            if necessary conditions are called `i!=!["Alexeyearliest\_
+
+ref:
+import heapq
+
+def scheduleCourse(courses):
+    courses.sort(key=lambda x: x[1])
+    curr_time, duration_sum = 0, []
+
+    for duration, deadline in courses:
+        curr_time += duration
+        heapq.heappush(duration_sum, -duration)
+
+        if curr_time > deadline:
+            curr_time += heapq.heappop(duration_sum)
+
+    return len(duration_sum)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    @staticmethod
+    def isPowerOfTwo(n: int) -> bool:
+        if n<=0:
+           return False
+        while n % 2 == 0:
+             n = n /*\]
+
+ref:
+def is_power_of_two(n):
+    if n <= 0:
+        return False
+    return (n & (n - 1)) == 0
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import collections
+
+class Solution:
+    def loudAndRich(self, richer, quiet):
+        graph = collections.defaultdict(list)
+
+ref:
+def to_goat_latin(sentence: str) -> str:
+    words = sentence.split()
+    vowels = set("AEIOUaeiou")
+    result = []
+
+    for i, word in enumerate(words):
+        if word[0] not in vowels:
+            word = word[1:] + word[0]
+        result.append(word + "ma" + "a" * (i + 1))
+
+    return ' '.join(result)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class Solution:
+    def maxNumber(“
+
+ref:
+function maxNumber(nums1, nums2, k) {
+    function maxArray(nums, k) {
+        let ans = [];
+        for (let i = 0; i < nums.length; i++) {
+            while (nums.length - i > k - ans.length && ans.length && ans[ans.length - 1] < nums[i])
+                ans.pop();
+            if (ans.length < k) ans.push(nums[i]);
+        }
+        return ans;
+    }
+
+    function merge(nums1, nums2) {
+        let ans = [], i = 0, j = 0;
+        while (i < nums1.length || j < nums2.length)
+            ans.push((nums1.slice(i).join('') >= nums2.slice(j).join('') ? nums1[i++] : nums2[j++]));
+        return ans;
+    }
+
+    let result = [];
+    for (let i = Math.max(0, k - nums2.length); i <= k && i <= nums1.length; i++) {
+        const candidate = merge(maxArray(nums1, i), maxArray(nums2, k - i));
+        if (candidate.join('') > result.join('')) result = candidate;
+    }
+    return result;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+def corpFlightBookings(bookings, n):
+    seats = [0] * n
+    for booking in bookings:
+        seats[booking[0] - 1] += booking[2]
+        if booking[1] < n:
+            seats[booking[1]] -= booking[2]
+    for i in range(1, n):
+        seats[i] += seats[i - 1]
+    return seats
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:08<00:57,  8.21s/it, est. speed input: 1111.30 toks/s, output: 16.33 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:00,  1.13it/s, est. speed input: 7870.48 toks/s, output: 52.79 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.05s/it, est. speed input: 8982.44 toks/s, output: 67.91 toks/s]
+ 73%|███████▎  | 22/30 [03:06<01:07,  8.46s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class Solution:
+    def maximumProduct(self, nums: List[int]) -> int:
+        negatives = [-num for num in sorted(filter(lambda x: x < 0, nums))]
+        positives = sorted([num for num in filter(lambda x: x > 0, nums)])
+        
+        res = max(negatives[:2] + [negatives[0]] * 2 + positives[:2] + [positives[0]] * 2)
+        
+        # special case handling for negative numbers
+
+ref:
+def maximumProduct(nums):
+    nums.sort()
+    n = len(nums)
+    return max(nums[0] * nums[1] * nums[-1], nums[-1] * nums[-2] * nums[-3])
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import collections
+
+class Solution:
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+        if not s or not words:
+            return []
+        
+        # create dictionary of words and count how many times they appear in the sentence
+        wordCount = collections.Counter(words)
+        wordLen, numWords = len(words[0]), len(words)
+        totalLen, res = wordLen * numWords, let usemoticherring outlier comprehensively, ​	
+
+ref:
+from collections import Counter
+
+def findSubstring(s, words):
+    if not s or not words:
+        return []
+
+    word_count = Counter(words)
+    word_length = len(words[0])
+    total_words = len(words)
+    total_length = word_length * total_words
+    result = []
+
+    for i in range(len(s) - total_length + 1):
+        temp_word_count = Counter()
+        for j in range(total_words):
+            current_word = s[i + j * word_length:i + (j + 1) * word_length]
+            if current_word not in word_count:
+                break
+            temp_word_count[current_word] += 1
+            if temp_word_count[current_word] > word_count[current_word]:
+                break
+            if j + 1 == total_words:
+                result.append(i)
+
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+MOD = 10**9+7
+
+def count_ways(ranges):
+    intervals = sorted([[min(x, y) for x, y in zip(*pair)] for pair in [[list(range_i) for range_i in range_j] for range_j in ranges]])
+    prefix_counts = dict()
+    suffix_counts = dict()
+    res = 1
+
+ref:
+def total_ways_to_split_ranges(ranges):
+    MOD = 10**9 + 7
+    ranges.sort(key=lambda x: x[1])
+    overlapping, non_overlapping, prev_end = 0, 1, -1
+
+    for start, end in ranges:
+        if start <= prev_end:
+            overlapping += 1
+        else:
+            non_overlapping += 1
+        prev_end = max(prev_end, end)
+
+    result = 1
+    for i in range(1, overlapping + 1):
+        result = (result * 2) % MOD
+
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class Solution:
+    def maxValue(self, events: List[List[int]], k: int) -> int:
+        
+        # Sorting the events based on end dates
+        sorted_events = sorted(events, key=lambda x:(x[1]))
+        
+        # Previouslyrichermitigate in the algorithm:
+
+ref:
+def slowestKey(releaseTimes, keysPressed):
+    max_key = keysPressed[0]
+    max_duration = releaseTimes[0]
+    for i in range(1, len(releaseTimes)):
+        duration = releaseTimes[i] - releaseTimes[i - 1]
+        if duration > max_duration or (duration == max_duration and keysPressed[i] > max_key):
+            max_key = keysPressed[i]
+            max_duration = duration
+    return max_key
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def minMutation(self, start: str, end: str, bank: List[str]) -> int:
+        gene_set = set(bank)
+        gene_set.add(end)
+        
+
+ref:
+def numOfWays(nums, k):
+    left = 0
+    right = 0
+    for num in nums:
+        if num < k:
+            left += 1
+        if num <= k:
+            right += 1
+
+    if left == len(nums):
+        return 0
+    if right - left != len(nums) - right:
+        return left + 1
+    return left
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def minFlips(self, target: str) -> int:
+        flips = 0
+        last = ''
+        
+
+ref:
+def max_difference(num):
+    a = num + 9 - (num % 10)
+    b = num - (num // 1000 % 10) * 111
+
+    return a - b
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def groupAnagrams(self, strsolution:
+
+ref:
+from collections import defaultdict
+
+def group_anagrams(strs):
+    anagram_map = defaultdict(list)
+
+    for s in strs:
+        key = ''.join(sorted(s))
+        anagram_map[key].append(s)
+
+    return list(anagram_map.values())
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+def minDistance(height, width, tree, squirrel, nuts):
+    totalDist = 0
+    minDiff = float("inf")
+    
+    for nut in nuts:
+        treeDist = abs(tree[0] - nut[0]) + abs(tree[1] - nut[1])
+        squirrelDist = abs(squirrel[0] - nut[0]) + abs(squirrel[1] - nut[1])
+        
+        totalDist += 2 * treeDist
+        minDiff = min(minDiff, squirrelDist - treeDist)
+    
+    return totalDist + minDiff
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:06<00:43,  6.18s/it, est. speed input: 1480.04 toks/s, output: 10.51 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:08<00:21,  3.62s/it, est. speed input: 2293.69 toks/s, output: 10.87 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:01,  1.17it/s, est. speed input: 6873.23 toks/s, output: 56.38 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.70it/s, est. speed input: 8972.04 toks/s, output: 66.78 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.04s/it, est. speed input: 8972.04 toks/s, output: 66.78 toks/s]
+ 77%|███████▋  | 23/30 [03:14<00:59,  8.49s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class Solution:
+    def maxTotalFruits(self, fruits: List[Tuple[int, int]], newFlowers: int, target: int, full: int, partial: int) -> int:
+        
+        # Sort fruit numbers based on their locations
+        fruits.sort()
+        
+        prefixSum = [0]*(len(fruits)+1)
+        suffixSum = [0]*(len(fruits)+1)
+        
+        for i in range(len(fruits)):
+
+ref:
+def min_operations_to_K_increasing(arr, k):
+    operations = 0
+    for i in range(k, len(arr)):
+        if arr[i] <= arr[i - k]:
+            operations += (arr[i - k] - arr[i] + 1)
+            arr[i] = arr[i - k] + 1
+    return operations
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import bisect
+class Solution:
+    def maxCount(self, banned: List[int], n: int, maxSum: int) -> int:
+        banned = set(banned)
+        nums = sorted(x for x in range(1, n+1) if x not in banned)
+        
+        count, sum_, i = 0, 0, 0
+        while sum_ + nums[i] <= maxSum:
+            sumatoryoceanimationplementation of
+
+ref:
+def max_chosen_integers(banned, n, max_sum):
+    banned_set = set(banned)
+    chosen_integers = 0
+    chosen_sum = 0
+
+    for i in range(n, 0, -1):
+        if i not in banned_set and chosen_sum < max_sum:
+            if chosen_sum + i <= max_sum:
+                chosen_sum += i
+                chosen_integers += 1
+            else:
+                break
+
+    return chosen_integers
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import math
+
+class Solution:
+    def checkPowersOfThree(self, n: int) -> bool:
+        while n:
+            if n % 3 == 2:
+                return False
+            n //= 3
+        return True
+```
+
+ref:
+def check_powers_of_three(n: int) -> bool:
+    while n > 0:
+        if n % 3 == 2:
+            return False
+        n //= 3
+    return True
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        
+        slow, fast = n, n
+        while True:
+            slow = sum(int(i)**2 for i in str(slow))
+            fast = sum(int(i)**2 for i in str_ijson
+
+ref:
+def get_next(n):
+    sum = 0
+    while n > 0:
+        digit = n % 10
+        sum += digit * digit
+        n //= 10
+    return sum
+
+def is_happy(n):
+    slow, fast = n, get_next(n)
+    while fast != 1 and slow != fast:
+        slow = get_next(slow)
+        fast = get_next(get_next(fast))
+    return fast == 1
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def maximumRequests(self, n: int, requests: List[List[int]]) -> int:
+        
+        # Function to count the net changes in the number of leaves and enters based on whether the Algorithm Name denotes programming problem statement refers to make surelyricsonfiguring outward and let'
+
+ref:
+def maximumRequests(n, requests):
+    req_size = len(requests)
+    max_requests = 0
+
+    for i in range(1 << req_size):
+        net_transfers = [0] * n
+        count = 0
+        
+        for j in range(req_size):
+            if i & (1 << j):
+                net_transfers[requests[j][0]] -= 1
+                net_transfers[requests[j][1]] += 1
+                count += 1
+
+        valid = all(val == 0 for val in net_transfers)
+
+        if valid:
+            max_requests = max(max_requests, count)
+
+    return max_requests
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for a Node.
+class Node:
+    def __init__(self, x: int, left: 'Node' = None, right: 'Node.
+
+ref:
+def reconstructMatrix(upper, lower, colsum):
+    result = [[0] * len(colsum) for _ in range(2)]
+    
+    for i in range(len(colsum)):
+        if colsum[i] == 2:
+            result[0][i] = 1
+            result[1][i] = 1
+            upper -= 1
+            lower -= 1
+        elif colsum[i] == 1:
+            if upper > lower:
+                result[0][i] = 1
+                upper -= 1
+            else:
+                result[1][i] = 1
+                lower -= 1
+        
+        if upper < 0 or lower < 0:
+            return []
+    
+    if upper > 0 or lower > 0:
+        return []
+    
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def maxNumberOfApples(self, weight
+
+ref:
+def minHeightShelves(books, shelfWidth):
+    n = len(books)
+    dp = [1000000] * (n + 1)
+    dp[0] = 0
+    
+    for i in range(1, n + 1):
+        width = 0
+        height = 0
+        j = i
+        while j >= 1:
+            width += books[j - 1][0]
+            height = max(height, books[j - 1][1])
+            
+            if width <= shelfWidth:
+                dp[i] = min(dp[i], dp[j - 1] + height)
+            j -= 1
+    
+    return dp[n]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+!the tree structurlsit seems like this problematic void maintavernica
+
+ref:
+def word_pattern(pattern, s):
+    words = s.split()
+    if len(pattern) != len(words):
+        return False
+
+    char_map, word_map = {}, {}
+    for c, word in zip(pattern, words):
+        if c not in char_map and word not in word_map:
+            char_map[c] = word
+            word_map[word] = c
+        else:
+            if char_map.get(c) != word or word_map.get(word) != c:
+                return False
+
+    return True
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:08<00:56,  8.13s/it, est. speed input: 1149.57 toks/s, output: 16.24 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.31it/s, est. speed input: 9092.07 toks/s, output: 67.49 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.04s/it, est. speed input: 9092.07 toks/s, output: 67.49 toks/s]
+ 80%|████████  | 24/30 [03:23<00:51,  8.50s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def minPatches(self, nums: List[int], n: int) -> int:
+        
+        @lru_cache(None)
+        def dp(i, rest):
+            if i == len(nums):
+                return rest == 0
+            
+            ans = float('inf')
+            for j in range(i, len(nums)):
+                if nums[j] <= rest:
+                    ans = min(ans, dp(j+1, rest - nums[j]))
+
+ref:
+def minPatches(nums, n):
+    max_sum = 0
+    patches = 0
+    i = 0
+
+    while max_sum < n:
+        if i < len(nums) and nums[i] <= max_sum + 1:
+            max_sum += nums[i]
+            i += 1
+        else:
+            max_sum += max_sum + 1
+            patches += 1
+
+    return patches
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def divide(self, dividend: int, divisor: int) -> int:
+        
+        INT_MAX, INT_MIN = 2**31 - 1, -2**31
+        if dividend == INT_MIN and divisor == -1: 
+            return INT_MAX
+        
+        a, b, res = abs(dividend), abs(divisor), 0
+        for x in range(31, -1, returning the Python
+
+ref:
+def divide(dividend: int, divisor: int) -> int:
+    if dividend == -(2**31) and divisor == -1:
+        return 2**31 - 1
+
+    sign = -1 if (dividend > 0) ^ (divisor > 0) else 1
+
+    dvd = abs(dividend)
+    dvs = abs(divisor)
+    ans = 0
+
+    while dvd >= dvs:
+        temp = dvs
+        multiple = 1
+        while dvd >= (temp << 1):
+            temp <<= 1
+            multiple <<= 1
+        dvd -= temp
+        ans += multiple
+
+    return ans * sign
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def splitString(self, s: str) -> bool:
+        n = len(s)
+        
+        @lru_cache(None)
+        def dp(i, pre):
+            if i == n:
+                return True
+            
+            res = False
+            for j in range(i+1, n+1):
+                cur = int(s
+
+ref:
+def maxAbsoluteSum(nums):
+    max_sum, min_sum, max_so_far, min_so_far = 0, 0, 0, 0
+    for num in nums:
+        max_so_far = max(num, max_so_far + num)
+        max_sum = max(max_sum, max_so_far)
+
+        min_so_far = min(num, min_so_far + num)
+        min_sum = min(min_sum, min_so_far)
+    return max(max_sum, abs(min_sum))
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        
+        # Add zero to the ends to handle cases where the bars are shorter than others
+        heights = [0] + heights + [0]
+        stack = []
+        res = 0
+        for i in ascending...
+
+ref:
+def largestRectangleArea(heights):
+    stack = []
+    max_area = 0
+    for i, h in enumerate(heights + [0]):
+        while stack and heights[stack[-1]] > h:
+            height = heights[stack.pop()]
+            width = i if not stack else i - stack[-1] - 1
+            max_area = max(max_area, height * width)
+        stack.append(i)
+    return max_area
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import re
+from collections import defaultdict
+
+class Solution:
+    def basicCalculatorIV(self, exp: str, evalvars: list[str], evalints: list[int]) -> list[str]:
+        
+
+ref:
+def minSwapsCouples(row):
+    n = len(row) // 2
+    swaps = 0
+    position = {num: i for i, num in enumerate(row)}
+
+    for i in range(0, len(row), 2):
+        couple = row[i] - 1 if row[i] % 2 else row[i] + 1
+        if row[i + 1] != couple:
+            row[i + 1], row[position[couple]] = row[position[couple]], row[i + 1]
+            position[row[i + 1]], position[couple] = position[couple], i + 1
+            swaps += 1
+
+    return swaps
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+MOD = 10**9+7
+GCD = [[0]*61 for _ in range(61)]
+fac = [0]*6!=
+
+ref:
+def bob_arrows(num_arrows, alice_arrows):
+    bob = [0] * 12
+    for i in range(11, -1, -1):
+        if num_arrows > 0 and alice_arrows[i] == 0:
+            shot = min(num_arrows, i+1)
+            bob[i] = shot
+            num_arrows -= shot
+    return bob
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def bestClosingTime(self, customers the constraint programming problematicode solution ====================================================================
+
+ref:
+def min_penalty(customers: str) -> int:
+    n = len(customers)
+    open_penalty, closed_penalty = 0, 0
+
+    for c in customers:
+        if c == 'N':
+            open_penalty += 1
+        else:
+            closed_penalty += 1
+
+    result = closed_penalty
+    penalty = closed_penalty
+
+    for c in customers:
+        if c == 'N':
+            penalty -= 1
+        else:
+            penalty += 1
+
+        result = min(result, penalty)
+
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+def is_shifted(s, goal):
+    if len(s) != len(goal): return False
+
+    s = s + s
+    return goal in s
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:07<00:50,  7.23s/it, est. speed input: 1296.87 toks/s, output: 11.07 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:08<00:20,  3.50s/it, est. speed input: 2344.23 toks/s, output: 10.11 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:08<00:03,  1.02s/it, est. speed input: 5681.11 toks/s, output: 27.24 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.85it/s, est. speed input: 8954.77 toks/s, output: 66.28 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.06s/it, est. speed input: 8954.77 toks/s, output: 66.28 toks/s]
+ 83%|████████▎ | 25/30 [03:32<00:42,  8.56s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+"""
+This is BinaryMatrix's API interface.
+You should not implement it, or speculate about its implementation
+"""
+# The BinaryMatrix's methods are automatically defined during the call to binarize().
+#     @return an integer: the value of the matrix at the specific index [i, j]
+#     @param i an integer
+#     @param j an integer
+#     @return an integer
+#     def get(self, i: int, j: int) -> int:
+
+class Solution:
+    def findLeftMostColumnWithOne waypoint outsidew
+
+ref:
+def canReach(arr: List[int], start: int) -> bool:
+    if 0 <= start < len(arr) and arr[start] >= 0:
+        if arr[start] == 0:
+            return True
+        
+        jump = arr[start]
+        arr[start] = -arr[start]
+        return canReach(arr, start + jump) or canReach(arr, start - jump)
+    return False
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+MODULUS = 10**9 + 7
+
+class Solution:
+    def getNumberOfBacklogOrders(self, orders: List[List[int]]) -> int:
+        buy, sell = [], []
+        
+        for price, amount, orderType in sorted(orders, key=lambda x:(not x[2], -x[1])):
+            while amount > 0 and sell and sell[0] < price:
+                executed = min(amount, sell points to follow-
+
+ref:
+from heapq import *
+
+def getNumberOfBacklogOrders(orders):
+    buy_orders, sell_orders = [], []
+    num_orders, mod = 0, int(1e9) + 7
+
+    for price, amount, order_type in orders:
+        if order_type == 0: # buy order
+            while amount and sell_orders and sell_orders[0][0] <= price:
+                x = min(amount, sell_orders[0][1])
+                amount, sell_orders[0][1] = amount - x, sell_orders[0][1] - x
+                if sell_orders[0][1] == 0:
+                    heappop(sell_orders)
+            if amount:
+                heappush(buy_orders, (-price, amount))
+        else: # sell order
+            while amount and buy_orders and -buy_orders[0][0] >= price:
+                x = min(amount, buy_orders[0][1])
+                amount, buy_orders[0][1] = amount - x, buy_orders[0][1] - x
+                if buy_orders[0][1] == 0:
+                    heappop(buy_orders)
+            if amount:
+                heappush(sell_orders, (price, amount))
+    
+    while buy_orders:
+        num_orders = (num_orders + heappop(buy_orders)[1]) % mod
+
+    while sell_orders:
+        num_orders = (num_orders + heappop(sell_orders)[1]) % mod
+
+    return num_orders
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def isPrefixOfWord(self, sentence: str, searchWord: str) -> int:
+        sentence = sentence.split(" ")
+        for idx, word in enumerate(sentence):
+            if word.startswith(searchWord):
+                return idx + 1
+        return -1
+```
+
+ref:
+def filter_restaurants(restaurants, vegan_friendly, max_price, max_distance):
+    def custom_compare(a, b):
+        if a[1] == b[1]:
+            return b[0] - a[0]
+        return b[1] - a[1]
+
+    filtered_restaurants = [
+        r for r in restaurants
+        if (vegan_friendly == 0 or r[2] == vegan_friendly) and r[3] <= max_price and r[4] <= max_distance
+    ]
+
+    filtered_restaurants.sort(key=lambda r: (r[1], r[0]), reverse=True)
+
+    return [r[0] for r in filtered_restaurants]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def sortLinkedListByAbsValue(self, head: Optional[...]
+
+ref:
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def sortedList(head):
+    if not head or not head.next:
+        return head
+
+    prev = head
+    cur = head.next
+
+    while cur:
+        if cur.val < prev.val:
+            prev.next = cur.next
+            cur.next = head
+            head = cur
+            cur = prev
+        else:
+            prev = cur
+        cur = cur.next
+    return head
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def rotate(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in place instead.
+        """
+        
+        N = len(matrix is leetrieve the countereally need to maintain ansorted listsample Outputting asteriously, 
+
+ref:
+def rotate(matrix):
+    n = len(matrix)
+    for i in range(n // 2):
+        for j in range(i, n - i - 1):
+            temp = matrix[i][j]
+            matrix[i][j] = matrix[n - j - 1][i]
+            matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1]
+            matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1]
+            matrix[j][n - i - 1] = temp
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#!DOCTYPE html
+
+ref:
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def reorderList(head):
+    if not head or not head.next or not head.next.next:
+        return
+
+    # Find the middle node
+    slow = head
+    fast = head
+    while fast.next and fast.next.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    # Reverse the second half
+    prev = None
+    curr = slow.next
+    while curr:
+        next = curr.next
+        curr.next = prev
+        prev = curr
+        curr = next
+    slow.next = None
+
+    # Merge two halves
+    first = head
+    second = prev
+    while second:
+        next = first.next
+        first.next = second
+        first = second
+        second = next
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def longestPalindromeSubseq(self,
+
+ref:
+def longestPalindromeSubseq(s: str) -> int:
+    n = len(s)
+    dp = [[0] * n for _ in range(n)]
+    
+    for i in range(n - 1, -1, -1):
+        dp[i][i] = 1
+        for j in range(i + 1, n):
+            if s[i] == s[j]:
+                dp[i][j] = 2 + dp[i + 1][j - 1]
+            else:
+                dp[i][j] = max(dp[i + 1][j], dp[i][j - 1])
+                
+    return dp[0][n - 1]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+from collections import defaultdict
+
+def countPairs(deliciousness):
+    MOD = 10**9 + 7
+    hashMap = defaultdict(int)
+    maxVal = max(deliciousness)
+    maxSum = maxVal * 2
+
+    count = 0
+    for val in deliciousness:
+        for sum in (1 << i for i in range(22)):
+            count = (count + hashMap[sum - val]) % MOD
+        hashMap[val] += 1
+
+    return count
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:04<00:31,  4.44s/it, est. speed input: 2105.43 toks/s, output: 16.42 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:07<00:23,  3.85s/it, est. speed input: 2412.81 toks/s, output: 16.51 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:00,  1.27it/s, est. speed input: 8042.73 toks/s, output: 49.33 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.03s/it, est. speed input: 9167.76 toks/s, output: 63.27 toks/s]
+ 87%|████████▋ | 26/30 [03:40<00:34,  8.53s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import sys
+sys.setrecursionlimit(10**7)
+MOD = 10**9+7
+INF = 10**18
+
+def solve(blocks : str, k : int, memo : dict) -> int:
+    # Your implementation here
+    pass
+```
+
+ref:
+def min_operations(blocks, k):
+    n = len(blocks)
+    res = k
+    w = b = 0
+    i = j = 0
+
+    while j < n:
+        if blocks[j] == 'W':
+            w += 1
+        while b > k or (b == k and blocks[i] == 'B'):
+            if blocks[i] == 'W':
+                w -= 1
+                i += 1
+            else:
+                b -= 1
+                i += 1
+        if b == k:
+            res = min(res, w)
+        else:
+            b += 1
+        j += 1
+    
+    return res
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import sys
+from fractions import gcd
+
+class Solution:
+    def mincostToHireWorkers(self, quality, wage, k):
+        workers = sorted([float(w) / q, q] for w, q in zip(wage, quality))
+        
+        res = float('inf')
+        total = 0
+        queue = []
+        
+        for r, q in workers:
+            heapq.heappush(queue, -q)
+           
+
+ref:
+def largeGroupPositions(s: str):
+    result = []
+    start = 0
+    for i in range(1, len(s)):
+        if s[i] != s[start]:
+            if i - start >= 3:
+                result.append([start, i - 1])
+            start = i
+    if len(s) - start >= 3:
+        result.append([start, len(s) - 1])
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+DIRECTIONS = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+INF = float('inf')
+
+class Solution:
+    def shortestDistance(self, grid):
+        if not grid or not grid[0]:
+            return -1
+        
+        m, n = len(grid), lenientitiesample syntax_(_lessonze Exit refers to be aware that meansumpedicted,
+
+ref:
+from collections import deque
+
+def shortestDistance(grid: list[list[int]]) -> int:
+    m, n = len(grid), len(grid[0])
+
+    total_count = [[0] * n for _ in range(m)]
+    dist_sum = [[0] * n for _ in range(m)]
+    house_count = 0
+
+    dirs = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+    for i in range(m):
+        for j in range(n):
+            if grid[i][j] == 1:
+                house_count += 1
+                q = deque([(i, j)])
+                visited = [[False] * n for _ in range(m)]
+                level = 1
+                while q:
+                    for _ in range(len(q)):
+                        x, y = q.popleft()
+                        for dx, dy in dirs:
+                            x_new, y_new = x + dx, y + dy
+                            if 0 <= x_new < m and 0 <= y_new < n and not visited[x_new][y_new] and grid[x_new][y_new] == 0:
+                                visited[x_new][y_new] = True
+                                q.append((x_new, y_new))
+                                dist_sum[x_new][y_new] += level
+                                total_count[x_new][y_new] += 1
+                    level += 1
+
+    min_dist = float("inf")
+    for i in range(m):
+        for j in range(n):
+            if total_count[i][j] == house_count:
+                min_dist = min(min_dist, dist_sum[i][j])
+
+    return -1 if min_dist == float("inf") else min_dist
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        
+        res = []
+        
+        def DFS(queens, xy_diff, xy_sum):
+            p = len(queens)
+            if p == n:
+
+ref:
+def solveNQueens(n):
+    def isSafe(board, row, col):
+        for i in range(col):
+            if board[row][i] == 'Q': return False
+        i, j = row, col
+        while i >= 0 and j >= 0:
+            if board[i][j] == 'Q': return False
+            i, j = i - 1, j - 1
+        i, j = row, col
+        while i < n and j >= 0:
+            if board[i][j] == 'Q': return False
+            i, j = i + 1, j - 1
+        return True
+
+    def solve(result, board, n, col):
+        if col == n:
+            result.append(board.copy())
+            return
+        for row in range(n):
+            if isSafe(board, row, col):
+                board[row] = board[row][:col] + 'Q' + board[row][col + 1:]
+                solve(result, board, n, col + 1)
+                board[row] = board[row][:col] + '.' + board[row][col + 1:]
+
+    result, board = [], ['.' * n for _ in range(n)]
+    solve(result, board, n, 0)
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def countRectangles(self, rectangles: List[List[int]], points: List[List[int]]) -> List[int]:
+        # Sort the rectangles by width in descending order
+
+ref:
+from heapq import heappush, heappop
+
+def kHighestRankedItems(grid, pricing, start, k):
+    m, n = len(grid), len(grid[0])
+    directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+    res = []
+    pq = []
+    visited = [[False for _ in range(n)] for _ in range(m)]
+
+    heappush(pq, (0, -grid[start[0]][start[1]], start[0], start[1]))
+    visited[start[0]][start[1]] = True
+
+    while pq and k > 0:
+        size = len(pq)
+        for _ in range(size):
+            curr = heappop(pq)
+            steps, price, row, col = curr
+
+            if pricing[0] <= -price <= pricing[1]:
+                res.append([row, col])
+                k -= 1
+
+            for dr, dc in directions:
+                newRow, newCol = row + dr, col + dc
+                if 0 <= newRow < m and 0 <= newCol < n and not visited[newRow][newCol]:
+                    visited[newRow][newCol] = True
+                    heappush(pq, (steps + 1, -grid[newRow][newCol], newRow, newCol))
+
+    return res
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import copy
+class Solution:
+    def knightProbability(self, n: int, k: int, row: int, column: int) ->
+
+ref:
+def knightProbability(self, n: int, k: int, row: int, column: int) -> float:
+    memo = [[[-1.0 for _ in range(k + 1)] for _ in range(n)] for _ in range(n)]
+    return self.helper(n, k, row, column, memo)
+
+def helper(self, n, k, row, column, memo):
+    if row < 0 or row >= n or column < 0 or column >= n:
+        return 0.0
+    if k == 0:
+        return 1.0
+    if memo[row][column][k] >= 0:
+        return memo[row][column][k]
+
+    result = 0.0
+    moves = [(-2, -1), (-2, 1), (-1, -2), (-1, 2), (1, -2), (1, 2), (2, -1), (2, 1)]
+    for move in moves:
+        result += self.helper(n, k - 1, row + move[0], column + move[1], memo) / 8
+
+    memo[row][column][k] = result
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    @staticmethod
+    def find_lucky your programmedianformation of course____Example Question is the followupwards, ...
+
+ref:
+def find_lucky(arr):
+    freq = {}
+    for num in arr:
+        freq[num] = freq.get(num, 0) + 1
+    max_lucky = -1
+    for num, count in freq.items():
+        if num == count:
+            max_lucky = max(max_lucky, num)
+    return max_lucky
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def reverse_odd_levels(node, level):
+    if node is None: return
+    if level % 2 == 1:
+        node.left, node.right = node.right, node.left
+    reverse_odd_levels(node.left, level + 1)
+    reverse_odd_levels(node.right, level + 1)
+
+def reverse_odd_level_nodes(root):
+    reverse_odd_levels(root, 0)
+    return root
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:08<00:57,  8.15s/it, est. speed input: 1166.85 toks/s, output: 0.25 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.32it/s, est. speed input: 9140.92 toks/s, output: 66.83 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.03s/it, est. speed input: 9140.92 toks/s, output: 66.83 toks/s]
+ 90%|█████████ | 27/30 [03:49<00:25,  8.52s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class SnapshotArray:
+
+    def __init__(self, length: int):
+        self.snap_id = 0
+        self.data = {i: {self.snap_id: 0} for i in range(length)}
+        
+    def set(self, index: int, val: int) -> None:
+        self.data[index][self.snap_id] = val
+        
+    def snap(self) -> int:
+        self.snap_id += 1
+        return self.snap_id - 1
+        
+    ...
+
+ref:
+def gcd_of_strings(str1: str, str2: str) -> str:
+    if str1 + str2 != str2 + str1:
+        return ''
+    gcd = lambda a, b: a if not b else gcd(b, a % b)
+    return str1[:gcd(len(str1), len(str2))]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import sys
+sys.setrecursionlimit(10000) #setting limit of recursion
+
+def maxScore(scores, edges):
+    G = [[] for _ in range(len(scores))]
+    for u, v in edges:
+        G[u].append(v)
+        G[v].append(u)
+        
+    res = [-1]
+    visited = [False]*len(scores)
+    cache = [''][[...]
+
+ref:
+def maxScore(scores, edges):
+    adj_list = [[] for _ in range(len(scores))]
+    result = -1
+
+    for edge in edges:
+        adj_list[edge[0]].append(edge[1])
+        adj_list[edge[1]].append(edge[0])
+
+    for edge in edges:
+        for neighbor in adj_list[edge[0]]:
+            for next in adj_list[edge[1]]:
+                if next != neighbor and next != edge[0]:
+                    result = max(result, scores[edge[0]] + scores[edge[1]] + scores[neighbor] + scores[next])
+
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def findKthNumber(self, k: int, n: int) -> int:
+        # Helper Function to count how many numbers fit in a certain range
+        def count(mid: int) -> int:
+            cnt, step, pre = 0, 1, 0
+            while pre < mid:
+                tmp, pre = divmod(mid - preorder of Array ```
+
+ref:
+def minWastedSpace(nums, k):
+    n = len(nums)
+    dp = [[float('inf')] * (k + 1) for _ in range(n + 1)]
+    dp[0][0] = 0
+
+    for i in range(1, n + 1):
+        total = 0
+        for j in range(i, 0, -1):
+            total += nums[j - 1]
+            for l in range(k):
+                dp[i][l + 1] = min(dp[i][l + 1], dp[j - 1][l] + (i - j + 1) * nums[j - 1] - total)
+
+    return min(dp[n])
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import math
+
+class Solution:
+    @staticmethod
+    def sumFourDivisors(nums):
+        res = 0
+        for num in nums:
+            count = 0
+            # Count divisors less than sqrt(num)
+            for i in range(1, int(math.sqrt
+
+ref:
+def sum_of_four_divisors(nums):
+    total_sum = 0
+    for num in nums:
+        count = 0
+        div_sum = 0
+        i = 1
+        while i * i <= num:
+            if num % i == 0:
+                count += 1 if i * i == num else 2
+                div_sum += i + (num // i)
+                if count > 4:
+                    break
+            i += 1
+        if count == 4:
+            total_sum += div_sum
+    return total_sum
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def restoreString(self, s: str, indices: List[int]) -> str:
+        arr = list(s)
+        for i, idx in enumerate(indices):
+            arr[idx]
+
+ref:
+from typing import List
+
+def kids_with_candies(candies: List[int], extra_candies: int) -> List[bool]:
+    max_candies = max(candies)
+    result = [candy + extra_candies >= max_candies for candy in candies]
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def cycleLengthQuery(self, n: int, queries: List[List[int]]) -> List[int]:
+        
+
+ref:
+def length_of_cycle(n, queries):
+    result = []
+    for A, B in queries:
+        depth_A, depth_B = 0, 0
+        while A != B:
+            if A < B:
+                A, B = B, A
+            A >>= 1
+            depth_A += 1
+        result.append(depth_A + depth_B)
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    @staticmethod
+    def digitsCount(“
+
+ref:
+def count_digit(d, low, high):
+    count = 0
+    for i in range(low, high + 1):
+        num = i
+        while num > 0:
+            if num % 10 == d:
+                count += 1
+            num //= 10
+    return count
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+class Logger:
+    def __init__(self):
+        self.message_timestamps = {}
+
+    def shouldPrintMessage(self, timestamp: int, message: str) -> bool:
+        if message not in self.message_timestamps or timestamp - self.message_timestamps[message] >= 10:
+            self.message_timestamps[message] = timestamp
+            return True
+        return False
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:08<00:56,  8.06s/it, est. speed input: 1131.08 toks/s, output: 9.42 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:02,  1.02s/it, est. speed input: 6813.80 toks/s, output: 47.74 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.42it/s, est. speed input: 8938.23 toks/s, output: 68.86 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.05s/it, est. speed input: 8938.23 toks/s, output: 68.86 toks/s]
+ 93%|█████████▎| 28/30 [03:57<00:17,  8.55s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import random
+
+class Solution:
+
+    def __init__(self, n: int, blacklist: List[int]):
+        self.n = n
+        self.blacklist = set(blacklist)
+        remaining = [i for i in range(n - len(blacklist), n) if i not in self.blacklist]
+        self.mapping = dict()
+        
+        for bl in blacklist:
+            if bl in self.mapping:
+                self.mapping[bl].append(remaining.pop(random.randint(0, `kmdashoweneratedef
+
+ref:
+import random
+
+class Solution:
+    def __init__(self, n: int, blacklist: List[int]):
+        blacklist.sort()
+        self.mapping = dict()
+        idx = 0
+        for black in blacklist:
+            while idx < black:
+                self.mapping[idx] = n - 1
+                idx += 1
+                n -= 1
+            idx += 1
+            n -= 1
+        self.last = n
+
+    def pick(self) -> int:
+        num = random.randrange(self.last)
+        return self.mapping.get(num, num)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import collections
+
+class Solution:
+    def countPairs(self, n: int, edges: List[List[int]]) -> int:
+        adjacency_list = collections.defaultdict(list)
+        
+        # Build adjacency list
+        for u, v in edges:
+            adjacency_list[u].append(v)
+            adjacency_list[v].append(u)
+            
+        # Compute sizes of connected components of `maximum Summarried outline ​
+
+ref:
+def count_hills_valleys(nums):
+    count = 0
+    for i in range(1, len(nums) - 1):
+        if (nums[i] > nums[i - 1] and nums[i] > nums[i + 1]) or (nums[i] < nums[i - 1] and nums[i] < nums[i + 1]):
+            count += 1
+    return count
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def maxTurbulenceSize(self, arr: List[int]) -> int:
+        n = len(arr)
+        
+        inc, dec = [1]*n, [1]*n
+        max_inc, max_dec = [1]*n, [1]*n
+        
+        for i in range(1, n):
+           
+
+ref:
+def valid_mountain_array(arr):
+    n, i, j = len(arr), 0, len(arr) - 1
+    while i + 1 < n and arr[i] < arr[i + 1]:
+        i += 1
+    while j > 0 and arr[j - 1] > arr[j]:
+        j -= 1
+    return i > 0 and i == j and j < n - 1
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def binaryTreePaths(self, root):
+        """
+
+ref:
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def binary_tree_paths(root: TreeNode):
+    if not root:
+        return []
+    if not root.left and not root.right:
+        return [str(root.val)]
+    paths = []
+    for path in binary_tree_paths(root.left):
+        paths.append(str(root.val) + "->" + path)
+    for path in binary_tree_paths(root.right):
+        paths.append(str(root.val) + "->" + path)
+    return paths
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class Solution:
+    def minCostConnectPoints(self, points):
+        n = len(points)
+        graph = [[] for _ in range(n)]
+        
+        for i in range(n):
+
+ref:
+def average(salary):
+    min_salary = min(salary)
+    max_salary = max(salary)
+    sum_salaries = sum(salary)
+    sum_salaries -= (min_salary + max_salary)
+    return sum_salaries / (len(salary) - 2)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def maxLength(self, s: str, t: str, maxCost: int) -> int:
+        s_set your task hereafter performing prefixSummarried outlinearly implement antsuoceanldef
+
+ref:
+def split_string(seq: str):
+    result = [0] * len(seq)
+    count = 0
+
+    for i in range(len(seq)):
+        if seq[i] == '(':
+            result[i] = count % 2
+            count += 1
+        else:
+            count -= 1
+            result[i] = count % 2
+
+    return result
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class RecentCounter:
+
+    def __init__(self):
+       
+
+ref:
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def increasingBST(root):
+    def inorder(node):
+        nonlocal prev
+        if not node: return
+
+        inorder(node.left)
+        prev.right = node
+        prev = node
+        node.left = None
+        inorder(node.right)
+
+    dummy = TreeNode(0)
+    prev = dummy
+    inorder(root)
+    return dummy.right
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+from typing import List
+
+def checkStraightLine(coordinates: List[List[int]]) -> bool:
+    dx = coordinates[1][0] - coordinates[0][0]
+    dy = coordinates[1][1] - coordinates[0][1]
+
+    for x, y in coordinates[2:]:
+        if dx * (y - coordinates[0][1]) != dy * (x - coordinates[0][0]):
+            return False
+
+    return True
+
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:07<00:50,  7.23s/it, est. speed input: 1301.79 toks/s, output: 5.81 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:08<00:21,  3.57s/it, est. speed input: 2302.88 toks/s, output: 5.34 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:08<00:09,  1.99s/it, est. speed input: 3408.14 toks/s, output: 21.45 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:00,  1.72it/s, est. speed input: 7787.14 toks/s, output: 51.69 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.07s/it, est. speed input: 8841.55 toks/s, output: 66.61 toks/s]
+ 97%|█████████▋| 29/30 [04:06<00:08,  8.62s/it]*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import heapq
+
+class Solution:
+    def minTime(self, hens: List[int], grains: List[int]) -> int:
+        # Use heapq to maintain a priority queue sorted by the negative of the value
+        heap = [-g for g in grains]
+        heapq.heapify(heap)
+        
+        count = 0
+        while True:
+            highest = heapq.heappop(heap)
+            
+            if highest < 0:
+                break
+                
+            count += 1
+            
+            remaining = - Input:
+
+ref:
+def min_time_to_eat_grains(hens, grains):
+    hens.sort()
+    grains.sort()
+    left, right = 0, 10**9
+
+    while left < right:
+        mid = left + (right - left) // 2
+        can_eat = True
+        i = 0
+
+        for grain in grains:
+            if i >= len(hens):
+                can_eat = False
+                break
+
+            while i < len(hens) and hens[i] < grain - mid:
+                i += 1
+
+            if i >= len(hens) or hens[i] > grain + mid:
+                can_eat = False
+                break
+
+            i += 1
+
+        if can_eat:
+            right = mid
+        else:
+            left = mid + 1
+
+    return left
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def minStartValue(self, nums: List[int]) -> int:
+        accumulate_sum = 0
+        min_value = 0
+        
+        for num in nums:
+            accumulate_sum += num
+            
+            if accumulate_sum < 1:
+                diff = 1 - accumulate_sum
+                min_value += diff
+                accumulate_sum += diff
+                
+        return min_value
+```
+This Python class implements the rest, hereafter computing thekeptime they meet in the highest
+
+ref:
+def maxSideLength(mat, threshold):
+    m, n = len(mat), len(mat[0])
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    ans = 0
+
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            dp[i][j] = mat[i - 1][j - 1] + dp[i][j - 1] + dp[i - 1][j] - dp[i - 1][j - 1]
+            k = ans + 1
+            if i >= k and j >= k and dp[i][j] - dp[i][j - k] - dp[i - k][j] + dp[i - k][j - k] <= threshold:
+                ans += 1
+
+    return ans
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def pushBox(self, grid: List[List[str]]) -> int:
+        directions = [(0, 1), (0, -1), (-1, 0), (1, 0)] # Right, Left, Up, Down
+        self.m, self.n = len(grid), len(grid[0])
+        self.box_pos, returning the problematicatedef
+
+ref:
+def numRollsToTarget(n, k, target):
+    MOD = 10**9 + 7
+    dp = [[0] * (target + 1) for _ in range(n + 1)]
+    dp[0][0] = 1
+    
+    for i in range(1, n + 1):
+        for j in range(1, target + 1):
+            for l in range(1, k + 1):
+                if j >= l:
+                    dp[i][j] = (dp[i][j] + dp[i - 1][j - l]) % MOD
+    return dp[n][target]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import random
+
+class Solution:
+
+    def __init__(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: None
+        """
+        self.nums = nums
+
+    def pick(self, target):
+        """
+        :type targetSummarried outline.
+
+ref:
+import random
+
+class Solution:
+
+    def __init__(self, nums):
+        self.nums = nums
+
+    def pick(self, target):
+        count, res = 0, 0
+        for i, num in enumerate(self.nums):
+            if num == target:
+                count += 1
+                if random.randint(0, count - 1) == 0:
+                    res = i
+        return res
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def longestPalindrome(self, word1: str, word2: str) -> int:
+        # Your implementation here
+```
+
+ref:
+def maxProfit(inventory, orders):
+    mod = 10**9 + 7
+    inventory.sort(reverse=True)
+    inventory.append(0)
+    n, ans, count = len(inventory), 0, 1
+    for i in range(n - 1):
+        diff = inventory[i] - inventory[i + 1]
+        if count * diff < orders:
+            orders -= count * diff
+            ans = (ans + (((inventory[i] + inventory[i + 1] + 1) * diff) // 2) % mod * count) % mod
+        else:
+            q, r = divmod(orders, count)
+            ans = (ans + (((inventory[i] + inventory[i] - q + 1) * q) // 2) % mod * count) % mod
+            ans = (ans + r * (inventory[i] - q)) % mod
+            break
+        count += 1
+    return ans
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def largestOverlap(self, A: List[List[int]]) -> int:
+        
+        # Transform the entire problematicatedictoryearliest Array ```
+
+ref:
+def flipAndInvertImage(image):
+    for row in image:
+        row.reverse()
+        for j in range(len(row)):
+            row[j] = 1 - row[j]
+    return image
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for a Ship object.
+# class Ship:
+#!DOCTYPE html
+
+ref:
+from datetime import datetime
+
+def countDaysBetweenDates(date1, date2):
+    d1 = datetime.strptime(date1, "%Y-%m-%d")
+    d2 = datetime.strptime(date2, "%Y-%m-%d")
+    return abs((d2 - d1).days)
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+def findMinArrowShots(points):
+    if not points:
+        return 0
+    points.sort(key=lambda x: x[1])
+
+    arrows = 1
+    end = points[0][1]
+
+    for i in range(1, len(points)):
+        if points[i][0] > end:
+            arrows += 1
+            end = points[i][1]
+
+    return arrows
+
+
+Processed prompts:   0%|          | 0/4 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  25%|██▌       | 1/4 [00:03<00:10,  3.52s/it, est. speed input: 2830.19 toks/s, output: 0.57 toks/s][AProcessed prompts: 100%|██████████| 4/4 [00:03<00:00,  1.11it/s, est. speed input: 10552.20 toks/s, output: 36.70 toks/s]
+100%|██████████| 30/30 [04:10<00:00,  7.15s/it]100%|██████████| 30/30 [04:10<00:00,  8.34s/it]
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+import itertools
+
+class Solution:
+    def latestTimeToBuy(self, arr: List[int], k: int) -> str:
+        
+        # convert numbers to strings
+        arr = [str(i) for i...
+
+ref:
+from collections import deque
+
+def catMouseGame(graph):
+    n = len(graph)
+    status = [[[0]*3 for _ in range(n)] for _ in range(n)]
+
+    for i in range(1, n):
+        status[i][i][1] = 2
+        status[i][i][2] = 2
+    queue = deque([(i, i, t, 2) for i in range(1, n) for t in (1, 2)])
+
+    while queue:
+        pos_m, pos_c, t_type, t_result = queue.popleft()
+
+        for prev in graph[pos_m if t_type == 1 else pos_c]:
+            if (t_type == 2 and prev == 0) or (t_result == 2 and status[prev][pos_c][3 - t_type]):
+                continue
+            if status[prev][pos_c][3 - t_type]:
+                continue
+            queue.append((pos_c, prev, 3 - t_type, 3 - t_result))
+            status[prev][pos_c][3 - t_type] = 3 - t_result
+
+    return status[1][2][1]
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+# Code solution ======
+
+ref:
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def insertIntoBST(root, val):
+    if root is None:
+        return TreeNode(val)
+
+    if val < root.val:
+        root.left = insertIntoBST(root.left, val)
+    else:
+        root.right = insertIntoBST(root.right, val)
+
+    return root
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+```python
+class Solution:
+    def isStrictlyPalindromic(self.
+
+ref:
+def is_palindrome(s: str) -> bool:
+    return s == s[::-1]
+
+def to_base_str(n: int, base: int) -> str:
+    s = []
+    while n > 0:
+        s.append(str(n % base))
+        n //= base
+    return "".join(reversed(s))
+
+def is_strictly_palindromic(n: int) -> bool:
+    for b in range(2, n - 1):
+        if not is_palindrome(to_base_str(n, b)):
+            return False
+    return True
+
+*****EXAMPLE*****
+
+
+
+generated:
+
+
+ref:
+class Solution:
+    def __init__(self):
+        self.buffer_index = 0
+        self.buffer_len = 0
+        self.buf4 = [None] * 4
+
+    def read(self, buf, n):
+        cnt = 0
+        while cnt < n:
+            if self.buffer_index == self.buffer_len:
+                self.buffer_len = self.read4(self.buf4)
+                self.buffer_index = 0
+            if self.buffer_len == 0:
+                break
+            while cnt < n and self.buffer_index < self.buffer_len:
+                buf[cnt] = self.buf4[self.buffer_index]
+                cnt += 1
+                self.buffer_index += 1
+        return cnt
+
+    def read4(self, buf4):
+        return 0
+
+deepseek-ai/deepseek-coder-1.3b-instruct on ArtificialZeng/leetcode_code_generation-python achieves scores: 
+{'codebleu': 0.07340528316179015, 'ngram_match_score': 0.022718187769511435, 'weighted_ngram_match_score': 0.03601860230128292, 'syntax_match_score': 0.10503934958899934, 'dataflow_match_score': 0.12984499298736696}
+Inf Job Ends
