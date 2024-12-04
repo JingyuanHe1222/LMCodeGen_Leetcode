@@ -1,0 +1,35 @@
+Inf Job Starts
+INFO 12-04 21:01:25 llm_engine.py:74] Initializing an LLM engine (v0.4.0.post1) with config: model='Qwen/Qwen2.5-Coder-1.5B-Instruct', tokenizer='Qwen/Qwen2.5-Coder-1.5B-Instruct', tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=auto, tensor_parallel_size=1, disable_custom_all_reduce=True, quantization=None, enforce_eager=False, kv_cache_dtype=auto, device_config=cuda, seed=0)
+INFO 12-04 21:01:26 selector.py:51] Cannot use FlashAttention because the package is not found. Please install it for better performance.
+INFO 12-04 21:01:26 selector.py:25] Using XFormers backend.
+Traceback (most recent call last):
+  File "/home/ubuntu/LMCodeGen_Leetcode/inf.py", line 163, in <module>
+    main()
+  File "/home/ubuntu/LMCodeGen_Leetcode/inf.py", line 114, in main
+    llm = LLM(args.model_path,trust_remote_code=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniconda3/envs/lmcodegen/lib/python3.11/site-packages/vllm/entrypoints/llm.py", line 112, in __init__
+    self.llm_engine = LLMEngine.from_engine_args(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniconda3/envs/lmcodegen/lib/python3.11/site-packages/vllm/engine/llm_engine.py", line 196, in from_engine_args
+    engine = cls(
+             ^^^^
+  File "/home/ubuntu/miniconda3/envs/lmcodegen/lib/python3.11/site-packages/vllm/engine/llm_engine.py", line 110, in __init__
+    self.model_executor = executor_class(model_config, cache_config,
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniconda3/envs/lmcodegen/lib/python3.11/site-packages/vllm/executor/gpu_executor.py", line 37, in __init__
+    self._init_worker()
+  File "/home/ubuntu/miniconda3/envs/lmcodegen/lib/python3.11/site-packages/vllm/executor/gpu_executor.py", line 65, in _init_worker
+    self.driver_worker.init_device()
+  File "/home/ubuntu/miniconda3/envs/lmcodegen/lib/python3.11/site-packages/vllm/worker/worker.py", line 100, in init_device
+    init_distributed_environment(self.parallel_config, self.rank,
+  File "/home/ubuntu/miniconda3/envs/lmcodegen/lib/python3.11/site-packages/vllm/worker/worker.py", line 295, in init_distributed_environment
+    torch.distributed.all_reduce(torch.zeros(1).cuda())
+  File "/home/ubuntu/miniconda3/envs/lmcodegen/lib/python3.11/site-packages/torch/distributed/c10d_logger.py", line 47, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniconda3/envs/lmcodegen/lib/python3.11/site-packages/torch/distributed/distributed_c10d.py", line 2050, in all_reduce
+    work = group.allreduce([tensor], opts)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Inf Job Ends
