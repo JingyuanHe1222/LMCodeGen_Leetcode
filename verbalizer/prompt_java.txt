@@ -1,0 +1,3 @@
+generate java code for the following leetcode question: {question}
+only provide java code 
+Here is the solution class:

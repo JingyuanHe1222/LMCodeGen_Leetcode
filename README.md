@@ -55,6 +55,11 @@ Model                              | Verbalizer                    | shots     |
 
 
 #### ***Java***
+Model                              | Verbalizer                    | shots     | codebleu          | ngram_match_score   | weighted_ngram_match_score | syntax_match_score  | dataflow_match_score 
+| -------------------------------- | -------------               | --------- | ---------------   | -----------------   | -------------------------- | -----------------   | -----------------    |
+| Qwen/Qwen2.5-Coder-1.5B-Instruct | verbalizer/prompt_java.txt | 0         | 0.31126644488734523| 0.04600979600158717| 0.20646619172882125         | 0.4889758044400094| 0.5036139873789632
+| Qwen/Qwen2.5-Coder-1.5B-Instruct | templates/prompt_java.txt | 2         | 0.31523915400567293| 0.05314839370513022| 0.23115396342573552         | 0.4895273382514287| 0.4871269206403976
+| Qwen/Qwen2.5-Coder-1.5B-Instruct | templates/prompt_java.txt | 4         | 0.31768086168240145| 0.05198436610105995| 0.2300794808788181         | 0.4905334166646837| 0.4981261830850442
 
 Model                              | Verbalizer                    | shots     | codebleu          | ngram_match_score   | weighted_ngram_match_score | syntax_match_score  | dataflow_match_score 
 | -------------------------------- | -------------               | --------- | ---------------   | -----------------   | -------------------------- | -----------------   | -----------------    |
