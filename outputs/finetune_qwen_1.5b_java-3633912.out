@@ -1,0 +1,781 @@
+[2024-12-02 22:47:34,225] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+Warning: The cache directory for DeepSpeed Triton autotune, /data/user_data/jingyuah/hub, appears to be on an NFS system. While this is generally acceptable, if you experience slowdowns or hanging when DeepSpeed exits, it is recommended to set the TRITON_CACHE_DIR environment variable to a non-NFS path.
+[2024-12-02 22:47:43,688] [WARNING] [runner.py:215:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+Detected VISIBLE_DEVICES=0: setting --include=localhost:0
+[2024-12-02 22:47:43,688] [INFO] [runner.py:607:main] cmd = /home/jingyuah/miniconda3/envs/pyserini/bin/python -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMF19 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None finetune.py --model_name_or_path Qwen/Qwen2.5-Coder-1.5B-Instruct --data_path ArtificialZeng/leetcode_code_generation --lang java --output_dir /data/user_data/jingyuah/models/qwen_1.5b_finetuned_java --num_train_epochs 5 --model_max_length 1024 --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --gradient_accumulation_steps 1 --gradient_checkpointing True --evaluation_strategy steps --save_strategy steps --save_steps 100 --eval_steps 100 --save_total_limit 2 --load_best_model_at_end True --metric_for_best_model eval_loss --lr_scheduler_type cosine --learning_rate 1e-6 --warmup_steps 1 --logging_steps 5 --report_to wandb --deepspeed configs/ds_config_zero3_new.json --bf16 True
+[2024-12-02 22:47:45,371] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+Warning: The cache directory for DeepSpeed Triton autotune, /data/user_data/jingyuah/hub, appears to be on an NFS system. While this is generally acceptable, if you experience slowdowns or hanging when DeepSpeed exits, it is recommended to set the TRITON_CACHE_DIR environment variable to a non-NFS path.
+[2024-12-02 22:47:47,907] [INFO] [launch.py:146:main] WORLD INFO DICT: {'localhost': [0]}
+[2024-12-02 22:47:47,907] [INFO] [launch.py:152:main] nnodes=1, num_local_procs=1, node_rank=0
+[2024-12-02 22:47:47,907] [INFO] [launch.py:163:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0]})
+[2024-12-02 22:47:47,907] [INFO] [launch.py:164:main] dist_world_size=1
+[2024-12-02 22:47:47,907] [INFO] [launch.py:168:main] Setting CUDA_VISIBLE_DEVICES=0
+[2024-12-02 22:47:47,908] [INFO] [launch.py:256:main] process 229172 spawned with command: ['/home/jingyuah/miniconda3/envs/pyserini/bin/python', '-u', 'finetune.py', '--local_rank=0', '--model_name_or_path', 'Qwen/Qwen2.5-Coder-1.5B-Instruct', '--data_path', 'ArtificialZeng/leetcode_code_generation', '--lang', 'java', '--output_dir', '/data/user_data/jingyuah/models/qwen_1.5b_finetuned_java', '--num_train_epochs', '5', '--model_max_length', '1024', '--per_device_train_batch_size', '8', '--per_device_eval_batch_size', '8', '--gradient_accumulation_steps', '1', '--gradient_checkpointing', 'True', '--evaluation_strategy', 'steps', '--save_strategy', 'steps', '--save_steps', '100', '--eval_steps', '100', '--save_total_limit', '2', '--load_best_model_at_end', 'True', '--metric_for_best_model', 'eval_loss', '--lr_scheduler_type', 'cosine', '--learning_rate', '1e-6', '--warmup_steps', '1', '--logging_steps', '5', '--report_to', 'wandb', '--deepspeed', 'configs/ds_config_zero3_new.json', '--bf16', 'True']
+[2024-12-02 22:47:51,598] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+Warning: The cache directory for DeepSpeed Triton autotune, /data/user_data/jingyuah/hub, appears to be on an NFS system. While this is generally acceptable, if you experience slowdowns or hanging when DeepSpeed exits, it is recommended to set the TRITON_CACHE_DIR environment variable to a non-NFS path.
+[2024-12-02 22:47:53,167] [INFO] [comm.py:652:init_distributed] cdb=None
+[2024-12-02 22:47:53,167] [INFO] [comm.py:683:init_distributed] Initializing TorchBackend in DeepSpeed with backend nccl
+training for language: java
+====================================================================================================
+TrainingArguments(
+_n_gpu=1,
+accelerator_config={'split_batches': False, 'dispatch_batches': None, 'even_batches': True, 'use_seedable_sampler': True, 'non_blocking': False, 'gradient_accumulation_kwargs': None, 'use_configured_state': False},
+adafactor=False,
+adam_beta1=0.9,
+adam_beta2=0.999,
+adam_epsilon=1e-08,
+auto_find_batch_size=False,
+average_tokens_across_devices=False,
+batch_eval_metrics=False,
+bf16=True,
+bf16_full_eval=False,
+cache_dir=None,
+data_seed=None,
+dataloader_drop_last=False,
+dataloader_num_workers=0,
+dataloader_persistent_workers=False,
+dataloader_pin_memory=True,
+dataloader_prefetch_factor=None,
+ddp_backend=None,
+ddp_broadcast_buffers=None,
+ddp_bucket_cap_mb=None,
+ddp_find_unused_parameters=None,
+ddp_timeout=1800,
+debug=[],
+deepspeed=configs/ds_config_zero3_new.json,
+disable_tqdm=False,
+dispatch_batches=None,
+do_eval=True,
+do_predict=False,
+do_train=False,
+eval_accumulation_steps=None,
+eval_delay=0,
+eval_do_concat_batches=True,
+eval_on_start=False,
+eval_steps=100,
+eval_strategy=steps,
+eval_use_gather_object=False,
+evaluation_strategy=steps,
+fp16=False,
+fp16_backend=auto,
+fp16_full_eval=False,
+fp16_opt_level=O1,
+freeze=False,
+fsdp=[],
+fsdp_config={'min_num_params': 0, 'xla': False, 'xla_fsdp_v2': False, 'xla_fsdp_grad_ckpt': False},
+fsdp_min_num_params=0,
+fsdp_transformer_layer_cls_to_wrap=None,
+full_determinism=False,
+gradient_accumulation_steps=1,
+gradient_checkpointing=True,
+gradient_checkpointing_kwargs=None,
+greater_is_better=False,
+group_by_length=False,
+half_precision_backend=auto,
+hub_always_push=False,
+hub_model_id=None,
+hub_private_repo=False,
+hub_strategy=every_save,
+hub_token=<HUB_TOKEN>,
+ignore_data_skip=False,
+include_for_metrics=[],
+include_inputs_for_metrics=False,
+include_num_input_tokens_seen=False,
+include_tokens_per_second=False,
+jit_mode_eval=False,
+label_names=None,
+label_smoothing_factor=0.0,
+learning_rate=1e-06,
+length_column_name=length,
+load_best_model_at_end=True,
+local_rank=0,
+log_level=passive,
+log_level_replica=warning,
+log_on_each_node=True,
+logging_dir=/data/user_data/jingyuah/models/qwen_1.5b_finetuned_java/runs/Dec02_22-47-51_babel-7-17,
+logging_first_step=False,
+logging_nan_inf_filter=True,
+logging_steps=5,
+logging_strategy=steps,
+lr_scheduler_kwargs={},
+lr_scheduler_type=cosine,
+max_grad_norm=1.0,
+max_steps=-1,
+metric_for_best_model=eval_loss,
+model_max_length=1024,
+mp_parameters=,
+neftune_noise_alpha=None,
+no_cuda=False,
+num_train_epochs=5.0,
+optim=adamw_torch,
+optim_args=None,
+optim_target_modules=None,
+output_dir=/data/user_data/jingyuah/models/qwen_1.5b_finetuned_java,
+overwrite_output_dir=False,
+past_index=-1,
+per_device_eval_batch_size=8,
+per_device_train_batch_size=8,
+prediction_loss_only=False,
+push_to_hub=False,
+push_to_hub_model_id=None,
+push_to_hub_organization=None,
+push_to_hub_token=<PUSH_TO_HUB_TOKEN>,
+ray_scope=last,
+remove_unused_columns=True,
+report_to=['wandb'],
+restore_callback_states_from_checkpoint=False,
+resume_from_checkpoint=None,
+run_name=/data/user_data/jingyuah/models/qwen_1.5b_finetuned_java,
+save_on_each_node=False,
+save_only_model=False,
+save_safetensors=True,
+save_steps=100,
+save_strategy=steps,
+save_total_limit=2,
+seed=42,
+skip_memory_metrics=True,
+split_batches=None,
+tf32=None,
+torch_compile=False,
+torch_compile_backend=None,
+torch_compile_mode=None,
+torch_empty_cache_steps=None,
+torchdynamo=None,
+tpu_metrics_debug=False,
+tpu_num_cores=None,
+use_cpu=False,
+use_ipex=False,
+use_legacy_prediction_loop=False,
+use_liger_kernel=False,
+use_mps_device=False,
+warmup_ratio=0.0,
+warmup_steps=1,
+weight_decay=0.0,
+)
+PAD Token: <|endoftext|> 151643
+BOS Token None None
+EOS Token <|im_end|> 151645
+Load tokenizer from Qwen/Qwen2.5-Coder-1.5B-Instruct over.
+[2024-12-02 22:48:29,455] [INFO] [config.py:733:__init__] Config mesh_device None world_size = 1
+[2024-12-02 22:48:32,786] [INFO] [partition_parameters.py:348:__exit__] finished initializing model - num_params = 339, num_elems = 1.78B
+Load model from Qwen/Qwen2.5-Coder-1.5B-Instruct over.
+Numer of samples in train set: 1888
+Sample 707 of the train set: [2610, 525, 458, 15235, 15473, 17847, 11, 34888, 279, 18183, 39350, 356, 4316, 1614, 11, 7881, 553, 18183, 39350, 8188, 11, 323, 498, 1172, 4226, 4755, 5435, 311, 6366, 8038, 13, 1752, 30105, 16216, 4755, 11, 4763, 323, 12345, 4714, 11, 323, 1008, 2477, 11476, 11281, 8038, 4755, 11, 498, 686, 25066, 311, 4226, 624, 14374, 29051, 510, 2610, 525, 2661, 1378, 25780, 1565, 76, 63, 323, 1565, 77, 63, 14064, 264, 3070, 15, 21492, 291, 334, 1565, 76, 856, 308, 63, 5827, 13, 1446, 525, 1083, 2661, 1378, 220, 17, 35, 7546, 18386, 1565, 78738, 63, 323, 1565, 86296, 63, 1380, 1565, 78738, 989, 60, 284, 508, 651, 72, 11, 73010, 60, 63, 323, 1565, 86296, 3809, 60, 284, 508, 651, 73, 11, 1375, 73, 60, 63, 4009, 279, 9892, 315, 279, 1565, 410, 63, 7616, 323, 1565, 73, 339, 63, 7002, 15576, 382, 32, 7616, 646, 1490, 3070, 29015, 334, 2779, 304, 279, 3040, 55880, 17961, 320, 61895, 11, 10984, 11, 9806, 11, 476, 9710, 8, 5916, 504, 862, 2309, 7241, 3070, 674, 1235, 291, 334, 553, 264, 7002, 476, 2441, 7616, 13, 362, 2779, 374, 3070, 96303, 334, 421, 1052, 374, 3070, 266, 3245, 334, 825, 7616, 429, 646, 1490, 432, 382, 5598, 716, 1782, 1372, 315, 650, 40356, 7761, 429, 525, 3070, 1921, 334, 3070, 96303, 334, 34773, 334, 13314, 220, 16, 25, 56177, 334, 2505, 66963, 296, 284, 220, 19, 11, 308, 284, 220, 21, 11, 26178, 284, 1124, 26056, 58, 15, 11, 15, 59, 1125, 78045, 16, 11, 16, 59, 1125, 78045, 17, 11, 18, 59, 17960, 1125, 14285, 284, 1124, 26056, 58, 15, 11, 16, 59, 1125, 78045, 17, 11, 17, 59, 1125, 78045, 16, 11, 19, 59, 17960, 921, 334, 5097, 66963, 220, 22, 198, 334, 69769, 66963, 576, 63163, 323, 650, 96303, 7761, 525, 6839, 304, 2518, 323, 6176, 15576, 304, 279, 3403, 13549, 624, 3862, 525, 264, 2790, 315, 220, 22, 650, 96303, 7761, 11, 773, 582, 470, 220, 22, 382, 334, 13314, 220, 17, 25, 56177, 334, 2505, 66963, 296, 284, 220, 18, 11, 308, 284, 220, 18, 11, 26178, 284, 1124, 26056, 58, 16, 11, 16, 59, 17960, 1125, 14285, 284, 1124, 26056, 58, 15, 11, 16, 59, 1125, 78045, 16, 11, 15, 59, 1125, 78045, 17, 11, 16, 59, 1125, 78045, 16, 11, 17, 59, 17960, 921, 334, 5097, 66963, 220, 19, 198, 334, 69769, 66963, 576, 650, 96303, 7761, 525, 6839, 304, 6176, 304, 279, 3403, 13549, 624, 3862, 525, 264, 2790, 315, 220, 19, 650, 96303, 7761, 11, 773, 582, 470, 220, 19, 382, 334, 12925, 25, 56177, 9, 256, 1565, 16, 2651, 296, 11, 308, 2651, 220, 16, 15, 20, 3989, 9, 256, 1565, 17, 2651, 296, 353, 308, 2651, 220, 16, 15, 20, 3989, 9, 256, 1565, 16, 2651, 26178, 1954, 11, 14285, 1954, 2651, 220, 20, 353, 220, 16, 15, 19, 3989, 9, 256, 1565, 17, 2651, 26178, 1954, 488, 14285, 1954, 2651, 296, 353, 308, 3989, 9, 256, 1565, 78738, 989, 936, 4129, 621, 14285, 3809, 936, 4129, 621, 220, 17, 3989, 9, 256, 1565, 15, 2651, 2802, 72, 11, 2802, 73, 366, 296, 3989, 9, 256, 1565, 15, 2651, 73010, 11, 1375, 73, 366, 308, 3989, 9, 256, 2009, 279, 9892, 304, 1565, 78738, 63, 323, 1565, 86296, 63, 525, 3070, 9587, 334, 624, 14374, 5949, 1447, 262, 54275, 10042, 198, 474, 1642, 1971, 19513, 888, 526, 29658, 95449, 17765, 10159, 1548, 1294, 6008, 1462, 11, 526, 1294, 3063, 1462, 8, 341, 262, 4440, 1294, 51454, 1462, 284, 501, 4440, 58, 20827, 1462, 1954, 935, 262, 369, 320, 396, 600, 284, 220, 15, 26, 600, 366, 6008, 1462, 1954, 26, 600, 2457, 341, 286, 51454, 1462, 989, 60, 284, 6008, 1462, 989, 60, 488, 3063, 1462, 989, 935, 262, 456, 262, 22966, 10614, 1883, 18474, 1462, 317, 262, 526, 29658, 10159, 284, 220, 15, 280, 262, 369, 320, 396, 600, 284, 220, 15, 26, 600, 366, 51454, 1462, 1954, 26, 600, 2457, 341, 286, 29658, 10159, 284, 4149, 6678, 7, 682, 23138, 10159, 11, 51454, 1462, 989, 2558, 286, 29658, 10159, 3507, 262, 456, 262, 470, 29658, 10159, 280, 532, 13874, 3989, 1066, 262, 576, 12111, 57203, 279, 51454, 882, 315, 1817, 22351, 553, 7842, 1181, 19511, 6008, 323, 3063, 3039, 13, 1084, 10533, 1493, 51454, 3039, 304, 458, 1334, 2598, 1565, 65, 18474, 1462, 62338, 5847, 11, 432, 20853, 279, 1565, 65, 18474, 1462, 63, 1334, 304, 35388, 1973, 382, 785, 12111, 1221, 5780, 1526, 279, 10615, 1565, 65, 18474, 1462, 63, 1334, 323, 13719, 279, 7192, 897, 1948, 279, 1482, 1565, 682, 23138, 10159, 63, 323, 1565, 65, 18474, 1462, 989, 60, 28587, 576, 3890, 1565, 682, 23138, 10159, 63, 374, 87819, 518, 1817, 3019, 311, 2692, 369, 47014, 264, 501, 10320, 1817, 1899, 13, 17375, 11, 432, 4675, 279, 29658, 3204, 1899, 1380, 678, 19056, 525, 14211, 17765, 4192, 1066, 27, 91, 36, 1793, 91, 29], [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, 262, 54275, 10042, 198, 474, 1642, 1971, 19513, 888, 526, 29658, 95449, 17765, 10159, 1548, 1294, 6008, 1462, 11, 526, 1294, 3063, 1462, 8, 341, 262, 4440, 1294, 51454, 1462, 284, 501, 4440, 58, 20827, 1462, 1954, 935, 262, 369, 320, 396, 600, 284, 220, 15, 26, 600, 366, 6008, 1462, 1954, 26, 600, 2457, 341, 286, 51454, 1462, 989, 60, 284, 6008, 1462, 989, 60, 488, 3063, 1462, 989, 935, 262, 456, 262, 22966, 10614, 1883, 18474, 1462, 317, 262, 526, 29658, 10159, 284, 220, 15, 280, 262, 369, 320, 396, 600, 284, 220, 15, 26, 600, 366, 51454, 1462, 1954, 26, 600, 2457, 341, 286, 29658, 10159, 284, 4149, 6678, 7, 682, 23138, 10159, 11, 51454, 1462, 989, 2558, 286, 29658, 10159, 3507, 262, 456, 262, 470, 29658, 10159, 280, 532, 13874, 3989, 1066, 262, 576, 12111, 57203, 279, 51454, 882, 315, 1817, 22351, 553, 7842, 1181, 19511, 6008, 323, 3063, 3039, 13, 1084, 10533, 1493, 51454, 3039, 304, 458, 1334, 2598, 1565, 65, 18474, 1462, 62338, 5847, 11, 432, 20853, 279, 1565, 65, 18474, 1462, 63, 1334, 304, 35388, 1973, 382, 785, 12111, 1221, 5780, 1526, 279, 10615, 1565, 65, 18474, 1462, 63, 1334, 323, 13719, 279, 7192, 897, 1948, 279, 1482, 1565, 682, 23138, 10159, 63, 323, 1565, 65, 18474, 1462, 989, 60, 28587, 576, 3890, 1565, 682, 23138, 10159, 63, 374, 87819, 518, 1817, 3019, 311, 2692, 369, 47014, 264, 501, 10320, 1817, 1899, 13, 17375, 11, 432, 4675, 279, 29658, 3204, 1899, 1380, 678, 19056, 525, 14211, 17765, 4192, 1066, 27, 91, 36, 1793, 91, 29].
+Sample 707 of the train set: You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+You are given two integers `m` and `n` representing a **0-indexed** `m x n` grid. You are also given two 2D integer arrays `guards` and `walls` where `guards[i] = [rowi, coli]` and `walls[j] = [rowj, colj]` represent the positions of the `ith` guard and `jth` wall respectively.
+
+A guard can see **every** cell in the four cardinal directions (north, east, south, or west) starting from their position unless **obstructed** by a wall or another guard. A cell is **guarded** if there is **at least** one guard that can see it.
+
+Return _the number of unoccupied cells that are **not** **guarded**._
+
+**Example 1:**
+
+**Input:** m = 4, n = 6, guards = \[\[0,0\],\[1,1\],\[2,3\]\], walls = \[\[0,1\],\[2,2\],\[1,4\]\]
+**Output:** 7
+**Explanation:** The guarded and unguarded cells are shown in red and green respectively in the above diagram.
+There are a total of 7 unguarded cells, so we return 7.
+
+**Example 2:**
+
+**Input:** m = 3, n = 3, guards = \[\[1,1\]\], walls = \[\[0,1\],\[1,0\],\[2,1\],\[1,2\]\]
+**Output:** 4
+**Explanation:** The unguarded cells are shown in green in the above diagram.
+There are a total of 4 unguarded cells, so we return 4.
+
+**Constraints:**
+
+*   `1 <= m, n <= 105`
+*   `2 <= m * n <= 105`
+*   `1 <= guards.length, walls.length <= 5 * 104`
+*   `2 <= guards.length + walls.length <= m * n`
+*   `guards[i].length == walls[j].length == 2`
+*   `0 <= rowi, rowj < m`
+*   `0 <= coli, colj < n`
+*   All the positions in `guards` and `walls` are **unique**.
+### Response:
+
+    ```java
+import java.util.*;
+
+public int earliestBloomingDay(int[] plantTime, int[] growTime) {
+    Integer[] bloomTime = new Integer[plantTime.length];
+    for (int i = 0; i < plantTime.length; i++) {
+        bloomTime[i] = plantTime[i] + growTime[i];
+    }
+    Arrays.sort(bloomTime);
+    int earliestDay = 0;
+    for (int i = 0; i < bloomTime.length; i++) {
+        earliestDay = Math.max(earliestDay, bloomTime[i]);
+        earliestDay++;
+    }
+    return earliestDay;
+}
+```
+    
+    The algorithm computes the bloom time of each flower by adding its respective plant and grow times. It stores these bloom times in an array called `bloomTime`.
+
+Next, it sorts the `bloomTime` array in ascending order.
+
+The algorithm then goes through the sorted `bloomTime` array and finds the maximum value between the current `earliestDay` and `bloomTime[i]`. The variable `earliestDay` is incremented at each step to account for planting a new seed each day. Finally, it returns the earliest possible day where all seeds are blooming.
+
+
+    
+<|EOT|>.
+Sample 328 of the train set: [2610, 525, 458, 15235, 15473, 17847, 11, 34888, 279, 18183, 39350, 356, 4316, 1614, 11, 7881, 553, 18183, 39350, 8188, 11, 323, 498, 1172, 4226, 4755, 5435, 311, 6366, 8038, 13, 1752, 30105, 16216, 4755, 11, 4763, 323, 12345, 4714, 11, 323, 1008, 2477, 11476, 11281, 8038, 4755, 11, 498, 686, 25066, 311, 4226, 624, 14374, 29051, 510, 2610, 525, 2661, 264, 3070, 15, 21492, 291, 334, 1334, 315, 25780, 1565, 26350, 63, 315, 3084, 1565, 77, 28587, 1446, 525, 15102, 34228, 518, 1565, 26350, 58, 15, 60, 62338, 4854, 2392, 1565, 26350, 989, 60, 63, 10868, 279, 7192, 3084, 315, 264, 4637, 7784, 504, 1922, 1565, 72, 28587, 758, 1008, 4244, 11, 421, 498, 525, 518, 1565, 26350, 989, 60, 7808, 498, 646, 7784, 311, 894, 1565, 26350, 989, 488, 502, 60, 63, 1380, 1447, 9, 256, 1565, 15, 2651, 502, 2651, 10307, 989, 60, 63, 323, 198, 9, 256, 1565, 72, 488, 502, 366, 308, 19324, 5598, 716, 1782, 8028, 1372, 315, 34208, 311, 5545, 62, 1565, 26350, 7669, 481, 220, 16, 60, 28587, 576, 1273, 5048, 525, 7907, 1741, 429, 498, 646, 5545, 1565, 26350, 7669, 481, 220, 16, 60, 62338, 334, 13314, 220, 16, 25, 56177, 334, 2505, 66963, 10307, 284, 1124, 58, 17, 11, 18, 11, 16, 11, 16, 11, 19, 59, 921, 334, 5097, 66963, 220, 17, 198, 334, 69769, 66963, 576, 8028, 1372, 315, 34208, 311, 5545, 279, 1537, 1922, 374, 220, 17, 13, 28788, 220, 16, 3019, 504, 1922, 220, 15, 311, 220, 16, 11, 1221, 220, 18, 7354, 311, 279, 1537, 1922, 382, 334, 13314, 220, 17, 25, 56177, 334, 2505, 66963, 10307, 284, 1124, 58, 17, 11, 18, 11, 15, 11, 16, 11, 19, 59, 921, 334, 5097, 66963, 220, 17, 271, 334, 12925, 25, 56177, 9, 256, 1565, 16, 2651, 10307, 1954, 2651, 220, 16, 15, 19, 3989, 9, 256, 1565, 15, 2651, 10307, 989, 60, 2651, 220, 16, 15, 15, 15, 3989, 9, 256, 1084, 594, 19323, 429, 498, 646, 5545, 1565, 26350, 7669, 481, 220, 16, 60, 18639, 14374, 5949, 1447, 262, 54275, 10042, 198, 888, 526, 7784, 1548, 1294, 10307, 8, 341, 262, 526, 34208, 284, 220, 15, 11, 1482, 3727, 284, 220, 15, 11, 1482, 32887, 60843, 284, 220, 15, 280, 1066, 262, 369, 320, 396, 600, 284, 220, 15, 26, 600, 366, 10307, 1954, 481, 220, 16, 26, 600, 2457, 341, 286, 1482, 32887, 60843, 284, 4149, 6678, 8762, 32887, 60843, 11, 600, 488, 10307, 989, 2558, 286, 421, 320, 72, 621, 1482, 3727, 8, 341, 310, 34208, 3507, 310, 1482, 3727, 284, 1482, 32887, 60843, 280, 286, 456, 262, 456, 262, 470, 34208, 280, 532, 13874, 3989, 1066, 262, 1205, 9468, 34208, 311, 1760, 279, 1372, 315, 34208, 11, 1482, 6213, 311, 2506, 3754, 315, 279, 3041, 60843, 1922, 582, 646, 5545, 448, 279, 1482, 1372, 315, 34208, 11, 323, 1482, 761, 46501, 477, 311, 2506, 3754, 315, 279, 3041, 60843, 1922, 429, 646, 387, 8643, 504, 279, 1482, 2309, 382, 1654, 6337, 1526, 279, 1334, 705, 311, 279, 2086, 1537, 2392, 13, 1752, 1817, 1922, 11, 582, 11047, 323, 3553, 279, 3041, 60843, 1922, 429, 646, 387, 8643, 504, 279, 1482, 1922, 13, 1416, 279, 1482, 1922, 16819, 279, 1482, 835, 11, 582, 16252, 279, 34208, 11, 438, 582, 1184, 825, 803, 7784, 311, 5545, 476, 728, 7797, 279, 1482, 835, 11, 323, 2647, 279, 1482, 6213, 448, 279, 1482, 761, 46501, 477, 897, 382, 23949, 11, 582, 470, 279, 1372, 315, 34208, 892, 10868, 279, 8028, 1372, 315, 34208, 4362, 311, 5545, 279, 1537, 1922, 624, 1066, 27, 91, 36, 1793, 91, 29], [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, 262, 54275, 10042, 198, 888, 526, 7784, 1548, 1294, 10307, 8, 341, 262, 526, 34208, 284, 220, 15, 11, 1482, 3727, 284, 220, 15, 11, 1482, 32887, 60843, 284, 220, 15, 280, 1066, 262, 369, 320, 396, 600, 284, 220, 15, 26, 600, 366, 10307, 1954, 481, 220, 16, 26, 600, 2457, 341, 286, 1482, 32887, 60843, 284, 4149, 6678, 8762, 32887, 60843, 11, 600, 488, 10307, 989, 2558, 286, 421, 320, 72, 621, 1482, 3727, 8, 341, 310, 34208, 3507, 310, 1482, 3727, 284, 1482, 32887, 60843, 280, 286, 456, 262, 456, 262, 470, 34208, 280, 532, 13874, 3989, 1066, 262, 1205, 9468, 34208, 311, 1760, 279, 1372, 315, 34208, 11, 1482, 6213, 311, 2506, 3754, 315, 279, 3041, 60843, 1922, 582, 646, 5545, 448, 279, 1482, 1372, 315, 34208, 11, 323, 1482, 761, 46501, 477, 311, 2506, 3754, 315, 279, 3041, 60843, 1922, 429, 646, 387, 8643, 504, 279, 1482, 2309, 382, 1654, 6337, 1526, 279, 1334, 705, 311, 279, 2086, 1537, 2392, 13, 1752, 1817, 1922, 11, 582, 11047, 323, 3553, 279, 3041, 60843, 1922, 429, 646, 387, 8643, 504, 279, 1482, 1922, 13, 1416, 279, 1482, 1922, 16819, 279, 1482, 835, 11, 582, 16252, 279, 34208, 11, 438, 582, 1184, 825, 803, 7784, 311, 5545, 476, 728, 7797, 279, 1482, 835, 11, 323, 2647, 279, 1482, 6213, 448, 279, 1482, 761, 46501, 477, 897, 382, 23949, 11, 582, 470, 279, 1372, 315, 34208, 892, 10868, 279, 8028, 1372, 315, 34208, 4362, 311, 5545, 279, 1537, 1922, 624, 1066, 27, 91, 36, 1793, 91, 29].
+Sample 328 of the train set: You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+You are given a **0-indexed** array of integers `nums` of length `n`. You are initially positioned at `nums[0]`.
+
+Each element `nums[i]` represents the maximum length of a forward jump from index `i`. In other words, if you are at `nums[i]`, you can jump to any `nums[i + j]` where:
+
+*   `0 <= j <= nums[i]` and
+*   `i + j < n`
+
+Return _the minimum number of jumps to reach_ `nums[n - 1]`. The test cases are generated such that you can reach `nums[n - 1]`.
+
+**Example 1:**
+
+**Input:** nums = \[2,3,1,1,4\]
+**Output:** 2
+**Explanation:** The minimum number of jumps to reach the last index is 2. Jump 1 step from index 0 to 1, then 3 steps to the last index.
+
+**Example 2:**
+
+**Input:** nums = \[2,3,0,1,4\]
+**Output:** 2
+
+**Constraints:**
+
+*   `1 <= nums.length <= 104`
+*   `0 <= nums[i] <= 1000`
+*   It's guaranteed that you can reach `nums[n - 1]`.
+### Response:
+
+    ```java
+public int jump(int[] nums) {
+    int jumps = 0, currentEnd = 0, currentFarthest = 0;
+    
+    for (int i = 0; i < nums.length - 1; i++) {
+        currentFarthest = Math.max(currentFarthest, i + nums[i]);
+        if (i == currentEnd) {
+            jumps++;
+            currentEnd = currentFarthest;
+        }
+    }
+    return jumps;
+}
+```
+    
+    We initialize jumps to count the number of jumps, current_end to keep track of the farthest index we can reach with the current number of jumps, and current_farthest to keep track of the farthest index that can be reached from the current position.
+
+We loop through the array up to the second last element. For each index, we calculate and store the farthest index that can be reached from the current index. If the current index equals the current end, we increment the jumps, as we need one more jump to reach or go beyond the current end, and update the current_end with the current_farthest value.
+
+Finally, we return the number of jumps which represents the minimum number of jumps needed to reach the last index.
+    
+<|EOT|>.
+Sample 1306 of the train set: [2610, 525, 458, 15235, 15473, 17847, 11, 34888, 279, 18183, 39350, 356, 4316, 1614, 11, 7881, 553, 18183, 39350, 8188, 11, 323, 498, 1172, 4226, 4755, 5435, 311, 6366, 8038, 13, 1752, 30105, 16216, 4755, 11, 4763, 323, 12345, 4714, 11, 323, 1008, 2477, 11476, 11281, 8038, 4755, 11, 498, 686, 25066, 311, 4226, 624, 14374, 29051, 510, 2610, 525, 2661, 458, 7546, 1334, 1565, 26350, 63, 323, 458, 7546, 1565, 74, 62338, 641, 825, 5666, 11, 498, 646, 5157, 894, 1922, 1565, 72, 63, 1380, 1565, 15, 2651, 600, 366, 10307, 1954, 63, 323, 2297, 1565, 26350, 989, 60, 63, 311, 1565, 26350, 989, 60, 488, 856, 63, 1380, 1565, 87, 63, 374, 458, 7546, 504, 279, 2088, 1565, 7609, 74, 11, 595, 60, 28587, 1446, 646, 3796, 419, 5666, 3070, 266, 1429, 3055, 334, 369, 1817, 1922, 1565, 72, 62338, 785, 3070, 12338, 334, 315, 1565, 26350, 63, 374, 279, 6672, 1948, 279, 7192, 323, 8028, 5424, 304, 1565, 26350, 62338, 5598, 716, 1782, 8028, 3070, 12338, 334, 315, 62, 1565, 26350, 63, 716, 10694, 18950, 279, 9733, 5666, 518, 1429, 3055, 369, 1817, 1922, 304, 432, 62, 382, 334, 13314, 220, 16, 25, 56177, 334, 2505, 66963, 10307, 284, 1124, 58, 16, 59, 1125, 595, 284, 220, 15, 198, 334, 5097, 66963, 220, 15, 198, 334, 69769, 66963, 576, 5456, 374, 1932, 21096, 8, 481, 1308, 21096, 8, 284, 220, 16, 481, 220, 16, 284, 220, 15, 382, 334, 13314, 220, 17, 25, 56177, 334, 2505, 66963, 10307, 284, 1124, 58, 15, 11, 16, 15, 59, 1125, 595, 284, 220, 17, 198, 334, 5097, 66963, 220, 21, 198, 334, 69769, 66963, 10388, 10307, 311, 387, 1124, 58, 17, 11, 220, 23, 59, 936, 576, 5456, 374, 1932, 21096, 8, 481, 1308, 21096, 8, 284, 220, 23, 481, 220, 17, 284, 220, 21, 382, 334, 13314, 220, 18, 25, 56177, 334, 2505, 66963, 10307, 284, 1124, 58, 16, 11, 18, 11, 21, 59, 1125, 595, 284, 220, 18, 198, 334, 5097, 66963, 220, 15, 198, 334, 69769, 66963, 10388, 10307, 311, 387, 1124, 58, 19, 11, 220, 19, 11, 220, 19, 59, 936, 576, 5456, 374, 1932, 21096, 8, 481, 1308, 21096, 8, 284, 220, 19, 481, 220, 19, 284, 220, 15, 382, 334, 12925, 25, 56177, 9, 256, 1565, 16, 2651, 10307, 1954, 2651, 220, 16, 15, 19, 3989, 9, 256, 1565, 15, 2651, 10307, 989, 60, 2651, 220, 16, 15, 19, 3989, 9, 256, 1565, 15, 2651, 595, 2651, 220, 16, 15, 19, 3989, 14374, 5949, 1447, 262, 54275, 10042, 198, 888, 536, 20501, 341, 262, 526, 1044, 280, 262, 20501, 1790, 280, 262, 20501, 1548, 856, 8, 314, 1044, 284, 856, 26, 456, 630, 888, 20501, 6149, 1955, 78039, 1968, 8, 341, 262, 20501, 6301, 284, 1968, 280, 262, 20501, 4937, 284, 1968, 280, 1066, 262, 1393, 320, 9349, 961, 845, 1009, 4937, 4529, 961, 845, 8, 341, 286, 6301, 284, 6301, 4529, 280, 286, 4937, 284, 4937, 4529, 4529, 280, 262, 456, 1066, 262, 470, 6301, 280, 532, 13874, 3989, 1066, 262, 576, 12111, 5711, 279, 16426, 68189, 323, 94918, 12111, 320, 35211, 323, 4937, 27454, 568, 576, 6301, 7445, 10797, 825, 3019, 518, 264, 882, 11, 1393, 279, 4937, 7445, 10797, 1378, 7354, 518, 264, 882, 13, 8704, 279, 4937, 7445, 374, 7218, 10917, 438, 4937, 438, 279, 6301, 7445, 11, 979, 279, 4937, 7445, 24491, 279, 835, 315, 279, 1140, 11, 279, 6301, 7445, 686, 387, 304, 279, 6149, 13, 14301, 11, 582, 646, 1101, 470, 279, 6301, 7445, 438, 279, 6149, 2436, 13, 1416, 1052, 525, 1378, 6149, 7798, 11, 279, 6301, 7445, 686, 387, 389, 279, 2086, 6149, 2436, 11, 438, 5189, 304, 279, 3491, 5114, 624, 1066, 27, 91, 36, 1793, 91, 29], [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, 262, 54275, 10042, 198, 888, 536, 20501, 341, 262, 526, 1044, 280, 262, 20501, 1790, 280, 262, 20501, 1548, 856, 8, 314, 1044, 284, 856, 26, 456, 630, 888, 20501, 6149, 1955, 78039, 1968, 8, 341, 262, 20501, 6301, 284, 1968, 280, 262, 20501, 4937, 284, 1968, 280, 1066, 262, 1393, 320, 9349, 961, 845, 1009, 4937, 4529, 961, 845, 8, 341, 286, 6301, 284, 6301, 4529, 280, 286, 4937, 284, 4937, 4529, 4529, 280, 262, 456, 1066, 262, 470, 6301, 280, 532, 13874, 3989, 1066, 262, 576, 12111, 5711, 279, 16426, 68189, 323, 94918, 12111, 320, 35211, 323, 4937, 27454, 568, 576, 6301, 7445, 10797, 825, 3019, 518, 264, 882, 11, 1393, 279, 4937, 7445, 10797, 1378, 7354, 518, 264, 882, 13, 8704, 279, 4937, 7445, 374, 7218, 10917, 438, 4937, 438, 279, 6301, 7445, 11, 979, 279, 4937, 7445, 24491, 279, 835, 315, 279, 1140, 11, 279, 6301, 7445, 686, 387, 304, 279, 6149, 13, 14301, 11, 582, 646, 1101, 470, 279, 6301, 7445, 438, 279, 6149, 2436, 13, 1416, 1052, 525, 1378, 6149, 7798, 11, 279, 6301, 7445, 686, 387, 389, 279, 2086, 6149, 2436, 11, 438, 5189, 304, 279, 3491, 5114, 624, 1066, 27, 91, 36, 1793, 91, 29].
+Sample 1306 of the train set: You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+You are given an integer array `nums` and an integer `k`.
+
+In one operation, you can choose any index `i` where `0 <= i < nums.length` and change `nums[i]` to `nums[i] + x` where `x` is an integer from the range `[-k, k]`. You can apply this operation **at most once** for each index `i`.
+
+The **score** of `nums` is the difference between the maximum and minimum elements in `nums`.
+
+Return _the minimum **score** of_ `nums` _after applying the mentioned operation at most once for each index in it_.
+
+**Example 1:**
+
+**Input:** nums = \[1\], k = 0
+**Output:** 0
+**Explanation:** The score is max(nums) - min(nums) = 1 - 1 = 0.
+
+**Example 2:**
+
+**Input:** nums = \[0,10\], k = 2
+**Output:** 6
+**Explanation:** Change nums to be \[2, 8\]. The score is max(nums) - min(nums) = 8 - 2 = 6.
+
+**Example 3:**
+
+**Input:** nums = \[1,3,6\], k = 3
+**Output:** 0
+**Explanation:** Change nums to be \[4, 4, 4\]. The score is max(nums) - min(nums) = 4 - 4 = 0.
+
+**Constraints:**
+
+*   `1 <= nums.length <= 104`
+*   `0 <= nums[i] <= 104`
+*   `0 <= k <= 104`
+### Response:
+
+    ```java
+public class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int x) { val = x; }
+}
+
+public ListNode middleNode(ListNode head) {
+    ListNode slow = head;
+    ListNode fast = head;
+    
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    
+    return slow;
+}
+```
+    
+    The algorithm uses the tortoise and hare algorithm (slow and fast pointers). The slow pointer moves one step at a time, while the fast pointer moves two steps at a time. Since the fast pointer is moving twice as fast as the slow pointer, when the fast pointer reaches the end of the list, the slow pointer will be in the middle. Thus, we can just return the slow pointer as the middle node. If there are two middle nodes, the slow pointer will be on the second middle node, as specified in the problem statement.
+    
+<|EOT|>.
+Numer of samples in eval set: 236
+Sample 195 of the eval set: [2610, 525, 458, 15235, 15473, 17847, 11, 34888, 279, 18183, 39350, 356, 4316, 1614, 11, 7881, 553, 18183, 39350, 8188, 11, 323, 498, 1172, 4226, 4755, 5435, 311, 6366, 8038, 13, 1752, 30105, 16216, 4755, 11, 4763, 323, 12345, 4714, 11, 323, 1008, 2477, 11476, 11281, 8038, 4755, 11, 498, 686, 25066, 311, 4226, 624, 14374, 29051, 510, 2610, 525, 2661, 458, 7546, 1334, 1565, 26350, 63, 30606, 315, 1565, 17, 353, 308, 63, 25780, 382, 2610, 1184, 311, 21749, 1565, 26350, 63, 1119, 1565, 77, 63, 13530, 1741, 429, 1447, 9, 256, 8886, 2392, 17180, 311, 3070, 327, 32739, 825, 334, 6716, 624, 9, 256, 576, 5424, 3042, 304, 264, 6716, 525, 3070, 25795, 334, 382, 5598, 1565, 1866, 63, 716, 333, 10307, 646, 387, 17779, 1119, 62, 1565, 77, 63, 716, 77256, 11, 5937, 470, 62, 1565, 3849, 62338, 334, 13314, 220, 16, 25, 56177, 334, 2505, 66963, 10307, 284, 1124, 58, 18, 11, 17, 11, 18, 11, 17, 11, 17, 11, 17, 59, 921, 334, 5097, 66963, 830, 198, 334, 69769, 66963, 715, 3862, 525, 220, 21, 5424, 304, 10307, 11, 773, 807, 1265, 387, 17779, 1119, 220, 21, 608, 220, 17, 284, 220, 18, 13530, 624, 2679, 10307, 374, 17779, 1119, 279, 13530, 320, 17, 11, 220, 17, 701, 320, 18, 11, 220, 18, 701, 323, 320, 17, 11, 220, 17, 701, 432, 686, 26553, 678, 279, 4682, 382, 334, 13314, 220, 17, 25, 56177, 334, 2505, 66963, 10307, 284, 1124, 58, 16, 11, 17, 11, 18, 11, 19, 59, 921, 334, 5097, 66963, 895, 198, 334, 69769, 66963, 715, 3862, 374, 902, 1616, 311, 21749, 10307, 1119, 220, 19, 608, 220, 17, 284, 220, 17, 13530, 1741, 429, 279, 13530, 26553, 1449, 2971, 382, 334, 12925, 25, 56177, 9, 256, 1565, 26350, 1954, 621, 220, 17, 353, 308, 3989, 9, 256, 1565, 16, 2651, 308, 2651, 220, 20, 15, 15, 3989, 9, 256, 1565, 16, 2651, 10307, 989, 60, 2651, 220, 20, 15, 15, 3989, 14374, 5949, 1447, 262, 54275, 10042, 198, 474, 1642, 1971, 5814, 401, 888, 526, 1932, 33, 85704, 17076, 263, 657, 10278, 15161, 11365, 2452, 32506, 8, 341, 262, 526, 308, 284, 32506, 2486, 543, 262, 526, 1932, 33, 85704, 284, 220, 15, 401, 262, 369, 320, 396, 600, 284, 220, 15, 26, 600, 366, 308, 26, 600, 2457, 341, 286, 526, 1760, 284, 220, 15, 280, 286, 369, 320, 396, 502, 284, 220, 15, 26, 502, 366, 308, 26, 502, 2457, 341, 310, 526, 13822, 284, 32506, 670, 1956, 568, 455, 7, 15, 8, 481, 32506, 670, 3325, 568, 455, 7, 15, 317, 310, 526, 13955, 284, 32506, 670, 1956, 568, 455, 7, 16, 8, 481, 32506, 670, 3325, 568, 455, 7, 16, 317, 310, 526, 6010, 284, 13822, 353, 13822, 488, 13955, 353, 13955, 280, 310, 526, 2088, 284, 32506, 670, 1956, 568, 455, 7, 17, 8, 353, 32506, 670, 1956, 568, 455, 7, 17, 8, 488, 32506, 670, 3325, 568, 455, 7, 17, 8, 353, 32506, 670, 3325, 568, 455, 7, 17, 317, 310, 421, 320, 19348, 2651, 2088, 8, 341, 394, 1760, 3507, 310, 456, 286, 456, 286, 1932, 33, 85704, 284, 4149, 6678, 8739, 33, 85704, 11, 1760, 317, 262, 555, 262, 470, 1932, 33, 85704, 280, 532, 13874, 19324, 1066, 262, 2014, 11625, 419, 3491, 11, 582, 1366, 311, 1477, 279, 7192, 1372, 315, 32506, 429, 646, 387, 54674, 657, 553, 54674, 1095, 264, 3175, 12764, 13, 576, 12111, 510, 16, 13, 29901, 279, 1372, 315, 32506, 1565, 77, 63, 323, 9468, 264, 3890, 1565, 2810, 880, 85704, 63, 311, 3553, 279, 7192, 1372, 315, 32506, 429, 646, 387, 54674, 657, 624, 17, 13, 54340, 1526, 1817, 12764, 1565, 72, 63, 304, 279, 2661, 1140, 315, 32506, 624, 18, 13, 1752, 1817, 12764, 11, 9468, 264, 5546, 1565, 1830, 63, 311, 3553, 279, 1372, 315, 32506, 432, 646, 54674, 349, 304, 1181, 2088, 624, 19, 13, 54340, 1526, 678, 1008, 32506, 1565, 73, 18639, 262, 481, 20517, 279, 6010, 1948, 279, 32506, 1565, 72, 63, 323, 1565, 73, 63, 320, 970, 52263, 21963, 50078, 6010, 311, 5648, 19057, 1459, 28117, 4292, 262, 481, 20517, 279, 2629, 315, 279, 31340, 315, 279, 11900, 72, 315, 32506, 1565, 72, 63, 323, 1565, 73, 18639, 262, 481, 1416, 279, 6010, 1948, 279, 32506, 374, 2686, 1091, 476, 6144, 311, 279, 2629, 315, 279, 31340, 315, 862, 11900, 72, 11, 432, 3363, 12764, 1565, 72, 63, 646, 54674, 349, 12764, 1565, 73, 28587, 52835, 279, 5546, 1565, 1830, 18639, 20, 13, 5549, 279, 7192, 1372, 315, 32506, 429, 646, 387, 54674, 657, 553, 13295, 421, 1565, 1830, 63, 374, 7046, 1091, 279, 1482, 897, 315, 1565, 2810, 880, 85704, 18639, 21, 13, 44801, 7354, 220, 18, 12, 20, 369, 678, 32506, 1565, 72, 18639, 22, 13, 3411, 279, 897, 315, 1565, 2810, 880, 85704, 28587, 1096, 10868, 279, 7192, 1372, 315, 32506, 429, 646, 387, 54674, 657, 553, 54674, 1095, 264, 3175, 12764, 304, 279, 2661, 1140, 315, 32506, 624, 1066, 27, 91, 36, 1793, 91, 29], [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, 262, 54275, 10042, 198, 474, 1642, 1971, 5814, 401, 888, 526, 1932, 33, 85704, 17076, 263, 657, 10278, 15161, 11365, 2452, 32506, 8, 341, 262, 526, 308, 284, 32506, 2486, 543, 262, 526, 1932, 33, 85704, 284, 220, 15, 401, 262, 369, 320, 396, 600, 284, 220, 15, 26, 600, 366, 308, 26, 600, 2457, 341, 286, 526, 1760, 284, 220, 15, 280, 286, 369, 320, 396, 502, 284, 220, 15, 26, 502, 366, 308, 26, 502, 2457, 341, 310, 526, 13822, 284, 32506, 670, 1956, 568, 455, 7, 15, 8, 481, 32506, 670, 3325, 568, 455, 7, 15, 317, 310, 526, 13955, 284, 32506, 670, 1956, 568, 455, 7, 16, 8, 481, 32506, 670, 3325, 568, 455, 7, 16, 317, 310, 526, 6010, 284, 13822, 353, 13822, 488, 13955, 353, 13955, 280, 310, 526, 2088, 284, 32506, 670, 1956, 568, 455, 7, 17, 8, 353, 32506, 670, 1956, 568, 455, 7, 17, 8, 488, 32506, 670, 3325, 568, 455, 7, 17, 8, 353, 32506, 670, 3325, 568, 455, 7, 17, 317, 310, 421, 320, 19348, 2651, 2088, 8, 341, 394, 1760, 3507, 310, 456, 286, 456, 286, 1932, 33, 85704, 284, 4149, 6678, 8739, 33, 85704, 11, 1760, 317, 262, 555, 262, 470, 1932, 33, 85704, 280, 532, 13874, 19324, 1066, 262, 2014, 11625, 419, 3491, 11, 582, 1366, 311, 1477, 279, 7192, 1372, 315, 32506, 429, 646, 387, 54674, 657, 553, 54674, 1095, 264, 3175, 12764, 13, 576, 12111, 510, 16, 13, 29901, 279, 1372, 315, 32506, 1565, 77, 63, 323, 9468, 264, 3890, 1565, 2810, 880, 85704, 63, 311, 3553, 279, 7192, 1372, 315, 32506, 429, 646, 387, 54674, 657, 624, 17, 13, 54340, 1526, 1817, 12764, 1565, 72, 63, 304, 279, 2661, 1140, 315, 32506, 624, 18, 13, 1752, 1817, 12764, 11, 9468, 264, 5546, 1565, 1830, 63, 311, 3553, 279, 1372, 315, 32506, 432, 646, 54674, 349, 304, 1181, 2088, 624, 19, 13, 54340, 1526, 678, 1008, 32506, 1565, 73, 18639, 262, 481, 20517, 279, 6010, 1948, 279, 32506, 1565, 72, 63, 323, 1565, 73, 63, 320, 970, 52263, 21963, 50078, 6010, 311, 5648, 19057, 1459, 28117, 4292, 262, 481, 20517, 279, 2629, 315, 279, 31340, 315, 279, 11900, 72, 315, 32506, 1565, 72, 63, 323, 1565, 73, 18639, 262, 481, 1416, 279, 6010, 1948, 279, 32506, 374, 2686, 1091, 476, 6144, 311, 279, 2629, 315, 279, 31340, 315, 862, 11900, 72, 11, 432, 3363, 12764, 1565, 72, 63, 646, 54674, 349, 12764, 1565, 73, 28587, 52835, 279, 5546, 1565, 1830, 18639, 20, 13, 5549, 279, 7192, 1372, 315, 32506, 429, 646, 387, 54674, 657, 553, 13295, 421, 1565, 1830, 63, 374, 7046, 1091, 279, 1482, 897, 315, 1565, 2810, 880, 85704, 18639, 21, 13, 44801, 7354, 220, 18, 12, 20, 369, 678, 32506, 1565, 72, 18639, 22, 13, 3411, 279, 897, 315, 1565, 2810, 880, 85704, 28587, 1096, 10868, 279, 7192, 1372, 315, 32506, 429, 646, 387, 54674, 657, 553, 54674, 1095, 264, 3175, 12764, 304, 279, 2661, 1140, 315, 32506, 624, 1066, 27, 91, 36, 1793, 91, 29].
+Sample 195 of the eval set: You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+You are given an integer array `nums` consisting of `2 * n` integers.
+
+You need to divide `nums` into `n` pairs such that:
+
+*   Each element belongs to **exactly one** pair.
+*   The elements present in a pair are **equal**.
+
+Return `true` _if nums can be divided into_ `n` _pairs, otherwise return_ `false`.
+
+**Example 1:**
+
+**Input:** nums = \[3,2,3,2,2,2\]
+**Output:** true
+**Explanation:** 
+There are 6 elements in nums, so they should be divided into 6 / 2 = 3 pairs.
+If nums is divided into the pairs (2, 2), (3, 3), and (2, 2), it will satisfy all the conditions.
+
+**Example 2:**
+
+**Input:** nums = \[1,2,3,4\]
+**Output:** false
+**Explanation:** 
+There is no way to divide nums into 4 / 2 = 2 pairs such that the pairs satisfy every condition.
+
+**Constraints:**
+
+*   `nums.length == 2 * n`
+*   `1 <= n <= 500`
+*   `1 <= nums[i] <= 500`
+### Response:
+
+    ```java
+import java.util.List;
+
+public int maxBombsDetonated(List<List<Integer>> bombs) {
+    int n = bombs.size();
+    int maxBombs = 0;
+
+    for (int i = 0; i < n; i++) {
+        int count = 0;
+        for (int j = 0; j < n; j++) {
+            int dx = bombs.get(i).get(0) - bombs.get(j).get(0);
+            int dy = bombs.get(i).get(1) - bombs.get(j).get(1);
+            int distance = dx * dx + dy * dy;
+            int range = bombs.get(i).get(2) * bombs.get(i).get(2) + bombs.get(j).get(2) * bombs.get(j).get(2);
+            if (distance <= range) {
+                count++;
+            }
+        }
+        maxBombs = Math.max(maxBombs, count);
+    }
+
+    return maxBombs;
+}
+```
+
+    
+    To solve this problem, we want to find the maximum number of bombs that can be detonated by detonating a single bomb. The algorithm:
+1. Determine the number of bombs `n` and initialize a variable `max_bombs` to store the maximum number of bombs that can be detonated.
+2. Iterate through each bomb `i` in the given list of bombs.
+3. For each bomb, initialize a counter `count` to store the number of bombs it can detonate in its range.
+4. Iterate through all other bombs `j`.
+    - Calculate the distance between the bombs `i` and `j` (using squared Euclidean distance to avoid floating point calculations).
+    - Calculate the sum of the squares of the radii of bombs `i` and `j`.
+    - If the distance between the bombs is less than or equal to the sum of the squares of their radii, it means bomb `i` can detonate bomb `j`. Increment the counter `count`.
+5. Update the maximum number of bombs that can be detonated by checking if `count` is greater than the current value of `max_bombs`.
+6. Repeat steps 3-5 for all bombs `i`.
+7. Return the value of `max_bombs`. This represents the maximum number of bombs that can be detonated by detonating a single bomb in the given list of bombs.
+    
+<|EOT|>.
+Sample 147 of the eval set: [2610, 525, 458, 15235, 15473, 17847, 11, 34888, 279, 18183, 39350, 356, 4316, 1614, 11, 7881, 553, 18183, 39350, 8188, 11, 323, 498, 1172, 4226, 4755, 5435, 311, 6366, 8038, 13, 1752, 30105, 16216, 4755, 11, 4763, 323, 12345, 4714, 11, 323, 1008, 2477, 11476, 11281, 8038, 4755, 11, 498, 686, 25066, 311, 4226, 624, 14374, 29051, 510, 2610, 525, 2661, 458, 1334, 1565, 26350, 28587, 1446, 646, 16919, 432, 553, 264, 2477, 60935, 7546, 1565, 74, 63, 773, 429, 279, 1334, 9044, 77644, 26350, 6732, 1125, 10307, 6732, 488, 220, 16, 1125, 2503, 10307, 23265, 82, 1954, 481, 220, 16, 1125, 10307, 58, 15, 1125, 10307, 58, 16, 1125, 60353, 10307, 6732, 12, 16, 5053, 28587, 4636, 1606, 11, 894, 10695, 429, 525, 2686, 1091, 476, 6144, 311, 862, 1922, 525, 5802, 825, 1459, 382, 9, 256, 1752, 3110, 11, 421, 582, 614, 1565, 26350, 284, 508, 17, 11, 19, 11, 16, 11, 18, 11, 15, 60, 7808, 323, 582, 16919, 553, 1565, 74, 284, 220, 17, 7808, 432, 9044, 77644, 16, 11, 18, 11, 15, 11, 17, 11, 19, 60, 28587, 1096, 374, 5802, 1565, 18, 63, 3501, 1576, 1565, 16, 861, 220, 15, 63, 1124, 58, 2152, 3501, 59, 1125, 1565, 18, 861, 220, 16, 63, 1124, 58, 2152, 3501, 59, 1125, 1565, 15, 2651, 220, 17, 63, 1124, 58, 603, 1459, 59, 1125, 1565, 17, 2651, 220, 18, 63, 1124, 58, 603, 1459, 59, 1125, 1565, 19, 2651, 220, 19, 63, 1124, 58, 603, 1459, 59, 29562, 5598, 716, 1782, 12695, 1922, 62, 1565, 74, 63, 716, 9033, 33210, 311, 279, 8426, 5456, 582, 646, 11075, 421, 582, 45620, 62, 1565, 26350, 63, 716, 1694, 432, 4950, 1416, 1052, 525, 5248, 11253, 11, 470, 279, 24632, 1741, 1922, 1565, 74, 62338, 334, 13314, 220, 16, 25, 56177, 334, 2505, 66963, 10307, 284, 1124, 58, 17, 11, 18, 11, 16, 11, 19, 11, 15, 59, 921, 334, 5097, 66963, 220, 18, 198, 334, 69769, 66963, 69994, 369, 1817, 595, 525, 10007, 3685, 25, 715, 74, 284, 220, 15, 11, 220, 10307, 284, 1124, 58, 17, 11, 18, 11, 16, 11, 19, 11, 15, 59, 1125, 262, 5456, 220, 17, 198, 74, 284, 220, 16, 11, 220, 10307, 284, 1124, 58, 18, 11, 16, 11, 19, 11, 15, 11, 17, 59, 1125, 262, 5456, 220, 18, 198, 74, 284, 220, 17, 11, 220, 10307, 284, 1124, 58, 16, 11, 19, 11, 15, 11, 17, 11, 18, 59, 1125, 262, 5456, 220, 18, 198, 74, 284, 220, 18, 11, 220, 10307, 284, 1124, 58, 19, 11, 15, 11, 17, 11, 18, 11, 16, 59, 1125, 262, 5456, 220, 19, 198, 74, 284, 220, 19, 11, 220, 10307, 284, 1124, 58, 15, 11, 17, 11, 18, 11, 16, 11, 19, 59, 1125, 262, 5456, 220, 18, 198, 4416, 582, 1265, 5157, 595, 284, 220, 18, 11, 892, 702, 279, 8426, 5456, 382, 334, 13314, 220, 17, 25, 56177, 334, 2505, 66963, 10307, 284, 1124, 58, 16, 11, 18, 11, 15, 11, 17, 11, 19, 59, 921, 334, 5097, 66963, 220, 15, 198, 334, 69769, 66963, 10307, 686, 2677, 614, 220, 18, 3501, 902, 4925, 1246, 432, 28635, 624, 4416, 582, 686, 5157, 279, 24632, 595, 11, 892, 374, 220, 15, 382, 334, 12925, 25, 56177, 9, 256, 1565, 16, 2651, 10307, 1954, 2651, 220, 16, 15, 20, 3989, 9, 256, 1565, 15, 2651, 10307, 989, 60, 366, 10307, 1954, 3989, 14374, 5949, 1447, 262, 54275, 10042, 198, 888, 526, 10797, 1249, 88242, 2482, 1548, 16613, 4479, 8, 341, 262, 526, 451, 284, 4479, 1954, 280, 262, 526, 2802, 284, 220, 15, 11, 1375, 284, 220, 15, 11, 65145, 284, 220, 15, 11, 1375, 2507, 284, 220, 15, 401, 262, 369, 320, 396, 600, 284, 220, 15, 26, 600, 366, 451, 26, 600, 2457, 341, 286, 369, 320, 396, 502, 284, 220, 15, 26, 502, 366, 451, 26, 502, 2457, 341, 310, 421, 11600, 2482, 58, 15, 1457, 15, 60, 6306, 4479, 989, 1457, 15, 60, 6306, 4479, 58, 15, 1457, 73, 2467, 6306, 4479, 989, 1457, 73, 2467, 961, 220, 15, 8, 470, 481, 16, 280, 286, 456, 262, 555, 262, 369, 320, 396, 600, 284, 220, 15, 26, 600, 366, 451, 26, 600, 2457, 341, 286, 2802, 31602, 4479, 58, 15, 1457, 72, 935, 286, 1375, 31602, 4479, 989, 1457, 15, 935, 286, 65145, 1421, 4479, 58, 15, 1457, 72, 60, 621, 220, 16, 937, 220, 16, 549, 220, 15, 280, 286, 1375, 2507, 1421, 4479, 989, 1457, 15, 60, 621, 220, 16, 937, 220, 16, 549, 220, 15, 280, 262, 555, 262, 421, 320, 651, 961, 220, 15, 1009, 65145, 353, 220, 17, 961, 451, 8, 470, 481, 16, 280, 262, 421, 320, 2074, 961, 220, 15, 1009, 1375, 2507, 353, 220, 17, 961, 451, 8, 470, 481, 16, 401, 262, 421, 320, 45, 1018, 220, 17, 621, 220, 16, 8, 341, 286, 421, 320, 48149, 1018, 220, 17, 621, 220, 16, 8, 65145, 284, 451, 481, 65145, 280, 286, 421, 320, 2074, 2507, 1018, 220, 17, 621, 220, 16, 8, 1375, 2507, 284, 451, 481, 1375, 2507, 280, 262, 335, 770, 341, 286, 65145, 284, 4149, 4358, 7835, 2507, 11, 451, 481, 65145, 317, 286, 1375, 2507, 284, 4149, 4358, 19611, 2507, 11, 451, 481, 1375, 2507, 317, 262, 555, 262, 470, 320, 48149, 488, 1375, 2507, 8, 608, 220, 17, 280, 532, 13874, 3989, 1066, 262, 220, 16, 13, 54340, 1526, 279, 4479, 323, 1779, 421, 63719, 6978, 476, 8147, 646, 5165, 432, 1119, 264, 32719, 2482, 553, 13295, 421, 279, 69887, 315, 279, 1156, 2779, 304, 1817, 2802, 323, 3250, 11, 438, 1632, 438, 279, 69887, 448, 279, 1482, 2779, 11, 374, 7168, 13, 1416, 894, 315, 1493, 69887, 12341, 470, 264, 2477, 36929, 1102, 11, 470, 481, 16, 438, 432, 374, 11997, 311, 5165, 279, 4479, 1119, 264, 32719, 2482, 624, 17, 13, 54340, 1526, 279, 4479, 1549, 323, 11047, 279, 1372, 315, 6174, 304, 279, 1156, 2802, 323, 3250, 11, 323, 3553, 419, 304, 1565, 48149, 63, 323, 1565, 2074, 2507, 63, 15576, 11, 438, 1632, 438, 279, 69887, 315, 279, 4453, 2802, 323, 3250, 624, 18], [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, 262, 54275, 10042, 198, 888, 526, 10797, 1249, 88242, 2482, 1548, 16613, 4479, 8, 341, 262, 526, 451, 284, 4479, 1954, 280, 262, 526, 2802, 284, 220, 15, 11, 1375, 284, 220, 15, 11, 65145, 284, 220, 15, 11, 1375, 2507, 284, 220, 15, 401, 262, 369, 320, 396, 600, 284, 220, 15, 26, 600, 366, 451, 26, 600, 2457, 341, 286, 369, 320, 396, 502, 284, 220, 15, 26, 502, 366, 451, 26, 502, 2457, 341, 310, 421, 11600, 2482, 58, 15, 1457, 15, 60, 6306, 4479, 989, 1457, 15, 60, 6306, 4479, 58, 15, 1457, 73, 2467, 6306, 4479, 989, 1457, 73, 2467, 961, 220, 15, 8, 470, 481, 16, 280, 286, 456, 262, 555, 262, 369, 320, 396, 600, 284, 220, 15, 26, 600, 366, 451, 26, 600, 2457, 341, 286, 2802, 31602, 4479, 58, 15, 1457, 72, 935, 286, 1375, 31602, 4479, 989, 1457, 15, 935, 286, 65145, 1421, 4479, 58, 15, 1457, 72, 60, 621, 220, 16, 937, 220, 16, 549, 220, 15, 280, 286, 1375, 2507, 1421, 4479, 989, 1457, 15, 60, 621, 220, 16, 937, 220, 16, 549, 220, 15, 280, 262, 555, 262, 421, 320, 651, 961, 220, 15, 1009, 65145, 353, 220, 17, 961, 451, 8, 470, 481, 16, 280, 262, 421, 320, 2074, 961, 220, 15, 1009, 1375, 2507, 353, 220, 17, 961, 451, 8, 470, 481, 16, 401, 262, 421, 320, 45, 1018, 220, 17, 621, 220, 16, 8, 341, 286, 421, 320, 48149, 1018, 220, 17, 621, 220, 16, 8, 65145, 284, 451, 481, 65145, 280, 286, 421, 320, 2074, 2507, 1018, 220, 17, 621, 220, 16, 8, 1375, 2507, 284, 451, 481, 1375, 2507, 280, 262, 335, 770, 341, 286, 65145, 284, 4149, 4358, 7835, 2507, 11, 451, 481, 65145, 317, 286, 1375, 2507, 284, 4149, 4358, 19611, 2507, 11, 451, 481, 1375, 2507, 317, 262, 555, 262, 470, 320, 48149, 488, 1375, 2507, 8, 608, 220, 17, 280, 532, 13874, 3989, 1066, 262, 220, 16, 13, 54340, 1526, 279, 4479, 323, 1779, 421, 63719, 6978, 476, 8147, 646, 5165, 432, 1119, 264, 32719, 2482, 553, 13295, 421, 279, 69887, 315, 279, 1156, 2779, 304, 1817, 2802, 323, 3250, 11, 438, 1632, 438, 279, 69887, 448, 279, 1482, 2779, 11, 374, 7168, 13, 1416, 894, 315, 1493, 69887, 12341, 470, 264, 2477, 36929, 1102, 11, 470, 481, 16, 438, 432, 374, 11997, 311, 5165, 279, 4479, 1119, 264, 32719, 2482, 624, 17, 13, 54340, 1526, 279, 4479, 1549, 323, 11047, 279, 1372, 315, 6174, 304, 279, 1156, 2802, 323, 3250, 11, 323, 3553, 419, 304, 1565, 48149, 63, 323, 1565, 2074, 2507, 63, 15576, 11, 438, 1632, 438, 279, 69887, 315, 279, 4453, 2802, 323, 3250, 624, 18].
+Sample 147 of the eval set: You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+You are given an array `nums`. You can rotate it by a non-negative integer `k` so that the array becomes `[nums[k], nums[k + 1], ... nums[nums.length - 1], nums[0], nums[1], ..., nums[k-1]]`. Afterward, any entries that are less than or equal to their index are worth one point.
+
+*   For example, if we have `nums = [2,4,1,3,0]`, and we rotate by `k = 2`, it becomes `[1,3,0,2,4]`. This is worth `3` points because `1 > 0` \[no points\], `3 > 1` \[no points\], `0 <= 2` \[one point\], `2 <= 3` \[one point\], `4 <= 4` \[one point\].
+
+Return _the rotation index_ `k` _that corresponds to the highest score we can achieve if we rotated_ `nums` _by it_. If there are multiple answers, return the smallest such index `k`.
+
+**Example 1:**
+
+**Input:** nums = \[2,3,1,4,0\]
+**Output:** 3
+**Explanation:** Scores for each k are listed below: 
+k = 0,  nums = \[2,3,1,4,0\],    score 2
+k = 1,  nums = \[3,1,4,0,2\],    score 3
+k = 2,  nums = \[1,4,0,2,3\],    score 3
+k = 3,  nums = \[4,0,2,3,1\],    score 4
+k = 4,  nums = \[0,2,3,1,4\],    score 3
+So we should choose k = 3, which has the highest score.
+
+**Example 2:**
+
+**Input:** nums = \[1,3,0,2,4\]
+**Output:** 0
+**Explanation:** nums will always have 3 points no matter how it shifts.
+So we will choose the smallest k, which is 0.
+
+**Constraints:**
+
+*   `1 <= nums.length <= 105`
+*   `0 <= nums[i] < nums.length`
+### Response:
+
+    ```java
+public int movesToChessboard(int[][] board) {
+    int N = board.length;
+    int row = 0, col = 0, rowCount = 0, colCount = 0;
+
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            if (((board[0][0] ^ board[i][0] ^ board[0][j]) ^ board[i][j]) != 0) return -1;
+        }
+    }
+
+    for (int i = 0; i < N; i++) {
+        row ^= board[0][i];
+        col ^= board[i][0];
+        rowCount += board[0][i] == 1 ? 1 : 0;
+        colCount += board[i][0] == 1 ? 1 : 0;
+    }
+
+    if (row != 0 && rowCount * 2 != N) return -1;
+    if (col != 0 && colCount * 2 != N) return -1;
+
+    if (N % 2 == 1) {
+        if (rowCount % 2 == 1) rowCount = N - rowCount;
+        if (colCount % 2 == 1) colCount = N - colCount;
+    } else {
+        rowCount = Math.min(rowCount, N - rowCount);
+        colCount = Math.min(colCount, N - colCount);
+    }
+
+    return (rowCount + colCount) / 2;
+}
+```
+    
+    1. Iterate through the board and check if swapping rows or columns can transform it into a chessboard by checking if the XOR of the first cell in each row and column, as well as the XOR with the current cell, is zero. If any of these XOR checks return a non-zero result, return -1 as it is impossible to transform the board into a chessboard.
+2. Iterate through the board again and calculate the number of ones in the first row and column, and store this in `rowCount` and `colCount` respectively, as well as the XOR of the entire row and column.
+3.
+Sample 229 of the eval set: [2610, 525, 458, 15235, 15473, 17847, 11, 34888, 279, 18183, 39350, 356, 4316, 1614, 11, 7881, 553, 18183, 39350, 8188, 11, 323, 498, 1172, 4226, 4755, 5435, 311, 6366, 8038, 13, 1752, 30105, 16216, 4755, 11, 4763, 323, 12345, 4714, 11, 323, 1008, 2477, 11476, 11281, 8038, 4755, 11, 498, 686, 25066, 311, 4226, 624, 14374, 29051, 510, 2610, 525, 2661, 458, 1565, 76, 856, 308, 63, 7546, 6172, 1565, 4203, 7808, 1380, 498, 646, 3271, 504, 264, 2779, 311, 894, 23942, 2779, 304, 678, 1565, 19, 63, 17961, 382, 5598, 716, 1782, 1372, 315, 3070, 6627, 398, 334, 3070, 42742, 4422, 334, 12716, 304, 279, 5827, 1741, 429, 498, 646, 1191, 504, 3070, 3767, 334, 2779, 323, 835, 518, 3070, 3767, 334, 2779, 1436, 8704, 279, 4226, 1231, 387, 1602, 3460, 11, 470, 432, 3070, 87966, 334, 1565, 16, 15, 24, 488, 220, 22, 62338, 11613, 12716, 525, 6509, 2155, 421, 807, 653, 537, 614, 6896, 279, 1852, 8500, 315, 11994, 7761, 382, 334, 13314, 220, 16, 25, 56177, 334, 2505, 66963, 5827, 284, 1124, 26056, 58, 16, 11, 16, 59, 1125, 78045, 18, 11, 19, 59, 17960, 921, 334, 5097, 66963, 220, 23, 198, 334, 69769, 66963, 576, 25470, 7703, 12716, 525, 510, 12, 55606, 448, 3084, 220, 16, 25, 1124, 58, 16, 59, 1125, 1124, 58, 16, 59, 1125, 1124, 58, 18, 59, 1125, 1124, 58, 19, 59, 26126, 12, 55606, 448, 3084, 220, 17, 25, 1124, 58, 16, 1464, 220, 18, 59, 1125, 1124, 58, 16, 1464, 220, 19, 59, 1125, 1124, 58, 18, 1464, 220, 19, 59, 26126, 12, 55606, 448, 3084, 220, 18, 25, 1124, 58, 16, 1464, 220, 18, 1464, 220, 19, 59, 26126, 785, 2790, 1372, 315, 12716, 374, 220, 19, 488, 220, 18, 488, 220, 16, 284, 220, 23, 382, 334, 13314, 220, 17, 25, 56177, 334, 2505, 66963, 5827, 284, 1124, 26056, 58, 16, 59, 1125, 78045, 17, 59, 17960, 921, 334, 5097, 66963, 220, 18, 198, 334, 69769, 66963, 576, 25470, 7703, 12716, 525, 510, 12, 55606, 448, 3084, 220, 16, 25, 1124, 58, 16, 59, 1125, 1124, 58, 17, 59, 26126, 12, 55606, 448, 3084, 220, 17, 25, 1124, 58, 16, 1464, 220, 17, 59, 26126, 785, 2790, 1372, 315, 12716, 374, 220, 17, 488, 220, 16, 284, 220, 18, 382, 334, 12925, 25, 56177, 9, 256, 1565, 76, 621, 5827, 1954, 3989, 9, 256, 1565, 77, 621, 5827, 989, 936, 4129, 3989, 9, 256, 1565, 16, 2651, 296, 11, 308, 2651, 220, 16, 15, 15, 15, 3989, 9, 256, 1565, 16, 2651, 296, 353, 308, 2651, 220, 16, 15, 20, 3989, 9, 256, 1565, 16, 2651, 5827, 989, 1457, 73, 60, 2651, 220, 16, 15, 20, 3989, 14374, 5949, 1447, 262, 54275, 10042, 198, 888, 923, 912, 83997, 38322, 2242, 7493, 8, 341, 262, 470, 33579, 488, 7493, 488, 46151, 532, 13874, 19324, 1066, 262, 576, 12111, 4936, 4990, 1946, 7493, 323, 11367, 458, 8568, 95356, 518, 279, 7167, 315, 279, 7493, 11, 323, 264, 15316, 95356, 518, 279, 835, 315, 279, 7493, 13, 8704, 279, 7493, 374, 304, 279, 1352, 315, 4055, 2413, 16, 95326, 27, 2413, 17, 21156, 7842, 95356, 2163, 279, 4361, 7493, 1558, 537, 2297, 279, 897, 13, 14301, 11, 432, 4675, 279, 24632, 3204, 897, 438, 13214, 4588, 624, 1066, 27, 91, 36, 1793, 91, 29], [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, 262, 54275, 10042, 198, 888, 923, 912, 83997, 38322, 2242, 7493, 8, 341, 262, 470, 33579, 488, 7493, 488, 46151, 532, 13874, 19324, 1066, 262, 576, 12111, 4936, 4990, 1946, 7493, 323, 11367, 458, 8568, 95356, 518, 279, 7167, 315, 279, 7493, 11, 323, 264, 15316, 95356, 518, 279, 835, 315, 279, 7493, 13, 8704, 279, 7493, 374, 304, 279, 1352, 315, 4055, 2413, 16, 95326, 27, 2413, 17, 21156, 7842, 95356, 2163, 279, 4361, 7493, 1558, 537, 2297, 279, 897, 13, 14301, 11, 432, 4675, 279, 24632, 3204, 897, 438, 13214, 4588, 624, 1066, 27, 91, 36, 1793, 91, 29].
+Sample 229 of the eval set: You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+You are given an `m x n` integer matrix `grid`, where you can move from a cell to any adjacent cell in all `4` directions.
+
+Return _the number of **strictly** **increasing** paths in the grid such that you can start from **any** cell and end at **any** cell._ Since the answer may be very large, return it **modulo** `109 + 7`.
+
+Two paths are considered different if they do not have exactly the same sequence of visited cells.
+
+**Example 1:**
+
+**Input:** grid = \[\[1,1\],\[3,4\]\]
+**Output:** 8
+**Explanation:** The strictly increasing paths are:
+- Paths with length 1: \[1\], \[1\], \[3\], \[4\].
+- Paths with length 2: \[1 -> 3\], \[1 -> 4\], \[3 -> 4\].
+- Paths with length 3: \[1 -> 3 -> 4\].
+The total number of paths is 4 + 3 + 1 = 8.
+
+**Example 2:**
+
+**Input:** grid = \[\[1\],\[2\]\]
+**Output:** 3
+**Explanation:** The strictly increasing paths are:
+- Paths with length 1: \[1\], \[2\].
+- Paths with length 2: \[1 -> 2\].
+The total number of paths is 2 + 1 = 3.
+
+**Constraints:**
+
+*   `m == grid.length`
+*   `n == grid[i].length`
+*   `1 <= m, n <= 1000`
+*   `1 <= m * n <= 105`
+*   `1 <= grid[i][j] <= 105`
+### Response:
+
+    ```java
+public String addParentheses(String expression) {
+    return "(" + expression + ")";
+}
+```
+
+    
+    The algorithm simply takes input expression and adds an opening parenthesis at the beginning of the expression, and a closing parenthesis at the end of the expression. Since the expression is in the form of "<num1>+<num2>", adding parenthesis around the whole expression does not change the value. Thus, it returns the smallest possible value as originally asked.
+    
+<|EOT|>.
+Installed CUDA version 12.5 does not match the version torch was compiled with 12.4 but since the APIs are compatible, accepting this combination
+Time to load cpu_adam op: 30.41247010231018 seconds
+Parameter Offload: Total persistent parameters: 144896 in 141 params
+[2024-12-02 22:50:15,662] [WARNING] [lr_schedules.py:683:get_lr] Attempting to get learning rate from scheduler before it has started
+{'loss': 0.8948, 'grad_norm': 5.777238368988037, 'learning_rate': 1e-06, 'epoch': 0.02}
+{'loss': 0.938, 'grad_norm': 5.66590690612793, 'learning_rate': 1e-06, 'epoch': 0.04}
+{'loss': 0.8365, 'grad_norm': 4.29192590713501, 'learning_rate': 1e-06, 'epoch': 0.06}
+{'loss': 0.8139, 'grad_norm': 3.8735921382904053, 'learning_rate': 1e-06, 'epoch': 0.08}
+{'loss': 0.7015, 'grad_norm': 3.981898069381714, 'learning_rate': 1e-06, 'epoch': 0.11}
+{'loss': 0.6291, 'grad_norm': 2.789015531539917, 'learning_rate': 1e-06, 'epoch': 0.13}
+{'loss': 0.714, 'grad_norm': 2.839282512664795, 'learning_rate': 1e-06, 'epoch': 0.15}
+{'loss': 0.6942, 'grad_norm': 3.100360870361328, 'learning_rate': 1e-06, 'epoch': 0.17}
+{'loss': 0.6543, 'grad_norm': 2.9261248111724854, 'learning_rate': 1e-06, 'epoch': 0.19}
+{'loss': 0.6197, 'grad_norm': 3.0929009914398193, 'learning_rate': 1e-06, 'epoch': 0.21}
+{'loss': 0.6402, 'grad_norm': 3.579111337661743, 'learning_rate': 1e-06, 'epoch': 0.23}
+{'loss': 0.6004, 'grad_norm': 2.8567872047424316, 'learning_rate': 1e-06, 'epoch': 0.25}
+{'loss': 0.653, 'grad_norm': 3.444579839706421, 'learning_rate': 1e-06, 'epoch': 0.28}
+{'loss': 0.6522, 'grad_norm': 3.1014597415924072, 'learning_rate': 1e-06, 'epoch': 0.3}
+{'loss': 0.6183, 'grad_norm': 2.7174999713897705, 'learning_rate': 1e-06, 'epoch': 0.32}
+{'loss': 0.5756, 'grad_norm': 3.0154056549072266, 'learning_rate': 1e-06, 'epoch': 0.34}
+{'loss': 0.6395, 'grad_norm': 3.3348991870880127, 'learning_rate': 1e-06, 'epoch': 0.36}
+{'loss': 0.6091, 'grad_norm': 2.797917366027832, 'learning_rate': 1e-06, 'epoch': 0.38}
+{'loss': 0.5593, 'grad_norm': 3.016282320022583, 'learning_rate': 1e-06, 'epoch': 0.4}
+{'loss': 0.6372, 'grad_norm': 2.8938257694244385, 'learning_rate': 1e-06, 'epoch': 0.42}
+{'eval_loss': 0.6111265420913696, 'eval_runtime': 13.5058, 'eval_samples_per_second': 17.474, 'eval_steps_per_second': 2.221, 'epoch': 0.42}
+{'loss': 0.6111, 'grad_norm': 3.5144131183624268, 'learning_rate': 1e-06, 'epoch': 0.44}
+{'loss': 0.5976, 'grad_norm': 2.816525459289551, 'learning_rate': 1e-06, 'epoch': 0.47}
+{'loss': 0.6479, 'grad_norm': 3.138930082321167, 'learning_rate': 1e-06, 'epoch': 0.49}
+{'loss': 0.6129, 'grad_norm': 2.975593090057373, 'learning_rate': 1e-06, 'epoch': 0.51}
+{'loss': 0.5951, 'grad_norm': 3.1168808937072754, 'learning_rate': 1e-06, 'epoch': 0.53}
+{'loss': 0.5662, 'grad_norm': 2.9230005741119385, 'learning_rate': 1e-06, 'epoch': 0.55}
+{'loss': 0.5759, 'grad_norm': 3.1604647636413574, 'learning_rate': 1e-06, 'epoch': 0.57}
+{'loss': 0.6224, 'grad_norm': 3.341874361038208, 'learning_rate': 1e-06, 'epoch': 0.59}
+{'loss': 0.6358, 'grad_norm': 3.0885398387908936, 'learning_rate': 1e-06, 'epoch': 0.61}
+{'loss': 0.5487, 'grad_norm': 3.007876396179199, 'learning_rate': 1e-06, 'epoch': 0.64}
+{'loss': 0.6132, 'grad_norm': 2.9974913597106934, 'learning_rate': 1e-06, 'epoch': 0.66}
+{'loss': 0.6159, 'grad_norm': 2.938204526901245, 'learning_rate': 1e-06, 'epoch': 0.68}
+{'loss': 0.5813, 'grad_norm': 2.9196531772613525, 'learning_rate': 1e-06, 'epoch': 0.7}
+{'loss': 0.6328, 'grad_norm': 2.781797409057617, 'learning_rate': 1e-06, 'epoch': 0.72}
+{'loss': 0.5607, 'grad_norm': 2.3430349826812744, 'learning_rate': 1e-06, 'epoch': 0.74}
+{'loss': 0.6049, 'grad_norm': 3.4903149604797363, 'learning_rate': 1e-06, 'epoch': 0.76}
+{'loss': 0.5478, 'grad_norm': 2.7792840003967285, 'learning_rate': 1e-06, 'epoch': 0.78}
+{'loss': 0.5622, 'grad_norm': 3.128227472305298, 'learning_rate': 1e-06, 'epoch': 0.81}
+{'loss': 0.5653, 'grad_norm': 2.4332094192504883, 'learning_rate': 1e-06, 'epoch': 0.83}
+{'loss': 0.5832, 'grad_norm': 3.1834657192230225, 'learning_rate': 1e-06, 'epoch': 0.85}
+{'eval_loss': 0.5968818068504333, 'eval_runtime': 13.5164, 'eval_samples_per_second': 17.46, 'eval_steps_per_second': 2.22, 'epoch': 0.85}
+{'loss': 0.5892, 'grad_norm': 2.996478319168091, 'learning_rate': 1e-06, 'epoch': 0.87}
+{'loss': 0.6151, 'grad_norm': 3.0887293815612793, 'learning_rate': 1e-06, 'epoch': 0.89}
+{'loss': 0.6331, 'grad_norm': 2.8966310024261475, 'learning_rate': 1e-06, 'epoch': 0.91}
+{'loss': 0.5474, 'grad_norm': 2.932659387588501, 'learning_rate': 1e-06, 'epoch': 0.93}
+{'loss': 0.5382, 'grad_norm': 3.1430530548095703, 'learning_rate': 1e-06, 'epoch': 0.95}
+{'loss': 0.5502, 'grad_norm': 2.753767490386963, 'learning_rate': 1e-06, 'epoch': 0.97}
+{'loss': 0.6323, 'grad_norm': 3.5179286003112793, 'learning_rate': 1e-06, 'epoch': 1.0}
+{'loss': 0.5401, 'grad_norm': 2.8205692768096924, 'learning_rate': 1e-06, 'epoch': 1.02}
+{'loss': 0.5619, 'grad_norm': 2.953407049179077, 'learning_rate': 1e-06, 'epoch': 1.04}
+{'loss': 0.538, 'grad_norm': 2.476105213165283, 'learning_rate': 1e-06, 'epoch': 1.06}
+{'loss': 0.5134, 'grad_norm': 2.648118257522583, 'learning_rate': 1e-06, 'epoch': 1.08}
+{'loss': 0.5176, 'grad_norm': 2.563917636871338, 'learning_rate': 1e-06, 'epoch': 1.1}
+{'loss': 0.5639, 'grad_norm': 3.044475793838501, 'learning_rate': 1e-06, 'epoch': 1.12}
+{'loss': 0.611, 'grad_norm': 2.873652935028076, 'learning_rate': 1e-06, 'epoch': 1.14}
+{'loss': 0.536, 'grad_norm': 2.773866891860962, 'learning_rate': 1e-06, 'epoch': 1.17}
+{'loss': 0.5354, 'grad_norm': 2.531470775604248, 'learning_rate': 1e-06, 'epoch': 1.19}
+{'loss': 0.5795, 'grad_norm': 2.5024242401123047, 'learning_rate': 1e-06, 'epoch': 1.21}
+{'loss': 0.5797, 'grad_norm': 2.9125730991363525, 'learning_rate': 1e-06, 'epoch': 1.23}
+{'loss': 0.5455, 'grad_norm': 2.938194751739502, 'learning_rate': 1e-06, 'epoch': 1.25}
+{'loss': 0.5936, 'grad_norm': 3.303238868713379, 'learning_rate': 1e-06, 'epoch': 1.27}
+{'eval_loss': 0.5912928581237793, 'eval_runtime': 13.4927, 'eval_samples_per_second': 17.491, 'eval_steps_per_second': 2.223, 'epoch': 1.27}
+{'loss': 0.5313, 'grad_norm': 2.804922580718994, 'learning_rate': 1e-06, 'epoch': 1.29}
+{'loss': 0.5586, 'grad_norm': 3.2690446376800537, 'learning_rate': 1e-06, 'epoch': 1.31}
+{'loss': 0.5676, 'grad_norm': 3.139709234237671, 'learning_rate': 1e-06, 'epoch': 1.33}
+{'loss': 0.531, 'grad_norm': 3.097869396209717, 'learning_rate': 1e-06, 'epoch': 1.36}
+{'loss': 0.5423, 'grad_norm': 3.2714505195617676, 'learning_rate': 1e-06, 'epoch': 1.38}
+{'loss': 0.5665, 'grad_norm': 2.6774606704711914, 'learning_rate': 1e-06, 'epoch': 1.4}
+{'loss': 0.5243, 'grad_norm': 2.654951810836792, 'learning_rate': 1e-06, 'epoch': 1.42}
+{'loss': 0.5494, 'grad_norm': 2.832665205001831, 'learning_rate': 1e-06, 'epoch': 1.44}
+{'loss': 0.6155, 'grad_norm': 2.7481801509857178, 'learning_rate': 1e-06, 'epoch': 1.46}
+{'loss': 0.5339, 'grad_norm': 3.1503093242645264, 'learning_rate': 1e-06, 'epoch': 1.48}
+{'loss': 0.5719, 'grad_norm': 2.860879898071289, 'learning_rate': 1e-06, 'epoch': 1.5}
+{'loss': 0.5249, 'grad_norm': 2.8061559200286865, 'learning_rate': 1e-06, 'epoch': 1.53}
+{'loss': 0.5459, 'grad_norm': 3.0140087604522705, 'learning_rate': 1e-06, 'epoch': 1.55}
+{'loss': 0.5281, 'grad_norm': 2.654358386993408, 'learning_rate': 1e-06, 'epoch': 1.57}
+{'loss': 0.5212, 'grad_norm': 2.293423652648926, 'learning_rate': 1e-06, 'epoch': 1.59}
+{'loss': 0.5252, 'grad_norm': 2.5663323402404785, 'learning_rate': 1e-06, 'epoch': 1.61}
+{'loss': 0.5465, 'grad_norm': 2.6719136238098145, 'learning_rate': 1e-06, 'epoch': 1.63}
+{'loss': 0.5206, 'grad_norm': 2.733811616897583, 'learning_rate': 1e-06, 'epoch': 1.65}
+{'loss': 0.5402, 'grad_norm': 2.6911237239837646, 'learning_rate': 1e-06, 'epoch': 1.67}
+{'loss': 0.4981, 'grad_norm': 2.6479713916778564, 'learning_rate': 1e-06, 'epoch': 1.69}
+{'eval_loss': 0.5868182182312012, 'eval_runtime': 13.4963, 'eval_samples_per_second': 17.486, 'eval_steps_per_second': 2.223, 'epoch': 1.69}
+{'loss': 0.5811, 'grad_norm': 2.869748830795288, 'learning_rate': 1e-06, 'epoch': 1.72}
+{'loss': 0.5619, 'grad_norm': 2.794722557067871, 'learning_rate': 1e-06, 'epoch': 1.74}
+{'loss': 0.5089, 'grad_norm': 3.4407947063446045, 'learning_rate': 1e-06, 'epoch': 1.76}
+{'loss': 0.551, 'grad_norm': 2.499443769454956, 'learning_rate': 1e-06, 'epoch': 1.78}
+{'loss': 0.5385, 'grad_norm': 2.6538705825805664, 'learning_rate': 1e-06, 'epoch': 1.8}
+{'loss': 0.5417, 'grad_norm': 2.686636447906494, 'learning_rate': 1e-06, 'epoch': 1.82}
+{'loss': 0.5691, 'grad_norm': 2.540172815322876, 'learning_rate': 1e-06, 'epoch': 1.84}
+{'loss': 0.5457, 'grad_norm': 2.571298360824585, 'learning_rate': 1e-06, 'epoch': 1.86}
+{'loss': 0.553, 'grad_norm': 2.5308306217193604, 'learning_rate': 1e-06, 'epoch': 1.89}
+{'loss': 0.5216, 'grad_norm': 2.7769150733947754, 'learning_rate': 1e-06, 'epoch': 1.91}
+{'loss': 0.5638, 'grad_norm': 2.543609380722046, 'learning_rate': 1e-06, 'epoch': 1.93}
+{'loss': 0.5221, 'grad_norm': 2.6875534057617188, 'learning_rate': 1e-06, 'epoch': 1.95}
+{'loss': 0.524, 'grad_norm': 2.7199902534484863, 'learning_rate': 1e-06, 'epoch': 1.97}
+{'loss': 0.5246, 'grad_norm': 2.949267625808716, 'learning_rate': 1e-06, 'epoch': 1.99}
+{'loss': 0.5123, 'grad_norm': 2.6166341304779053, 'learning_rate': 1e-06, 'epoch': 2.01}
+{'loss': 0.4969, 'grad_norm': 2.9468650817871094, 'learning_rate': 1e-06, 'epoch': 2.03}
+{'loss': 0.502, 'grad_norm': 2.8837485313415527, 'learning_rate': 1e-06, 'epoch': 2.06}
+{'loss': 0.5398, 'grad_norm': 2.6252517700195312, 'learning_rate': 1e-06, 'epoch': 2.08}
+{'loss': 0.4847, 'grad_norm': 3.1096432209014893, 'learning_rate': 1e-06, 'epoch': 2.1}
+{'loss': 0.5229, 'grad_norm': 3.8178746700286865, 'learning_rate': 1e-06, 'epoch': 2.12}
+{'eval_loss': 0.5915576219558716, 'eval_runtime': 13.5155, 'eval_samples_per_second': 17.461, 'eval_steps_per_second': 2.22, 'epoch': 2.12}
+{'loss': 0.5223, 'grad_norm': 2.480661153793335, 'learning_rate': 1e-06, 'epoch': 2.14}
+{'loss': 0.512, 'grad_norm': 2.8644230365753174, 'learning_rate': 1e-06, 'epoch': 2.16}
+{'loss': 0.5114, 'grad_norm': 2.7066972255706787, 'learning_rate': 1e-06, 'epoch': 2.18}
+{'loss': 0.5013, 'grad_norm': 2.9092371463775635, 'learning_rate': 1e-06, 'epoch': 2.2}
+{'loss': 0.5011, 'grad_norm': 3.074976921081543, 'learning_rate': 1e-06, 'epoch': 2.22}
+{'loss': 0.5051, 'grad_norm': 2.4156339168548584, 'learning_rate': 1e-06, 'epoch': 2.25}
+{'loss': 0.4825, 'grad_norm': 2.6756231784820557, 'learning_rate': 1e-06, 'epoch': 2.27}
+{'loss': 0.478, 'grad_norm': 3.028975009918213, 'learning_rate': 1e-06, 'epoch': 2.29}
+{'loss': 0.4765, 'grad_norm': 3.023343086242676, 'learning_rate': 1e-06, 'epoch': 2.31}
+{'loss': 0.4539, 'grad_norm': 2.7371904850006104, 'learning_rate': 1e-06, 'epoch': 2.33}
+{'loss': 0.5337, 'grad_norm': 3.045963764190674, 'learning_rate': 1e-06, 'epoch': 2.35}
+{'loss': 0.5277, 'grad_norm': 3.070753335952759, 'learning_rate': 1e-06, 'epoch': 2.37}
+{'loss': 0.4712, 'grad_norm': 2.3256916999816895, 'learning_rate': 1e-06, 'epoch': 2.39}
+{'loss': 0.5173, 'grad_norm': 2.703526496887207, 'learning_rate': 1e-06, 'epoch': 2.42}
+{'loss': 0.5075, 'grad_norm': 2.879087209701538, 'learning_rate': 1e-06, 'epoch': 2.44}
+{'loss': 0.436, 'grad_norm': 3.0550687313079834, 'learning_rate': 1e-06, 'epoch': 2.46}
+{'loss': 0.5108, 'grad_norm': 2.8734123706817627, 'learning_rate': 1e-06, 'epoch': 2.48}
+{'loss': 0.4724, 'grad_norm': 2.4745914936065674, 'learning_rate': 1e-06, 'epoch': 2.5}
+{'loss': 0.462, 'grad_norm': 3.1060283184051514, 'learning_rate': 1e-06, 'epoch': 2.52}
+{'loss': 0.4943, 'grad_norm': 2.8016886711120605, 'learning_rate': 1e-06, 'epoch': 2.54}
+{'eval_loss': 0.5908682942390442, 'eval_runtime': 13.4836, 'eval_samples_per_second': 17.503, 'eval_steps_per_second': 2.225, 'epoch': 2.54}
+{'loss': 0.4674, 'grad_norm': 3.2634811401367188, 'learning_rate': 1e-06, 'epoch': 2.56}
+{'loss': 0.5315, 'grad_norm': 2.8741917610168457, 'learning_rate': 1e-06, 'epoch': 2.58}
+{'loss': 0.4584, 'grad_norm': 2.431349515914917, 'learning_rate': 1e-06, 'epoch': 2.61}
+{'loss': 0.5069, 'grad_norm': 2.7937822341918945, 'learning_rate': 1e-06, 'epoch': 2.63}
+{'loss': 0.5159, 'grad_norm': 3.2813990116119385, 'learning_rate': 1e-06, 'epoch': 2.65}
+{'loss': 0.5157, 'grad_norm': 2.7057206630706787, 'learning_rate': 1e-06, 'epoch': 2.67}
+{'loss': 0.5095, 'grad_norm': 2.8963959217071533, 'learning_rate': 1e-06, 'epoch': 2.69}
+{'loss': 0.4377, 'grad_norm': 2.8021199703216553, 'learning_rate': 1e-06, 'epoch': 2.71}
+{'loss': 0.4986, 'grad_norm': 3.0421180725097656, 'learning_rate': 1e-06, 'epoch': 2.73}
+{'loss': 0.4829, 'grad_norm': 3.1660430431365967, 'learning_rate': 1e-06, 'epoch': 2.75}
+{'loss': 0.4871, 'grad_norm': 3.5249123573303223, 'learning_rate': 1e-06, 'epoch': 2.78}
+{'loss': 0.4938, 'grad_norm': 3.203339099884033, 'learning_rate': 1e-06, 'epoch': 2.8}
+{'loss': 0.4741, 'grad_norm': 2.9943978786468506, 'learning_rate': 1e-06, 'epoch': 2.82}
+{'loss': 0.5157, 'grad_norm': 3.2375659942626953, 'learning_rate': 1e-06, 'epoch': 2.84}
+{'loss': 0.463, 'grad_norm': 2.724250316619873, 'learning_rate': 1e-06, 'epoch': 2.86}
+{'loss': 0.4667, 'grad_norm': 2.9644296169281006, 'learning_rate': 1e-06, 'epoch': 2.88}
+{'loss': 0.5231, 'grad_norm': 3.1335675716400146, 'learning_rate': 1e-06, 'epoch': 2.9}
+{'loss': 0.5196, 'grad_norm': 3.043511152267456, 'learning_rate': 1e-06, 'epoch': 2.92}
+{'loss': 0.509, 'grad_norm': 3.2341203689575195, 'learning_rate': 1e-06, 'epoch': 2.94}
+{'loss': 0.4859, 'grad_norm': 3.2616324424743652, 'learning_rate': 1e-06, 'epoch': 2.97}
+{'eval_loss': 0.5905558466911316, 'eval_runtime': 13.4967, 'eval_samples_per_second': 17.486, 'eval_steps_per_second': 2.223, 'epoch': 2.97}
+{'loss': 0.5038, 'grad_norm': 2.53244948387146, 'learning_rate': 1e-06, 'epoch': 2.99}
+{'loss': 0.4877, 'grad_norm': 2.7052760124206543, 'learning_rate': 1e-06, 'epoch': 3.01}
+{'loss': 0.4408, 'grad_norm': 2.7397847175598145, 'learning_rate': 1e-06, 'epoch': 3.03}
+{'loss': 0.4225, 'grad_norm': 2.901878833770752, 'learning_rate': 1e-06, 'epoch': 3.05}
+{'loss': 0.4446, 'grad_norm': 3.0439541339874268, 'learning_rate': 1e-06, 'epoch': 3.07}
+{'loss': 0.4266, 'grad_norm': 3.2217063903808594, 'learning_rate': 1e-06, 'epoch': 3.09}
+{'loss': 0.4757, 'grad_norm': 2.6093554496765137, 'learning_rate': 1e-06, 'epoch': 3.11}
+{'loss': 0.4803, 'grad_norm': 2.9566831588745117, 'learning_rate': 1e-06, 'epoch': 3.14}
+{'loss': 0.4428, 'grad_norm': 3.0122008323669434, 'learning_rate': 1e-06, 'epoch': 3.16}
+{'loss': 0.4711, 'grad_norm': 3.251603126525879, 'learning_rate': 1e-06, 'epoch': 3.18}
+{'loss': 0.4447, 'grad_norm': 2.7482552528381348, 'learning_rate': 1e-06, 'epoch': 3.2}
+{'loss': 0.434, 'grad_norm': 3.136852741241455, 'learning_rate': 1e-06, 'epoch': 3.22}
+{'loss': 0.436, 'grad_norm': 2.5606319904327393, 'learning_rate': 1e-06, 'epoch': 3.24}
+{'loss': 0.46, 'grad_norm': 3.1502208709716797, 'learning_rate': 1e-06, 'epoch': 3.26}
+{'loss': 0.4628, 'grad_norm': 3.3275039196014404, 'learning_rate': 1e-06, 'epoch': 3.28}
+{'loss': 0.4407, 'grad_norm': 2.869075059890747, 'learning_rate': 1e-06, 'epoch': 3.31}
+{'loss': 0.4331, 'grad_norm': 3.3055484294891357, 'learning_rate': 1e-06, 'epoch': 3.33}
+{'loss': 0.4051, 'grad_norm': 2.6063344478607178, 'learning_rate': 1e-06, 'epoch': 3.35}
+{'loss': 0.4292, 'grad_norm': 2.9577183723449707, 'learning_rate': 1e-06, 'epoch': 3.37}
+{'loss': 0.4859, 'grad_norm': 3.189523696899414, 'learning_rate': 1e-06, 'epoch': 3.39}
+{'eval_loss': 0.6051834225654602, 'eval_runtime': 13.5063, 'eval_samples_per_second': 17.473, 'eval_steps_per_second': 2.221, 'epoch': 3.39}
+{'loss': 0.4545, 'grad_norm': 3.3224267959594727, 'learning_rate': 1e-06, 'epoch': 3.41}
+{'loss': 0.4661, 'grad_norm': 3.0676066875457764, 'learning_rate': 1e-06, 'epoch': 3.43}
+{'loss': 0.4519, 'grad_norm': 2.5903098583221436, 'learning_rate': 1e-06, 'epoch': 3.45}
+{'loss': 0.4344, 'grad_norm': 3.1328370571136475, 'learning_rate': 1e-06, 'epoch': 3.47}
+{'loss': 0.4287, 'grad_norm': 2.818225622177124, 'learning_rate': 1e-06, 'epoch': 3.5}
+{'loss': 0.4535, 'grad_norm': 2.8424651622772217, 'learning_rate': 1e-06, 'epoch': 3.52}
+{'loss': 0.4332, 'grad_norm': 3.1530919075012207, 'learning_rate': 1e-06, 'epoch': 3.54}
+{'loss': 0.4523, 'grad_norm': 3.409605026245117, 'learning_rate': 1e-06, 'epoch': 3.56}
+{'loss': 0.4367, 'grad_norm': 2.9078688621520996, 'learning_rate': 1e-06, 'epoch': 3.58}
+{'loss': 0.4545, 'grad_norm': 3.1569910049438477, 'learning_rate': 1e-06, 'epoch': 3.6}
+{'loss': 0.3965, 'grad_norm': 3.1182870864868164, 'learning_rate': 1e-06, 'epoch': 3.62}
+{'loss': 0.4141, 'grad_norm': 3.3101892471313477, 'learning_rate': 1e-06, 'epoch': 3.64}
+{'loss': 0.4606, 'grad_norm': 3.233869791030884, 'learning_rate': 1e-06, 'epoch': 3.67}
+{'loss': 0.4183, 'grad_norm': 3.111313819885254, 'learning_rate': 1e-06, 'epoch': 3.69}
+{'loss': 0.408, 'grad_norm': 2.998656988143921, 'learning_rate': 1e-06, 'epoch': 3.71}
+{'loss': 0.4351, 'grad_norm': 3.430366039276123, 'learning_rate': 1e-06, 'epoch': 3.73}
+{'loss': 0.4785, 'grad_norm': 2.8217148780822754, 'learning_rate': 1e-06, 'epoch': 3.75}
+{'loss': 0.449, 'grad_norm': 3.3496015071868896, 'learning_rate': 1e-06, 'epoch': 3.77}
+{'loss': 0.442, 'grad_norm': 2.924886465072632, 'learning_rate': 1e-06, 'epoch': 3.79}
+{'loss': 0.475, 'grad_norm': 3.066619396209717, 'learning_rate': 1e-06, 'epoch': 3.81}
+{'eval_loss': 0.6103845834732056, 'eval_runtime': 13.4938, 'eval_samples_per_second': 17.489, 'eval_steps_per_second': 2.223, 'epoch': 3.81}
+{'loss': 0.4544, 'grad_norm': 3.5114710330963135, 'learning_rate': 1e-06, 'epoch': 3.83}
+{'loss': 0.4648, 'grad_norm': 3.2824885845184326, 'learning_rate': 1e-06, 'epoch': 3.86}
+{'loss': 0.4474, 'grad_norm': 4.117164611816406, 'learning_rate': 1e-06, 'epoch': 3.88}
+{'loss': 0.4686, 'grad_norm': 2.844777822494507, 'learning_rate': 1e-06, 'epoch': 3.9}
+{'loss': 0.4595, 'grad_norm': 2.787274122238159, 'learning_rate': 1e-06, 'epoch': 3.92}
+{'loss': 0.4521, 'grad_norm': 3.1667823791503906, 'learning_rate': 1e-06, 'epoch': 3.94}
+{'loss': 0.4802, 'grad_norm': 3.6168370246887207, 'learning_rate': 1e-06, 'epoch': 3.96}
+{'loss': 0.4318, 'grad_norm': 2.969330072402954, 'learning_rate': 1e-06, 'epoch': 3.98}
+{'loss': 0.4557, 'grad_norm': 2.845323085784912, 'learning_rate': 1e-06, 'epoch': 4.0}
+{'loss': 0.4037, 'grad_norm': 3.4066052436828613, 'learning_rate': 1e-06, 'epoch': 4.03}
+{'loss': 0.3978, 'grad_norm': 3.6632354259490967, 'learning_rate': 1e-06, 'epoch': 4.05}
+{'loss': 0.4144, 'grad_norm': 4.931917190551758, 'learning_rate': 1e-06, 'epoch': 4.07}
+{'loss': 0.4149, 'grad_norm': 3.391972064971924, 'learning_rate': 1e-06, 'epoch': 4.09}
+{'loss': 0.3908, 'grad_norm': 3.1300249099731445, 'learning_rate': 1e-06, 'epoch': 4.11}
+{'loss': 0.3719, 'grad_norm': 4.191863536834717, 'learning_rate': 1e-06, 'epoch': 4.13}
+{'loss': 0.4025, 'grad_norm': 6.11374568939209, 'learning_rate': 1e-06, 'epoch': 4.15}
+{'loss': 0.3998, 'grad_norm': 3.2199506759643555, 'learning_rate': 1e-06, 'epoch': 4.17}
+{'loss': 0.3393, 'grad_norm': 5.048213005065918, 'learning_rate': 1e-06, 'epoch': 4.19}
+{'loss': 0.4129, 'grad_norm': 3.44592547416687, 'learning_rate': 1e-06, 'epoch': 4.22}
+{'loss': 0.3994, 'grad_norm': 4.149114608764648, 'learning_rate': 1e-06, 'epoch': 4.24}
+{'eval_loss': 0.6308914422988892, 'eval_runtime': 13.4954, 'eval_samples_per_second': 17.487, 'eval_steps_per_second': 2.223, 'epoch': 4.24}
+{'loss': 0.3998, 'grad_norm': 3.604936122894287, 'learning_rate': 1e-06, 'epoch': 4.26}
+{'loss': 0.4069, 'grad_norm': 3.5815322399139404, 'learning_rate': 1e-06, 'epoch': 4.28}
+{'loss': 0.3699, 'grad_norm': 2.947315216064453, 'learning_rate': 1e-06, 'epoch': 4.3}
+{'loss': 0.4203, 'grad_norm': 3.2153544425964355, 'learning_rate': 1e-06, 'epoch': 4.32}
+{'loss': 0.4065, 'grad_norm': 2.7877793312072754, 'learning_rate': 1e-06, 'epoch': 4.34}
+{'loss': 0.3479, 'grad_norm': 3.283661365509033, 'learning_rate': 1e-06, 'epoch': 4.36}
+{'loss': 0.3713, 'grad_norm': 3.169921636581421, 'learning_rate': 1e-06, 'epoch': 4.39}
+{'loss': 0.4546, 'grad_norm': 6.396772384643555, 'learning_rate': 1e-06, 'epoch': 4.41}
+{'loss': 0.4168, 'grad_norm': 3.0951271057128906, 'learning_rate': 1e-06, 'epoch': 4.43}
+{'loss': 0.398, 'grad_norm': 3.0764000415802, 'learning_rate': 1e-06, 'epoch': 4.45}
+{'loss': 0.4003, 'grad_norm': 2.6121132373809814, 'learning_rate': 1e-06, 'epoch': 4.47}
+{'loss': 0.3931, 'grad_norm': 3.134012222290039, 'learning_rate': 1e-06, 'epoch': 4.49}
+{'loss': 0.4002, 'grad_norm': 3.1522443294525146, 'learning_rate': 1e-06, 'epoch': 4.51}
+{'loss': 0.4016, 'grad_norm': 5.221402168273926, 'learning_rate': 1e-06, 'epoch': 4.53}
+{'loss': 0.3872, 'grad_norm': 2.9113175868988037, 'learning_rate': 1e-06, 'epoch': 4.56}
+{'loss': 0.4046, 'grad_norm': 3.5550665855407715, 'learning_rate': 1e-06, 'epoch': 4.58}
+{'loss': 0.4241, 'grad_norm': 3.7577285766601562, 'learning_rate': 1e-06, 'epoch': 4.6}
+{'loss': 0.3864, 'grad_norm': 3.385745048522949, 'learning_rate': 1e-06, 'epoch': 4.62}
+{'loss': 0.3333, 'grad_norm': 3.2683358192443848, 'learning_rate': 1e-06, 'epoch': 4.64}
+{'loss': 0.3938, 'grad_norm': 3.6121575832366943, 'learning_rate': 1e-06, 'epoch': 4.66}
+{'eval_loss': 0.6429691910743713, 'eval_runtime': 13.5, 'eval_samples_per_second': 17.481, 'eval_steps_per_second': 2.222, 'epoch': 4.66}
+{'loss': 0.4137, 'grad_norm': 4.200397968292236, 'learning_rate': 1e-06, 'epoch': 4.68}
+{'loss': 0.3923, 'grad_norm': 3.3109681606292725, 'learning_rate': 1e-06, 'epoch': 4.7}
+{'loss': 0.4163, 'grad_norm': 3.9375035762786865, 'learning_rate': 1e-06, 'epoch': 4.72}
+{'loss': 0.381, 'grad_norm': 6.024969100952148, 'learning_rate': 1e-06, 'epoch': 4.75}
+{'loss': 0.4347, 'grad_norm': 3.08884596824646, 'learning_rate': 1e-06, 'epoch': 4.77}
+{'loss': 0.3664, 'grad_norm': 3.3379292488098145, 'learning_rate': 1e-06, 'epoch': 4.79}
+{'loss': 0.3938, 'grad_norm': 3.7753288745880127, 'learning_rate': 1e-06, 'epoch': 4.81}
+{'loss': 0.4137, 'grad_norm': 4.20499849319458, 'learning_rate': 1e-06, 'epoch': 4.83}
+{'loss': 0.406, 'grad_norm': 3.3456132411956787, 'learning_rate': 1e-06, 'epoch': 4.85}
+{'loss': 0.3525, 'grad_norm': 2.724604845046997, 'learning_rate': 1e-06, 'epoch': 4.87}
+{'loss': 0.3865, 'grad_norm': 2.970179557800293, 'learning_rate': 1e-06, 'epoch': 4.89}
+{'loss': 0.4094, 'grad_norm': 3.4614317417144775, 'learning_rate': 1e-06, 'epoch': 4.92}
+{'loss': 0.4041, 'grad_norm': 3.589235305786133, 'learning_rate': 1e-06, 'epoch': 4.94}
+{'loss': 0.4019, 'grad_norm': 3.204577684402466, 'learning_rate': 1e-06, 'epoch': 4.96}
+{'loss': 0.3984, 'grad_norm': 3.366319417953491, 'learning_rate': 1e-06, 'epoch': 4.98}
+{'loss': 0.4151, 'grad_norm': 3.8672423362731934, 'learning_rate': 1e-06, 'epoch': 5.0}
+{'train_runtime': 9148.2742, 'train_samples_per_second': 1.032, 'train_steps_per_second': 0.129, 'train_loss': 0.5032423726582931, 'epoch': 5.0}
+[1;34mwandb[0m: 🚀 View run [33m/data/user_data/jingyuah/models/qwen_1.5b_finetuned_java[0m at: [34mhttps://wandb.ai/jingyuanhe1222/huggingface/runs/hchft1qm[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/run-20241202_225016-hchft1qm/logs[0m
+[2024-12-03 01:22:50,132] [INFO] [launch.py:351:main] Process 229172 exits successfully.

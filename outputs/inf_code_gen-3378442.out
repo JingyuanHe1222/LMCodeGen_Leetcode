@@ -1,0 +1,12 @@
+Inf Job Starts
+INFO 11-20 15:34:47 llm_engine.py:223] Initializing an LLM engine (v0.6.1.post2) with config: model='Qwen/Qwen2.5-Coder-1.5B-Instruct', speculative_config=None, tokenizer='Qwen/Qwen2.5-Coder-1.5B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=Qwen/Qwen2.5-Coder-1.5B-Instruct, use_v2_block_manager=False, num_scheduler_steps=1, enable_prefix_caching=False, use_async_output_proc=True)
+INFO 11-20 15:34:49 model_runner.py:997] Starting to load model Qwen/Qwen2.5-Coder-1.5B-Instruct...
+INFO 11-20 15:34:49 weight_utils.py:242] Using model weights format ['*.safetensors']
+INFO 11-20 15:34:49 weight_utils.py:287] No model.safetensors.index.json found in remote.
+INFO 11-20 15:34:50 model_runner.py:1008] Loading model weights took 2.8875 GB
+INFO 11-20 15:34:52 gpu_executor.py:122] # GPU blocks: 87676, # CPU blocks: 9362
+INFO 11-20 15:34:56 model_runner.py:1311] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 11-20 15:34:56 model_runner.py:1315] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 11-20 15:35:11 model_runner.py:1430] Graph capturing finished in 15 secs.
+Qwen/Qwen2.5-Coder-1.5B-Instruct on ArtificialZeng/leetcode_code_generation-python achieves scores: 
+{'codebleu': 0.2535385976609, 'ngram_match_score': 0.0508327767659795, 'weighted_ngram_match_score': 0.08131050194428413, 'syntax_match_score': 0.36613634006977797, 'dataflow_match_score': 0.5158747718635583}
