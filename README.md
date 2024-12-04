@@ -52,6 +52,17 @@ Model                              | Verbalizer                    | shots     |
 |deepseek-ai/deepseek-coder-1.3b-instruct | templates/deepseek_prompt.txt | 4         | 0.2029518659470796| 0.03999000268328664| 0.08507234046737103         | 0.3140230111671443| 0.37272210947051637
 | deepseek-ai/deepseek-coder-1.3b-instruct | templates/deepseek_prompt.txt | 8         | 0.07340528316179015| 0.022718187769511435| 0.03601860230128292         | 0.10503934958899934| 0.12984499298736696
 
+
+
+#### ***Java***
+
+Model                              | Verbalizer                    | shots     | codebleu          | ngram_match_score   | weighted_ngram_match_score | syntax_match_score  | dataflow_match_score 
+| -------------------------------- | -------------               | --------- | ---------------   | -----------------   | -------------------------- | -----------------   | -----------------    |
+| deepseek-ai/deepseek-coder-1.3b-instruct | verbalizer/deepseek_prompt.txt | 0         | 0.29566562005486235| 0.07056999904567654| 0.1814067281749894         | 0.4687450288968518| 0.453466147830746
+| deepseek-ai/deepseek-coder-1.3b-instruct | templates/deepseek_prompt.txt | 2         | 0.311417122249295| 0.1001271801400451| 0.19341789613870214         | 0.4724320370347916| 0.475454087548048
+|deepseek-ai/deepseek-coder-1.3b-instruct | templates/deepseek_prompt.txt | 4         | 0.3188062483128827| 0.12027399722382058| 0.2060335623330785         | 0.4823078614148741| 0.46660957227975847
+
+
 <!-- ------------------------------ -->
 ### Scaling Up
 
