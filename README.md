@@ -67,6 +67,13 @@ Model                              | Verbalizer                    | shots     |
 ### Scaling Up
 
 
+#### ***Python***
+Model                              | Verbalizer                    | shots     | codebleu          | ngram_match_score   | weighted_ngram_match_score | syntax_match_score  | dataflow_match_score 
+| -------------------------------- | -------------               | --------- | ---------------   | -----------------   | -------------------------- | -----------------   | -----------------    |
+| deepseek-ai/deepseek-coder-6.7b-instruct | verbalizer/deepseek_prompt.txt | 0 | 0.2365068348571344 | 0.031476593881604654 | 0.12529971381322924       | 0.3118301027130953 | 0.4519972002070494
+| deepseek-ai/deepseek-coder-6.7b-instruct | verbalizer/deepseek_prompt.txt | 2 | 0.2324779013679328 | 0.03543981352965757 | 0.11611923081640614       | 0.3303634128569884 | 0.44798914826867925
+| deepseek-ai/deepseek-coder-6.7b-instruct | verbalizer/deepseek_prompt.txt | 4 | 0.23890479009518997 | 0.056271539987321435 | 0.12128848597367742       | 0.34445591166737155 | 0.4336032227523893
+
 #### ***Java***
 Model                              | Verbalizer                    | shots     | codebleu          | ngram_match_score   | weighted_ngram_match_score | syntax_match_score  | dataflow_match_score 
 | -------------------------------- | -------------               | --------- | ---------------   | -----------------   | -------------------------- | -----------------   | -----------------    |
@@ -75,4 +82,5 @@ Model                              | Verbalizer                    | shots     |
 | deepseek-ai/deepseek-coder-6.7b-instruct | verbalizer/deepseek_prompt.txt | 2 | 0.3221974874016451 | 0.08750551155965851 | 0.2096812137977044       | 0.47399052703468325 | 0.4663320823724581
 | deepseek-ai/deepseek-coder-6.7b-instruct | verbalizer/deepseek_prompt.txt | 4 | 0.3354103364488185 | 0.11434979323787338 | 0.2372369243307168       | 0.5100206437391517 | 0.48003398448753165
 | deepseek-ai/deepseek-coder-6.7b-instruct | verbalizer/deepseek_prompt.txt | 8 (too long, can't parse)| 0.25| 0.0| 0.0        | 0.0 | 0.0 
+
 
