@@ -53,4 +53,15 @@ Model                              | Verbalizer                    | shots     |
 | deepseek-ai/deepseek-coder-1.3b-instruct | templates/deepseek_prompt.txt | 8         | 0.07340528316179015| 0.022718187769511435| 0.03601860230128292         | 0.10503934958899934| 0.12984499298736696
 
 <!-- ------------------------------ -->
-### Fine-Tuning
+### Scaling Up
+
+
+#### ***Java***
+Model                              | Verbalizer                    | shots     | codebleu          | ngram_match_score   | weighted_ngram_match_score | syntax_match_score  | dataflow_match_score 
+| -------------------------------- | -------------               | --------- | ---------------   | -----------------   | -------------------------- | -----------------   | -----------------    |
+| deepseek-ai/deepseek-coder-6.7b-instruct | verbalizer/prompt.txt | 0 | 0.16215023591485625| 0.0035412276241528085| 0.014950838334448819        | 0.1241914970369472 | 0.5059173806638763 
+| deepseek-ai/deepseek-coder-6.7b-instruct | verbalizer/deepseek_prompt.txt | 0 | 0.310024100494679 | 0.07314342623149687 | 0.2096812137977044       | 0.47399052703468325 | 0.4663320823724581
+| deepseek-ai/deepseek-coder-6.7b-instruct | verbalizer/deepseek_prompt.txt | 2 | 0.3221974874016451 | 0.08750551155965851 | 0.2096812137977044       | 0.47399052703468325 | 0.4663320823724581
+| deepseek-ai/deepseek-coder-6.7b-instruct | verbalizer/deepseek_prompt.txt | 4 | 0.3354103364488185 | 0.11434979323787338 | 0.2372369243307168       | 0.5100206437391517 | 0.48003398448753165
+| deepseek-ai/deepseek-coder-6.7b-instruct | verbalizer/deepseek_prompt.txt | 8 (too long, can't parse)| 0.25| 0.0| 0.0        | 0.0 | 0.0 
+
