@@ -1,4 +1,6 @@
 import argparse
+import copy 
+import json
 import pickle
 from tqdm import tqdm 
 import random
@@ -47,22 +49,16 @@ def generate(prompts, model, sampling_params):
 
 def eval_batch(prompts, refs, model, sampling_params, lang): 
     code_gen_out = generate(prompts, model, sampling_params)
-    '''
-    for i in range(len(code_gen_out)):
-        temp = code_gen_out[i].split("```python")
-        
-        python_code = temp[1].split("```")
-        code_gen_out[i] = python_code[0]
-    '''
 
     for i in range(len(prompts)):
         print("*****EXAMPLE*****\n\n\n")
+        print([prompts[i]])
         print("generated:")
         print(code_gen_out[i])
         print("ref:")
         print(refs[i])
 
-    scores = calc_codebleu(refs, code_gen_out, lang=lang, weights=(0.25, 0.25, 0.25, 0.25), tokenizer=None)
+    scores = calc_codebleu(refs, code_gen_out, lang='python', weights=(0.25, 0.25, 0.25, 0.25), tokenizer=None)
     return scores 
 
 def main(): 
@@ -83,8 +79,41 @@ def main():
     # only do inf on test 
     del eval_data
 
+    tokenizer = AutoTokenizer.from_pretrained(args.model_path)
+
+    # read template 
+    templates = []
+    with open(args.template) as json_file:
+        for line in json_file:
+            templates.append(json.loads(line))
+
     # batch dataset 
     def collate_fn(features):
+
+        def format_context(): 
+            # format the n-shot example text 
+            if args.shots == 0: 
+                return ""
+            template = "Improve your coding skill from the following leetcode example questions: \n"
+            example_indices = random.sample(range(len(train_data)), args.shots)
+            for i in range(args.shots): 
+                example = train_data[example_indices[i]]
+                template += f"*** Leetcode Example Question {i+1} ***\n"  # 1-indexing 
+                template += f"{example['content']}\n"
+                template += f"**Code solution:** \n {example[args.lang]}\n" # example in target lang; data format **
+            return template 
+
+        def apply_template(context): 
+            # wrap against json dict
+            messages = copy.deepcopy(templates)
+            n_shot_contexts = format_context()
+            messages[1]["content"] = n_shot_contexts + (messages[1]["content"]).format(question=context)
+            # wrap template 
+            return tokenizer.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True
+            )
 
         def extract_answer_code(answer): 
             # get the code part only 
@@ -93,9 +122,11 @@ def main():
             parts = code.split('\n')
             code = '\n'.join(parts[1:])
             return code if code else ""
-            
-        questions = [sample["content"] for sample in features]
+        
+        
+        questions = [apply_template(sample["content"]) for sample in features]
         answers = [extract_answer_code(sample[args.lang]) for sample in features]
+
         return {
             "questions": questions, 
             "answers": answers, 
@@ -111,7 +142,7 @@ def main():
 
     # init fast inf model 
     # tokenizer = AutoTokenizer.from_pretrained(args.model_p  ath)
-    llm = LLM(args.model_path,trust_remote_code=True)
+    llm = LLM(args.model_path,trust_remote_code=True,gpu_memory_utilization=0.95,max_model_len=8192)
 
     sampling_params = SamplingParams(
         temperature=args.temperature, 
@@ -128,24 +159,11 @@ def main():
         "syntax_match_score": [], 
         "dataflow_match_score": []
     }
-    with open(args.template, 'r') as file:
-        verbalizer = file.read()
 
-    if args.shots != 0: 
-        example_indices = random.sample(range(len(train_data)), args.shots)
         
     for idx, batch in tqdm(enumerate(dataloader), total=len(dataloader)): 
         # inf
         prompts = batch["questions"]
-        for p in range(len(prompts)):
-            temp = ""
-            for i in range(args.shots): 
-                example = train_data[example_indices[i]]
-                temp += f"*** Leetcode Example Question {i+1} ***\n"  # 1-indexing 
-                temp += f"{example['content']}\n"
-                temp += f"**Code solution:** \n {example[args.lang]}\n" # example in target lang; data format **
-            prompts[p] = temp + verbalizer.format(question=prompts[p])
-
         refs = batch["answers"]
         scores = eval_batch(prompts, refs, model=llm, sampling_params=sampling_params, lang=args.lang)
         # process scores 

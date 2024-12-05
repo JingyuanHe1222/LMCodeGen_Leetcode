@@ -52,5 +52,17 @@ Model                              | Verbalizer                    | shots     |
 |deepseek-ai/deepseek-coder-1.3b-instruct | templates/deepseek_prompt.txt | 4         | 0.2029518659470796| 0.03999000268328664| 0.08507234046737103         | 0.3140230111671443| 0.37272210947051637
 | deepseek-ai/deepseek-coder-1.3b-instruct | templates/deepseek_prompt.txt | 8         | 0.07340528316179015| 0.022718187769511435| 0.03601860230128292         | 0.10503934958899934| 0.12984499298736696
 
+#### ***Python Scaling***
+
+Model                              | Verbalizer                    | shots     | codebleu          | ngram_match_score   | weighted_ngram_match_score | syntax_match_score  | dataflow_match_score 
+| -------------------------------- | -------------               | --------- | ---------------   | -----------------   | -------------------------- | -----------------   | -----------------    |
+| Qwen/Qwen2.5-Coder-3B-Instruct | verbalizer/prompt_shots.txt | 0         | 0.2619945058453462| 0.026010515183525536| 0.15399844296834317        | 0.37922875525589467 | 0.4887403099736217
+| Qwen/Qwen2.5-Coder-3B-Instruct | verbalizer/prompt_shots.txt | 2         | 0.2557497205699893| 0.024322291307321317 | 0.14514953673960046        | 0.3727398713719223| 0.480787182861113
+| Qwen/Qwen2.5-Coder-3B-Instruct | verbalizer/prompt_shots.txt | 4         | 0.2683496066674012| 0.030899071192121853 | 0.16379979890609883        | 0.38453773093008237| 0.4941618256413019
+| Qwen/Qwen2.5-Coder-7B-Instruct | verbalizer/prompt_shots.txt | 0         | 0.2683496066674012| 0.030899071192121853 | 0.16379979890609883        | 0.38453773093008237| 0.4941618256413019
+| Qwen/Qwen2.5-Coder-7B-Instruct | verbalizer/prompt_shots.txt | 2         | 0.2683496066674012| 0.030899071192121853 | 0.16379979890609883        | 0.38453773093008237| 0.4941618256413019
+| Qwen/Qwen2.5-Coder-7B-Instruct | verbalizer/prompt_shots.txt | 4         | 0.2683496066674012| 0.030899071192121853 | 0.16379979890609883        | 0.38453773093008237| 0.4941618256413019
+
+
 <!-- ------------------------------ -->
 ### Fine-Tuning

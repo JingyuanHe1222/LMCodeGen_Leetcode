@@ -3,7 +3,7 @@ import copy
 import json
 import pickle
 from tqdm import tqdm 
-import random 
+import random
 
 import torch 
 from codebleu import calc_codebleu
@@ -28,15 +28,15 @@ def get_args():
     parser.add_argument("--model_path", type=str, help="model for inference", default="Qwen/Qwen2.5-Coder-1.5B-Instruct")
     parser.add_argument("--dataset", type=str, help="name of dataset")
     parser.add_argument("--lang", type=str, default="python", help="Select language from ['python', 'c++', 'java', 'javascript']")
-    parser.add_argument("--template_path", type=str, default="templates/qwen_simple.jsonl", help="a template to wrap around the context of the prompt")
-    parser.add_argument("--shots", type=int, default=0)
     parser.add_argument("--batch_size", type=int, default=32)
+    parser.add_argument("--shots", type=int, default=0)
     parser.add_argument("--max_len", type=int, default=512)
     parser.add_argument("--gen_max_tokens", type=int, default=512)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--temperature", type=float, default=0.7)
     parser.add_argument("--top_p", type=float, default=0.8)
     parser.add_argument("--repetition_penalty", type=float, default=1.05)
+    parser.add_argument("--template", type=str, default="prompt.txt")
     args = parser.parse_args()
 
     return args
@@ -49,12 +49,20 @@ def generate(prompts, model, sampling_params):
 
 def eval_batch(prompts, refs, model, sampling_params, lang): 
     code_gen_out = generate(prompts, model, sampling_params)
-    scores = calc_codebleu(refs, code_gen_out, lang=lang, weights=(0.25, 0.25, 0.25, 0.25), tokenizer=None)
+
+    for i in range(len(prompts)):
+        print("*****EXAMPLE*****\n\n\n")
+        print([prompts[i]])
+        print("generated:")
+        print(code_gen_out[i])
+        print("ref:")
+        print(refs[i])
+
+    scores = calc_codebleu(refs, code_gen_out, lang='python', weights=(0.25, 0.25, 0.25, 0.25), tokenizer=None)
     return scores 
 
 def main(): 
     args = get_args()
-
     random.seed(args.seed)
 
     # only load the corresponding lang
@@ -71,12 +79,11 @@ def main():
     # only do inf on test 
     del eval_data
 
-    # init tokenizer to wrap chat template 
     tokenizer = AutoTokenizer.from_pretrained(args.model_path)
 
     # read template 
     templates = []
-    with open(args.template_path) as json_file:
+    with open(args.template) as json_file:
         for line in json_file:
             templates.append(json.loads(line))
 
@@ -100,7 +107,7 @@ def main():
             # wrap against json dict
             messages = copy.deepcopy(templates)
             n_shot_contexts = format_context()
-            messages[1]["content"] = n_shot_contexts + messages[1]["content"] + context
+            messages[1]["content"] = n_shot_contexts + (messages[1]["content"]).format(question=context)
             # wrap template 
             return tokenizer.apply_chat_template(
                 messages,
@@ -119,11 +126,13 @@ def main():
         
         questions = [apply_template(sample["content"]) for sample in features]
         answers = [extract_answer_code(sample[args.lang]) for sample in features]
+
         return {
             "questions": questions, 
             "answers": answers, 
         }
     
+
     dataloader = DataLoader(
         test_data, 
         collate_fn=collate_fn, 
@@ -132,14 +141,15 @@ def main():
     )
 
     # init fast inf model 
-    llm = LLM(args.model_path)
+    # tokenizer = AutoTokenizer.from_pretrained(args.model_p  ath)
+    llm = LLM(args.model_path,trust_remote_code=True,gpu_memory_utilization=0.95,max_model_len=8192)
 
     sampling_params = SamplingParams(
         temperature=args.temperature, 
         top_p=args.top_p, 
         repetition_penalty=args.repetition_penalty, 
         max_tokens=args.gen_max_tokens, 
-        seed=args.seed, 
+        seed=args.seed
     )
 
     all_scores = {
@@ -150,6 +160,7 @@ def main():
         "dataflow_match_score": []
     }
 
+        
     for idx, batch in tqdm(enumerate(dataloader), total=len(dataloader)): 
         # inf
         prompts = batch["questions"]
@@ -162,7 +173,7 @@ def main():
     for key in scores: 
         all_scores[key] = sum(all_scores[key])/len(all_scores[key])
 
-    print(f"{args.model_path} on {args.dataset}-{args.lang} with {args.shots} inference achieves scores: \n{all_scores}")
+    print(f"{args.model_path} on {args.dataset}-{args.lang} achieves scores: \n{all_scores}")
 
 
 

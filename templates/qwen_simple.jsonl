@@ -1,2 +1,2 @@
 {"role": "system", "content": "You are Qwen, You are a helpful assistant for code generation."}
-{"role": "user", "content": "Now generate the code solution for the following leetcode question: \n"}
+{"role": "user", "content": "Now generate the code solution for the following leetcode question: {question}\n"}
