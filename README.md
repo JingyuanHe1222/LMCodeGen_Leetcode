@@ -89,3 +89,42 @@ Model                              | Verbalizer                    | shots     |
 | deepseek-ai/deepseek-coder-6.7b-instruct | verbalizer/deepseek_prompt.txt | 8 (too long, can't parse)| 0.25| 0.0| 0.0        | 0.0 | 0.0 
 
 
+
+
+### Deployment
+
+#### ***python***
+
+#### ft + in-context
+
+Model                              | Verbalizer                    | shots     | codebleu          | ngram_match_score   | weighted_ngram_match_score | syntax_match_score  | dataflow_match_score 
+| -------------------------------- | -------------               | --------- | ---------------   | -----------------   | -------------------------- | -----------------   | -----------------    |
+| Qwen/Qwen2.5-Coder-1.5B-Instruct | verbalizer/prompt_shots.txt | 0         | 0.26520419405175875| 0.16177608182722186| 0.16177608182722186         | 0.3882973223766777| 0.47922243628007544
+| Qwen/Qwen2.5-Coder-1.5B-Instruct | templates/prompt_shots.txt | 2         | 0.22790118952098| 0.07497215723608647| 0.13537410190334428         | 0.3178320530505136| 0.3834264458939756
+| Qwen/Qwen2.5-Coder-1.5B-Instruct | templates/prompt_shots.txt | 4         | 0.24495386266628055| 0.08422297359148066| 0.15207771294059264         | 0.34330841671887585| 0.40020634741417316
+
+
+
+Model                              | Verbalizer                    | shots     | codebleu          | ngram_match_score   | weighted_ngram_match_score | syntax_match_score  | dataflow_match_score 
+| -------------------------------- | -------------               | --------- | ---------------   | -----------------   | -------------------------- | -----------------   | -----------------    |
+| deepseek-ai/deepseek-coder-1.3b-instruct | verbalizer/deepseek_prompt.txt | 0         | 0.21235916789973025| 0.02782308231306178| 0.10055145107162522         | 0.3085396127311261| 0.412522525483108
+| deepseek-ai/deepseek-coder-1.3b-instruct | templates/deepseek_prompt.txt | 2         | 0.2029732050070879| 0.035951873013259666| 0.09929546507228512         | 0.28956589760525414| 0.38707958433755246
+|deepseek-ai/deepseek-coder-1.3b-instruct | templates/deepseek_prompt.txt | 4         | 0.2011936097216442| 0.03760770616265476| 0.088810121561726         | 0.2858364035135594| 0.39252020764863643
+
+
+#### ***Java***
+
+#### ft + in-context
+
+Model                              | Verbalizer                    | shots     | codebleu          | ngram_match_score   | weighted_ngram_match_score | syntax_match_score  | dataflow_match_score 
+| -------------------------------- | -------------               | --------- | ---------------   | -----------------   | -------------------------- | -----------------   | -----------------    |
+| Qwen/Qwen2.5-Coder-1.5B-Instruct | verbalizer/prompt_shots.txt | 0         | 0.33012411570770883| 0.06135170196677177| 0.24961192243769267         | 0.48560996088211184| 0.5239228775442586
+| Qwen/Qwen2.5-Coder-1.5B-Instruct | templates/prompt_shots.txt | 2         | 0.3253962297322123| 0.11139963714959084| 0.23115396342573552         | 0.4893625130311877| 0.4611858003163795
+| Qwen/Qwen2.5-Coder-1.5B-Instruct | templates/prompt_shots.txt | 4         | 0.3272682124366119| 0.12280796353057581| 0.2483040068174084         | 0.4833954095012772| 0.4545654698971865
+
+
+Model                              | Verbalizer                    | shots     | codebleu          | ngram_match_score   | weighted_ngram_match_score | syntax_match_score  | dataflow_match_score 
+| -------------------------------- | -------------               | --------- | ---------------   | -----------------   | -------------------------- | -----------------   | -----------------    |
+| deepseek-ai/deepseek-coder-1.3b-instruct | verbalizer/deepseek_prompt.txt | 0         | 0.28248633449322724| 0.07613729092552933| 0.184881047792029         | 0.4419914759090907| 0.42693552334625984
+| deepseek-ai/deepseek-coder-1.3b-instruct | templates/deepseek_prompt.txt | 2         | 0.27533805911709835| 0.08062596876740984| 0.17135847838085294         | 0.4289855132948561| 0.42038227602527467
+|deepseek-ai/deepseek-coder-1.3b-instruct | templates/deepseek_prompt.txt | 4         | 0.27447512686308556| 0.09001045755410408| 0.17667068912951875         | 0.4305689299684055| 0.40065043080031415

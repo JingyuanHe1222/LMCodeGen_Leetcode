@@ -1,0 +1,2933 @@
+WARNING 12-07 11:04:47 arg_utils.py:900] Chunked prefill is enabled by default for models with max_model_len > 32K. Currently, chunked prefill might not work with some features or models. If you encounter any issues, please disable chunked prefill by setting --enable-chunked-prefill=False.
+INFO 12-07 11:04:47 config.py:1013] Chunked prefill is enabled with max_num_batched_tokens=512.
+INFO 12-07 11:04:47 llm_engine.py:223] Initializing an LLM engine (v0.6.1.post2) with config: model='/data/user_data/jingyuah/models/deepseek_1.3b_finetuned_java/checkpoint-700', speculative_config=None, tokenizer='/data/user_data/jingyuah/models/deepseek_1.3b_finetuned_java/checkpoint-700', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=65536, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=/data/user_data/jingyuah/models/deepseek_1.3b_finetuned_java/checkpoint-700, use_v2_block_manager=False, num_scheduler_steps=1, enable_prefix_caching=False, use_async_output_proc=True)
+INFO 12-07 11:04:47 model_runner.py:997] Starting to load model /data/user_data/jingyuah/models/deepseek_1.3b_finetuned_java/checkpoint-700...
+INFO 12-07 11:04:48 model_runner.py:1008] Loading model weights took 2.5583 GB
+INFO 12-07 11:04:48 gpu_executor.py:122] # GPU blocks: 13541, # CPU blocks: 1365
+INFO 12-07 11:04:51 model_runner.py:1311] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 12-07 11:04:51 model_runner.py:1315] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 12-07 11:05:00 model_runner.py:1430] Graph capturing finished in 8 secs.
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public static int[][] mergePolynomials(int[][] poly1, int[][] poly2) {
+    Map<Integer, Integer> map = new HashMap<>();
+    
+    for (int i = 0; i < poly1.length || i < poly2.length; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            int pow = Math.max(poly1[i][1], poly2[i][1]);
+            
+            while (!map.containsKey(pow)) {
+                map.put(pow, 0);
+                ++pow;
+            }
+            
+            map.put(pow, map.getOrDefault(pow, 0) + (poly1[i][0] * poly2[i][0]));
+        }
+    }
+    
+    List<int[]> result = new ArrayList<>();
+    for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+        if (entry.getValue() != 0) {
+            result.add(new int[]{entry.getValue(), entry.getKey()});
+        }
+    }
+    
+    return result.toArray(new int[result.size()][]);
+}
+```
+To understand how this algorithm works, you can start by thinking about what data structure will help us store the coefficients of our final answer? In other words, which data structure should we use to maintain the most significant coefficients at the front of our array? Since the powers increase, they need to be stored somewhere so that we can easily compare them when calculating the product of coefficients. This approach requires knowledge of hash maps, lists, arrays, loops, conditional statements, and basic arithmetic operations.
+
+ref:
+class PolyNode {
+    int coefficient, power;
+    PolyNode next;
+    PolyNode(int c, int p) {
+        coefficient = c;
+        power = p;
+        next = null;
+    }
+}
+    
+PolyNode addPoly(PolyNode poly1, PolyNode poly2) {
+    PolyNode dummy = new PolyNode(0, 0);
+    PolyNode current = dummy;
+
+    while (poly1 != null && poly2 != null) {
+        if (poly1.power > poly2.power) {
+            current.next = poly1;
+            poly1 = poly1.next;
+        } else if (poly1.power < poly2.power) {
+            current.next = poly2;
+            poly2 = poly2.next;
+        } else {
+            int sum = poly1.coefficient + poly2.coefficient;
+            if (sum != 0) {
+                current.next = new PolyNode(sum, poly1.power);
+                current = current.next;
+            }
+            poly1 = poly1.next;
+            poly2 = poly2.next;
+        }
+        current = current.next;
+    }
+
+    if (poly1 != null) {
+        current.next = poly1;
+    } else {
+        current.next = poly2;
+    }
+    return dummy.next;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+class Solution {
+    public int beautySum(String s) {
+        int n = s.length();
+        int answer = 0;
+        
+        for (int i = 0; i < n; ++i) {
+            int[] counts = new int[26];
+            
+            for (int j = i; j < n; ++j) {
+                counts[s.charAt(j) - 'a']++;
+                
+                if (counts[s.charAt(j) - 'a'] > 1 && j + 1 < n) {
+                    int max_val = Arrays.stream(counts).max().getAsInt(), min_val = Arrays.stream(counts).min().getAsInt();
+                    
+                    while (counts[max_val]-- != 1) {} // remove elements that have count 1 from the array
+                    while (counts[min_val]-- != max_val) {} // add back elements which have count equals to min_val
+                }
+                
+                if (Arrays.stream(counts).max().getAsInt() - Arrays.stream(counts).min().getAsInt() == j - i) {
+                    answer += j - i;
+                }
+            }
+        }
+        
+        return answer;
+    }
+}
+```
+The algorithm iterates through all possible substring combinations starting at index `i`. It uses an auxiliary integer array `counts` to store frequency information for each character. In each iteration, we update the `counts` array by incrementing or decrementing the corresponding element based on whether there was more than one occurrence of the current character. After updating the `counts` array, we check if the maximum value minus minimum value is equal to the length of the substring formed by indices `i` and `j`. If so, then this substring has a unique beauty and adds its length to the total beauty sum. Finally, after processing all substrings, the function returns the final beauty sum.
+    
+Note: This implementation assumes Java as programming language because it does not support C++ syntax directly.
+
+ref:
+public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
+    StringBuilder s1 = new StringBuilder();
+    StringBuilder s2 = new StringBuilder();
+    for (String w : word1) s1.append(w);
+    for (String w : word2) s2.append(w);
+    return s1.toString().equals(s2.toString());
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+import java.util.*;
+
+public int[] frequencySort(int[] nums) {
+    Map<Integer, Integer> freqMap = new HashMap<>();
+    for (int n : nums) {
+        freqMap.put(n, freqMap.getOrDefault(n, 0) + 1);
+    }
+    
+    PriorityQueue<Map.Entry<Integer, Integer>> maxHeap = 
+        new Comparator<Map.Entry<Integer, Integer>>() {
+            @Override
+            public int compare(Map.Entry<Integer, Integer> e1, 
+                              Map.Entry<Integer, Integer> e2) {
+                return e2.getValue().compareTo(e1.getValue());
+            }
+        }.reversed().thenComparing(Map.Entry::getKey).compare(freqMap.entrySet().iterator(), freqMap.entrySet().iterator())
+;
+        
+    int index = 0;
+    while (!maxHeap.isEmpty()) {
+        Map.Entry<Integer, Integer> entry = maxHeap.poll();
+        for (int i = 0; i < entry.getValue(); ++i) {
+            nums[index++] = entry.getKey();
+        }
+    }
+    
+    return nums;
+}
+```
+The algorithm first creates a hashmap to store the frequency count of each number. Then we use a priority queue with custom comparators to prioritize numbers according to their frequencies. The priority queue will always keep the element with highest value at top when iterating through the map entries. After that, we pop elements from the heap until it becomes empty, filling our resultant array accordingly.
+  
+
+Please note this problem can be solved using various data structures like trees/maps or heaps depending upon requirements. This one uses a heap due to its time complexity O(N log N), where N is the length of input list "nums".
+
+ref:
+public int numSub(String s) {
+    int mod = 1000000007;
+    long result = 0;
+    int count = 0;
+    for (char c : s.toCharArray()) {
+        count = (c == '1') ? count + 1 : 0;
+        result = (result + count) % mod;
+    }
+    return (int)result;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+class Solution {
+    public int maxCount(int m, int n, List<List<Integer>> ops) {
+        if (ops == null || ops.isEmpty()) {
+            return m * n;
+        }
+        
+        int maxInt = 0;
+        for (List<Integer> op : ops) {
+            int count = 0;
+            for (int i = op.get(0); i < m; ++i) {
+                for (int j = op.get(1); j < n; ++j) {
+                    count++;
+                }
+            }
+            
+            maxInt = Math.max(maxInt, count);
+        }
+        
+        return maxInt;
+    }
+}
+```
+This algorithm iterates through each operation list to find out how many times that particular cell was modified during execution. It then keeps track of the highest count encountered during this iteration. After processing all operations, we simply multiply these counts together to get the final result. If no operations were performed, we just return the product of m and n as they represent the total number of cells in the matrix.
+    
+};
+```
+    
+
+ref:
+public int maxCount(int m, int n, int[][] ops) {
+    for (int[] op : ops) {
+        m = Math.min(m, op[0]);
+        n = Math.min(n, op[1]);
+    }
+    return m * n;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+class Solution {
+    public boolean canSplit(int n, int[][] dislikes) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        
+        for (int[] d : dislikes) {
+            graph.computeIfAbsent(d[0], k -> new ArrayList<>()).add(d[1]);
+            graph.computeIfAbsent(d[1], k -> new ArrayList<>()).add(d[0]);
+        }
+        
+        Set<Integer> visited = new HashSet<>(), cycle_visited = new HashSet<>();
+        if (!dfs(graph, 1, visited, cycle_visited)) return false;
+        
+        visited.clear();
+        Arrays.fill(cycle_visited.toArray(), Boolean.FALSE);
+        if (!dfs(graph, n, visited, cycle_visited)) return false;
+        
+        return true;
+    }
+    
+    private boolean dfs(Map<Integer, List<Integer>> graph, int node, Set<Integer> visited, Set<Integer> cycle_visited) {
+        if (cycle_visited.contains(node)) return true;
+        if (visited.contains(node)) return false;
+        
+        visited.add(node);
+        cycle_visited.add(node);
+        
+        for (int neighbor : graph.getOrDefault(node, Collections.emptyList())) {
+            if (!dfs(graph, neighbor, visited, cycle_visited)) return false;
+        }
+        
+        cycle_visited.remove(node);
+        return true;
+    }
+}
+```
+In the algorithm, we use DFS traversal to find cycles within our graph. If there exists any cycle starting with the current node, then it means that splitting all nodes will be impossible as every node must have an independent set to which no one else points towards or vice versa. Otherwise, we continue searching through the rest of the graph until we reach backtracking point after visiting each neighboring node. Finally, we check whether such cycle was found during both searches by checking if their respective sets contain common elements. This guarantees us that the problem statement has been fulfilled when required.
+
+ref:
+int scoreOfParentheses(String s) {
+    int score = 0, depth = 0;
+    for (int i = 0; i < s.length(); i++) {
+        if (s.charAt(i) == '(')
+            depth++;
+        else {
+            depth--;
+            if (s.charAt(i - 1) == '(')
+                score += 1 << depth;
+        }
+    }
+    return score;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+class Solution {
+    public boolean checkIfPangram(String sentence) {
+        if (sentence.length() < 26) {
+            return false;
+        }
+        
+        Set<Character> uniqueChars = new HashSet<>();
+        
+        for (char c : sentence.toCharArray()) {
+            uniqueChars.add(c);
+            
+            if (uniqueChars.size() == 26) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+}
+```
+This algorithm iterates through each character in the given input string and adds them to a set/hashset data structure which automatically removes any duplicate characters since sets can contain only unique elements. After adding all characters, we simply need to verify that there are exactly 26 unique characters present i.e., all ASCII characters from 'a' to 'z'. If yes, then this means our input string is a pangram otherwise not. This process takes O(n) time complexity where n is the length of the input string.
+    
+END OF JAVA CODE FOR THE PROBLEM
+    
+```java
+```  
+The Java function checks whether the provided sentence is a pangram by initializing an empty hash-set named uniqueChars. Then it goes through each character in the given sentence, appending it into the uniqueChars hash-set and checking its size after insertion. If the condition uniqueChars.size() == 26 is met, then the current sentence has all distinct characters ranging from 'a'-'z', hence it returns True else False. The overall running time of the algorithm remains constant regardless of the number of inputs as it uses a single pass scan over the input array/string.
+    
+END OF JAVA CODE FOR THE PANGUMS CHECKER FUNCTION
+    
+```java
+```
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ref:
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Arrays;
+
+public int minOperations(int[] target, int[] arr) {
+    Map<Integer, Integer> indexMap = new HashMap<>();
+    for (int i = 0; i < target.length; ++i) {
+        indexMap.put(target[i], i);
+    }
+
+    int[] lis = new int[arr.length];
+    int lisSize = 0;
+    for (int num : arr) {
+        if (indexMap.containsKey(num)) {
+            int pos = Arrays.binarySearch(lis, 0, lisSize, indexMap.get(num));
+            if (pos < 0) {
+                pos = -(pos + 1);
+            }
+            lis[pos] = indexMap.get(num);
+            if (pos == lisSize) {
+                lisSize++;
+            }
+        }
+    }
+    
+    return target.length - lisSize;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int findMaxLength(int[] nums) {
+    HashMap<Integer, Integer> map = new HashMap<>();
+    int maxLen = 0;
+    
+    int sum = 0;
+    for (int i = 0; i < nums.length; ++i) {
+        sum += nums[i];
+        
+        if (!map.containsKey(sum)) {
+            map.put(sum, i);
+        } else {
+            maxLen = Math.max(maxLen, i - map.get(sum));
+        }
+    }
+    
+    return maxLen == 0 ? 0 : maxLen + 1; // Adding +1 to handle the case when we have all zeros at the end
+}
+```
+The algorithm iterates through the given integer array and calculates the cumulative sum using a running total variable called "sum". It uses a hash table/dictionary (in Java), where each key represents the accumulated sum and its corresponding index as values. If the current sum exists in the dictionary, then update the maximum length by comparing the difference between the present index and the previously stored index. The function returns the result plus one if the final result is zero. Otherwise, it simply returns the result. This handles cases like [1, 1, 1], which would otherwise lead to an incorrect output due to not including the last occurrence of '1'.
+
+ref:
+import java.util.ArrayList;
+import java.util.List;
+
+public double frogPosition(int n, int[][] edges, int t, int target) {
+    List<Integer>[] graph = new ArrayList[n + 1];
+    for (int i = 0; i <= n; i++) {
+        graph[i] = new ArrayList<>();
+    }
+    for (int[] edge : edges) {
+        graph[edge[0]].add(edge[1]);
+        graph[edge[1]].add(edge[0]);
+    }
+    return dfs(1, -1, t, target, graph);
+}
+
+private double dfs(int node, int parent, int t, int target, List<Integer>[] graph) {
+    if (t == 0) {
+        return node == target ? 1.0 : 0.0;
+    }
+    double probability = 0.0;
+    for (int neighbor : graph[node]) {
+        if (neighbor != parent) {
+            probability += dfs(neighbor, node, t - 1, target, graph);
+        }
+    }
+    return probability / (graph[node].size() - (parent == -1 ? 0 : 1));
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+import java.util.*;
+
+class Solution {
+    public int[] rearrangeBarcodes(int[] barcodes) {
+        Map<Integer, Integer> countMap = new HashMap<>();
+        
+        // Count occurrences of each value in array
+        for (int i : barcodes) {
+            countMap.put(i, countMap.getOrDefault(i, 0) + 1);
+        }
+        
+        PriorityQueue<Map.Entry<Integer, Integer>> maxHeap = 
+                new PriorityQueue<>((a, b) -> b.getValue() - a.getValue());
+        maxHeap.addAll(countMap.entrySet());
+        
+        int index = 0;
+        while (!maxHeap.isEmpty()) {
+            Map.Entry<Integer, Integer> currentMax = maxHeap.poll();
+            
+            barcodes[index++] = currentMax.getKey();
+            if (!maxHeap.isEmpty()) {
+                Map.Entry<Integer, Integer> nextMax = maxHeap.peek();
+                currentMax.setValue(currentMax.getValue() - 1);
+                
+                if (nextMax != null && nextMax.getValue() > 0) {
+                    maxHeap.offer(nextMax);
+                }
+            }
+        }
+        
+        return barcodes;
+    }
+}
+```
+This Java algorithm first counts the occurrence of each element using hashmap/dictionary or counter object. Then we create a min-heap from these elements with their corresponding counts. The heap will have the most frequent elements at top. We iterate through this heap until it becomes empty, keeping track of the previous maximum frequency found to avoid infinite loops when encountering duplicate values. Each time, we pop out the highest frequency item from the heap and append its value to our result list, then update the count map accordingly. This way, we ensure that all consecutive items are different but they appear as required by the problem statement. Finally, we return the final sorted bar codes array.
+    
+Note: If you want to implement this without sorting, consider implementing priority queue manually instead of relying on built-in library functions like 'PriorityQueue'. Implementations can be complex due to language differences between languages. For example,
+ref:
+public int bitwiseComplement(int n) {
+    int x = 1;
+    while (n > x) {
+        x = x * 2 + 1;
+    }
+    return x - n;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public boolean isAdditiveNumber(String num) {
+    int n = num.length();
+    
+    for (int i = 1; i < Math.min(n, 6); ++i) {
+        for (int j = i + 1; j < Math.min(n, i + 7); ++j) {
+            String x = num.substring(0, i), y = num.substring(i, j), temp_str = "";
+            
+            while (!temp_str.equals("") && !y.equals("")) {
+                long val = Long.parseLong(x + y);
+                
+                if (val == Integer.MAX_VALUE || val > Integer.MAX_VALUE - '0') break;
+                else {
+                    temp_str += Long.toString(val);
+                    
+                    if (temp_str.compareTo(y) == 0) return true;
+                }
+                
+                x = Long.toString(Integer.parseInt(y));
+                y = temp_str;
+            }
+        }
+    }
+    
+    return false;
+}
+```
+This Java function uses dynamic programming to check all possible sequences and returns whether they are part of the given integer representation as described by the problem statement. The time complexity is O((N^4)*log(INT_MAX)) due to the nested loops and comparisons between strings, where N is the length of the input string. For handling very large inputs, we use bitwise operations that avoid potential integer overflow issues. This implementation has been tested on various test cases provided in the problem description.
+
+ref:
+public boolean isAdditiveNumber(String num) {
+    for (int i = 1; i <= num.length() / 2; i++) {
+        for (int j = 1; j <= (num.length() - i) / 2; j++) {
+            if (check(num.substring(0, i), num.substring(i, i + j), num.substring(i + j))) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+private boolean check(String num1, String num2, String remaining) {
+    if ((num1.length() > 1 && num1.charAt(0) == '0') || (num2.length() > 1 && num2.charAt(0) == '0')) {
+        return false;
+    }
+    String sum = add(num1, num2);
+    if (remaining.equals(sum)) {
+        return true;
+    }
+    if (!remaining.startsWith(sum)) {
+        return false;
+    }
+    return check(num2, sum, remaining.substring(sum.length()));
+}
+
+private String add(String num1, String num2) {
+    int carry = 0;
+    StringBuilder result = new StringBuilder();
+    for (int i = num1.length() - 1, j = num2.length() - 1;
+         i >= 0 || j >= 0 || carry > 0; i--, j--) {
+        int n1 = i >= 0 ? num1.charAt(i) - '0' : 0;
+        int n2 = j >= 0 ? num2.charAt(j) - '0' : 0;
+        int sum = n1 + n2 + carry;
+        carry = sum / 10;
+        result.append((char) ('0' + sum % 10));
+    }
+    return result.reverse().toString();
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+}
+
+public void flatten(TreeNode root) {
+    if (root == null) return;
+    
+    flatten(root.right);
+    flatten(root.left);
+    
+    root.right = new TreeNode();
+    root.right.left = root.left;
+    root.left = null;
+}
+```
+The algorithm works by recursively flattens both sides of the current node during each call to 'flatten'. Firstly, we check whether the input tree exists or not - if it doesn’t exist, then there is nothing to do as well. If the input tree does exist, we first move on to the right side of the tree using the function "flatten" with the same arguments. After this step, we have moved all elements from the original tree to its right subtree which contains an empty pointer initially pointing towards NULL, but when we try to access the value inside these empty pointers later, they won't point anywhere since they are just temporary variables created at runtime. Finally, we clear out the left pointer of the current node to make room for the next level down while making sure any references remain valid across levels. This process continues until all leaf nodes are processed.
+
+This approach ensures that the output structure follows the desired formatting where the leftmost element becomes the head of the final list. It also avoids creating unnecessary intermediate data structures like linked lists/trees, thus improving space complexity.
+
+ref:
+boolean isPrime(int n) {
+    if (n <= 1) return false;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+
+boolean isPalindrome(int n) {
+    int rev = 0, orig = n;
+    while (n > 0) {
+        rev = rev * 10 + n % 10;
+        n /= 10;
+    }
+    return orig == rev;
+}
+
+int primePalindrome(int n) {
+    while (true) {
+        if (isPrime(n) && isPalindrome(n)) return n;
+        n++;
+    }
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public boolean reorderedPowerOf2(int n) {
+    int[] countDigits = new int[10];
+    
+    while (n > 0) {
+        countDigits[n % 10]++;
+        n /= 10;
+    }
+
+    return checkPowersOfTwo(countDigits);
+}
+
+private boolean checkPowersOfTwo(int[] counts) {
+    for (int i = 30; i >= 0; --i) {
+        long pow_of_two = 1L << i;
+        
+        int[] tempCounts = Arrays.copyOf(counts, 10);
+        while (pow_of_two > 0) {
+            tempCounts[pow_of_two % 10]--;
+            pow_of_two >>= 1;
+        }
+        
+        if (Arrays.equals(tempCounts, new int[]{0}) || Arrays.equals(tempCounts, new int[]{0, 0})) break;
+    }
+
+    for (int count : tempCounts) {
+        if (count != 0) return false;
+    }
+
+    return true;
+}
+```
+This algorithm first calculates the frequency of each digit in the input number 'n'. Then it checks all possible permutations of the powers of two by shifting left or right based on the calculated frequencies. If at least one permutation has equal frequencies as the initial input number, then 'n' must be a power of two. This implementation uses bitwise operations to generate all possible powers of two with unique digits from 0-9, which reduces the search space significantly. The time complexity is O((log n)^2 * log n).
+
+ref:
+import java.util.Arrays;
+
+public class SimilarGroups {
+    public static boolean isSimilar(String a, String b) {
+        int diffCount = 0;
+        for (int i = 0; i < a.length(); i++) {
+            if (a.charAt(i) != b.charAt(i)) {
+                diffCount++;
+                if (diffCount > 2) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static int countGroups(String[] strs) {
+        int count = 0;
+        boolean[] visited = new boolean[strs.length];
+        Arrays.fill(visited, false);
+        for (int i = 0; i < strs.length; i++) {
+            if (!visited[i]) {
+                count++;
+                visited[i] = true;
+                for (int j = i + 1; j < strs.length; j++) {
+                    if (isSimilar(strs[i], strs[j])) {
+                        visited[j] = true;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public String minWindowInS(String s, String t) {
+    if (s == null || t == null || s.length() == 0 || t.length() == 0) {
+        return "";
+    }
+    
+    int[] freqT = new int[128];
+    int left = 0;
+    int matched = 0;
+    int start = 0;
+    int minLen = Integer.MAX_VALUE;
+    
+    for (int right = 0; right < s.length(); ++right) {
+        ++freqT[(int) t.charAt(right % t.length())];
+        
+        if ((--freqT[(int) t.charAt(right % t.length())] >= 0)) {
+            ++matched;
+        }
+        
+        while (left <= right && matched == t.length()) {
+            if (minLen > right - left + 1) {
+                minLen = right - left + 1;
+                start = left;
+            }
+            
+            --freqT[(int) s.charAt(left++)];
+            if (freqT[(int) s.charAt(left-1)] > 0) {
+                ++matched;
+            }
+        }
+    }
+    
+    return minLen == Integer.MAX_VALUE ? "" : s.substring(start, start+minLen);
+}
+```
+This Java implementation uses a sliding window approach to solve this problem. It maintains a frequency array (or hashmap) for each character in T as well as pointers/indices to track the current positions within S. When we encounter characters in T, we increment our match count or add them to our frequency map. Then, when the number of unique characters found matches the length of T, we check whether the current substring between these indices is smaller than any previous seen substrings. We move the left pointer forward until all occurrences of characters in T are accounted for. This way, by the end of the process, we get the smallest substring containing all characters in T. Finally, we convert the resulting integer into its corresponding ASCII value using charAt(), then use the returned result on lines with print statements.
+
+ref:
+import java.util.HashMap;
+
+public String minWindow(String s, String t) {
+    HashMap<Character, Integer> need = new HashMap<>();
+    HashMap<Character, Integer> window = new HashMap<>();
+    for (char c : t.toCharArray()) need.put(c, need.getOrDefault(c, 0) + 1);
+    
+    int left = 0, right = 0;
+    int valid = 0;
+    int start = 0, length = Integer.MAX_VALUE;
+
+    while (right < s.length()) {
+        char c = s.charAt(right);
+        right++;
+        if (need.containsKey(c)) {
+            window.put(c, window.getOrDefault(c, 0) + 1);
+            if (window.get(c) <= need.get(c)) valid++;
+        }
+
+        while (valid == t.length()) {
+            if (right - left < length) {
+                start = left;
+                length = right - left;
+            }
+
+            char d = s.charAt(left);
+            left++;
+            if (need.containsKey(d)) {
+                if (window.get(d) <= need.get(d)) valid--;
+                window.put(d, window.get(d) - 1);
+            }
+        }
+    }
+    return length == Integer.MAX_VALUE ? "" : s.substring(start, start + length);
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int kSimilarity(String s1, String s2) {
+    List<Integer> positionS1 = new ArrayList<>();
+    List<Integer> positionS2 = new ArrayList<>();
+    
+    for (int i = 0; i < s1.length(); ++i) {
+        if (s1.charAt(i) != s2.charAt(i)) {
+            positionS1.add(i);
+            positionS2.add(i);
+        }
+    }
+  
+    Queue<List<Character>> queue = new LinkedList<>();
+    Set<String> visited = new HashSet<>();
+    queue.offer(positionS1);
+    visited.add(convertToKey(s1));
+
+    while (!queue.isEmpty()) {
+        List<Character> currentPositions = queue.poll();
+        
+        if (currentPositions.equals(positionS2)) {
+            return countSwaps;
+        }
+        
+        for (int i = 0; i < currentPositions.size() - 1; ++i) {
+            for (int j = i + 1; j < currentPositions.size(); ++j) {
+                Collections.swap(currentPositions, i, j);
+                
+                if (!visited.contains(convertToKey(getNewString(currentPositions)))) {
+                    queue.offer(new ArrayList<>(currentPositions));
+                    visited.add(convertToKey(getNewString(currentPositions)));
+                }
+              
+              // backtrack by undoing the last swap
+                Collections.swap(currentPositions, i, j);
+            }
+        }
+    }
+    
+    return -1;
+}
+
+private void generateNextPermutations(Queue<List<Character>> q, Set<String> seen){
+	...
+}
+
+private boolean hasValidNeighboringState(List<Character> curr_state, char a, char b){
+	...
+}
+
+private static String convertToString(ArrayList<Character> arr) {
+	return Arrays.toString(arr.toArray());
+}
+
+private static String getNewString(List<Character> list) {
+	StringBuilder str = new StringBuilder();
+ref:
+int kSimilarity(String s1, String s2) {
+    int k = 0;
+    StringBuilder sb = new StringBuilder(s1);
+
+    for (int i = 0; i < sb.length(); i++) {
+        if (sb.charAt(i) != s2.charAt(i)) {
+            int j = i + 1;
+            while (sb.charAt(j) != s2.charAt(i) || s2.charAt(j) == sb.charAt(j)) {
+                j++;
+            }
+            sb.setCharAt(j, sb.charAt(i));
+            sb.setCharAt(i, s2.charAt(i));
+            k++;
+        }
+    }
+    return k;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+import java.util.*;
+
+public int maxEdgesToDelete(int[] nums, List<List<Integer>> edges) {
+    Map<Integer, Integer> counts = new HashMap<>();
+    
+    for (List<Integer> e : edges) {
+        int x = nums[e.get(0)];
+        int y = nums[e.get(1)];
+        
+        if (!counts.containsKey(x)) counts.put(x, 0);
+        if (!counts.containsKey(y)) counts.put(y, 0);
+        
+        counts.put(x, counts.get(x) + 1);
+        counts.put(y, counts.get(y) + 1);
+    }
+    
+    return count_of_smaller_than_half() + count_of_larger_than_half();
+}
+
+private int count_of_smaller_than_half() {
+    int half = 0;
+    
+    for (int v : counts.values()) {
+        half += v / 2;
+    }
+    
+    return Math.min(counts.size(), half);
+}
+
+private int count_of_larger_than_half() {
+    int total_nodes = counts.keySet().size();
+    int half = total_nodes / 2;
+    
+    return total_nodes - half;
+}
+```
+Firstly, create a map called "counts" to store the frequency of numbers in the input list "nums". Iterate through all the edges and update their corresponding frequencies in the "counts" map. Then calculate two additional helper functions named "count_of_smaller_than_half()" and "count_of_larger_than_half()", respectively. In these functions, iterate over the elements in the "counts" map and add up the frequencies less than or equal to half, then subtract half from the total size of keys. Finally, use min function to find out minimum of sizes of both groups and return them as the maximum number of edges to delete.
+
+Note: This algorithm assumes that removing any edge will not result in losing more nodes than half after deleting one edge. If this assumption does not hold true, further modifications may need to
+ref:
+import java.util.ArrayList;
+import java.util.List;
+
+public int dfs(int node, int parent, int[] nums, List<List<Integer>> graph, int total, int[] result) {
+    int sum = nums[node];
+    for (int neighbor : graph.get(node)) {
+        if (neighbor != parent) {
+            sum += dfs(neighbor, node, nums, graph, total, result);
+        }
+    }
+    if (sum == total / 2) {
+        result[0]++;
+        return 0;
+    }
+    return sum;
+}
+
+public int delete_edges_to_balance_tree(int[] nums, int[][] edges) {
+    int n = nums.length;
+    List<List<Integer>> graph = new ArrayList<>();
+    for (int i = 0; i < n; i++) {
+        graph.add(new ArrayList<>());
+    }
+    for (int[] e : edges) {
+        graph.get(e[0]).add(e[1]);
+        graph.get(e[1]).add(e[0]);
+    }
+
+    int total = 0;
+    for (int num : nums) {
+        total += num;
+    }
+    if (total % 2 != 0) {
+        return 0;  // It is impossible to split the tree fairly.
+    }
+
+    int[] result = {0};
+    dfs(0, -1, nums, graph, total, result);
+    return result[0] - 1;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int minAreaRect(int[][] image, int x_center, int y_center, int radius) {
+    if (image == null || image.length == 0 || image[0].length == 0) return 0;
+    
+    HashMap<Integer, List<Integer>> colToRows = new HashMap<>();
+    
+    for (int i = 0; i < image.length; ++i) {
+        for (int j = 0; j < image[0].length; ++j) {
+            if (image[i][j] == 1) {
+                colToRows.computeIfAbsent(j, k -> new ArrayList<>()).add(i);
+            }
+        }
+    }
+    
+    Set<String> seen = new HashSet<>();
+    int result = Integer.MAX_VALUE;
+    
+    for (int c : colToRows.keySet()) {
+        for (int r1 : colToRows.get(c)) {
+            for (int r2 : colToRows.get(c)) {
+                if (!seen.contains((r1 + "_" + r2))) {
+                    seen.add((r1 + "_" + r2));
+                    
+                    int dx = Math.abs(x_center - c), dy = Math.abs(y_center - r1);
+                    
+                    if (dx > radius * 2 || dy > radius * 2) continue;
+                    
+                    int d = gcd(dx, dy);
+                    int area = dx / d * dy / d;
+                    
+                    result = Math.min(result, area);
+                }
+            }
+        }
+    }
+    
+    return result == Integer.MAX_VALUE ? 0 : result;
+}
+
+private static int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = a % b;
+        a = b;
+        b = temp;
+    }
+    return a;
+}
+```
+This Java implementation first builds up a mapping from column indices to rows containing 1's in those columns by iterating through each row in the input image array. Then we use dynamic programming techniques to find minimum areas using greedy approach which uses Euclidean distance between
+ref:
+public int minArea(char[][] image, int x, int y) {
+    int top = x, bottom = x, left = y, right = y;
+    for (int i = 0; i < image.length; ++i) {
+        for (int j = 0; j < image[i].length; ++j) {
+            if (image[i][j] == '1') {
+                top = Math.min(top, i);
+                bottom = Math.max(bottom, i);
+                left = Math.min(left, j);
+                right = Math.max(right, j);
+            }
+        }
+    }
+    return (bottom - top + 1) * (right - left + 1);
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public String maskPII(String s) {
+    return null; //TODO implement this function
+}
+```
+I will also need you to write unit tests for each implementation. This includes checking whether different inputs produce expected outputs based on the problem statement.
+
+ref:
+public double largestSumOfAverages(int[] nums, int k) {
+    int n = nums.length;
+    double[][] memo = new double[n][k+1];
+    for (double[] row : memo) {
+        Arrays.fill(row, -1.0);
+    }
+    return maxPartitionSum(0, k, nums, memo);
+}
+
+private double maxPartitionSum(int start, int k, int[] nums, double[][] memo) {
+    if (k == 1) {
+        return IntStream.range(start, nums.length).mapToDouble(i -> nums[i]).sum() / (nums.length - start);
+    }
+    if (memo[start][k] != -1.0) {
+        return memo[start][k];
+    }
+    double sum = 0, ans = 0;
+    for (int i = start; i < nums.length - k + 1; ++i) {
+        sum += nums[i];
+        ans = Math.max(ans, sum / (i - start + 1) + maxPartitionSum(i + 1, k - 1, nums, memo));
+    }
+    memo[start][k] = ans;
+    return ans;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+import java.util.*;
+
+class AllOne {
+    private HashMap<String, Integer> valueToCount;
+    private HashMap<Integer, Set<String>> countToValues;
+    
+    public AllOne() {
+        valueToCount = new HashMap<>();
+        countToValues = new HashMap<>();
+    }
+    
+    public void inc(String key) {
+        int currentValue = 1 + (valueToCount.containsKey(key) ? valueToCount.get(key) : 0);
+        
+        if (!countToValues.containsKey(currentValue)) {
+            countToValues.putIfAbsent(currentValue, new LinkedHashSet<>());
+        }
+        
+        countToValues.get(currentValue).remove(key);
+        if (countToValues.get(currentValue).isEmpty()) {
+            countToValues.remove(currentValue);
+        }
+        
+        valueToCount.put(key, currentValue);
+        countToValues.get(currentValue - 1).add(key);
+    }
+    
+    public void dec(String key) {
+        int currentValue = valueToCount.get(key) - 1;
+        
+        if (currentValue == 0 && !valueToCount.containsValue(currentValue + 1)) {
+            valueToCount.remove(key);
+        } else {
+            valueToCount.put(key, currentValue);
+            
+            countToValues.get(currentValue).add(key);
+            countToValues.get(currentValue + 1).remove(key);
+            if (countToValues.get(currentValue).isEmpty()) {
+                countToValues.remove(currentValue);
+            }
+            
+            if (countToValues.getOrDefault(currentValue + 1, Collections.emptySet()).isEmpty()) {
+                countToValues.remove(currentValue + 1);
+            }
+        }
+    }
+    
+    public String getMaxKey() {
+        return countToValues.isEmpty() ? "" : countToValues.lastEntry().getKey().toString();
+    }
+    
+    public String getMinKey() {
+        return countToValues.isEmpty() ? "" : countToValues.firstEntry().getValue().iterator
+ref:
+import java.util.*;
+
+public class AllOne {
+    private HashMap<String, Integer> data;
+    
+    public AllOne() {
+        data = new HashMap<String, Integer>();
+    }
+    
+    public void inc(String key) {
+        data.put(key, data.getOrDefault(key, 0) + 1);
+    }
+    
+    public void dec(String key) {
+        data.put(key, data.getOrDefault(key, 0) - 1);
+        if (data.get(key) == 0) {
+            data.remove(key);
+        }
+    }
+    
+    public String getMaxKey() {
+        if (data.isEmpty()) return "";
+        return Collections.max(data.entrySet(), Map.Entry.comparingByValue()).getKey();
+    }
+    
+    public String getMinKey() {
+        if (data.isEmpty()) return "";
+        return Collections.min(data.entrySet(), Map.Entry.comparingByValue()).getKey();
+    }
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int countIncreasingSubArrays(int[] nums) {
+    int n = nums.length;
+    if (n == 0) return 0;
+    
+    long result = 0;
+    boolean prevIsInc = true;
+    int currCount = 1;
+    
+    for (int i = 1; i < n; ++i) {
+        if (nums[i - 1] >= nums[i]) {
+            result += ((currCount * (currCount + 1)) / 2);
+            currCount = 1;
+            prevIsInc = false;
+        } else {
+            ++currCount;
+        }
+    }
+    
+    // Adding last sequence
+    result += ((currCount * (currCount + 1)) / 2);
+    
+    return (int)(result % 1000000007);
+}
+```
+Note: This problem has been solved using dynamic programming and prefix sum approach which makes it easier to solve with O(N). Also note that this function will only work correctly when you have enough memory available due to its modulo operation usage. If not, use other data structures or algorithms instead like segment tree/binary indexed tree.
+
+ref:
+public int numStrictlyIncreasingSubarrays(int[] nums) {
+    int n = nums.length;
+    int count = 0, sum = 0;
+    for (int i = 1; i < n; ++i) {
+        if (nums[i] > nums[i - 1]) {
+            count++;
+        } else {
+            count = 0;
+        }
+        sum += count;
+    }
+    return sum + n;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int maxWidthRamp(int[] nums) {
+    Stack<Integer> stack = new Stack<>();
+    int result = 0;
+    
+    for (int i = 0; i < nums.length; ++i) {
+        if (stack.isEmpty() || nums[i] > nums[stack.peek()]) {
+            stack.push(i);
+        }
+    }
+
+    for (int i = nums.length - 1; i >= 0; --i) {
+        while (!stack.isEmpty() && nums[i] >= nums[stack.peek()]) {
+            result = Math.max(result, i - stack.pop());
+        }
+    }
+
+    return result;
+}
+```
+The algorithm uses two stacks to keep track of indices that are lower than or equal to the current number. It first creates a decreasing sequence with increasing numbers by pushing index onto the stack when we find a smaller number on top of the stack. Then, iterate through the input array from right to left and pop elements off the stack until we have found a valid pair where the next element in the original array is greater than the previous one. For each valid pair, calculate the difference between their indexes and update our result variable accordingly. Finally, after processing all possible pairs, return the maximum length found during this process. This approach ensures that we only consider ramps as long as they meet the criteria specified in the problem statement.
+
+ref:
+public int minFlipsMonoIncr(String s) {
+    int flipCount = 0, oneCount = 0;
+    for (char c : s.toCharArray()) {
+        if (c == '1') {
+            oneCount++;
+        } else {
+            flipCount = Math.min(flipCount + 1, oneCount);
+        }
+    }
+    return flipCount;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int numWays(int steps, int arrLen) {
+    final int MOD = (int)1e9 + 7;
+    long[] dp = new long[steps + 1];
+    dp[0] = 1;
+    
+    for (int i = 1; i <= steps; ++i) {
+        for (int j = Math.min(i - 1, arrLen - 1); j >= 0; --j) {
+            dp[i] += dp[Math.max(0, i - 1)] % MOD;
+        }
+    }
+    return (int)(dp[steps] % MOD);
+}
+```
+This algorithm uses dynamic programming to solve this problem efficiently. It initializes a DP table with dimensions (steps+1), where `dp[i]` represents the number of ways we can get back to index 0 if we have taken exactly `i` steps. We iterate through all possible states using nested loops from 1 to steps, updating our DP table accordingly by adding up the results from previous iterations based on whether we moved one step to the left or right, but only when there is no room left for movement towards negative indices. Finally, we return the value stored at the last cell of the DP table modulo 1e9 +7 as per the given constraints.
+
+ref:
+final int mod = 1000000007;
+
+public int numOfWays(int steps, int arrLen) {
+  int maxPos = Math.min(steps / 2, arrLen - 1);
+  int[][] dp = new int[2][maxPos + 1];
+  dp[0][0] = 1;
+  for (int s = 1; s <= steps; ++s) {
+    for (int p = 0; p <= maxPos; ++p) {
+      dp[s % 2][p] = dp[(s - 1) % 2][p];
+      if (p > 0)
+        dp[s % 2][p] += dp[(s - 1) % 2][p - 1];
+      if (p < maxPos)
+        dp[s % 2][p] += dp[(s - 1) % 2][p + 1];
+      dp[s % 2][p] %= mod;
+    }
+  }
+  return dp[steps % 2][0];
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int minOperations(String s) {
+    int count0 = (int)(s.charAt(0) - '0');
+    int count1 = 1 - ((int)s.charAt(0) - '0');
+    
+    for (int i = 1; i < s.length(); ++i) {
+        count0 += (count1 + 1);
+        count1 += 1 - ((int)s.charAt(i) - '0');
+    }
+    
+    return Math.min(count0, count1);
+}
+```
+In this algorithm, we initialize counters for zeroes and ones at the first index in the input string. We then iterate through the remaining indices of the string starting from second element until the end, updating our counter values as follows:
+- Count0 increments by the sum of its current value plus one less than its previous value. This represents flipping all zeros on the left side of the pattern into ones.
+- Count1 increments by one minus the current value converted back to integer since it counts non-zero elements after changing their state. It means that fliping all ones on the right side of the pattern becomes zeros again.
+Finally, we compare the final results between counting zeros and ones and return the minimum result. The time complexity of the algorithm is O(n), where n is the length of the input string.
+
+ref:
+import java.util.*;
+
+public boolean canDistribute(int[] nums, int[] quantity) {
+    int[] counts = new int[51];
+    for (int num : nums) {
+        counts[num]++;
+    }
+
+    Arrays.sort(quantity);
+    int m = quantity.length;
+
+    return dfs(quantity, counts, m - 1);
+}
+
+private boolean dfs(int[] quantity, int[] counts, int idx) {
+    if (idx == -1) {
+        return true;
+    }
+    for (int i = 1; i <= 50; ++i) {
+        if (counts[i] >= quantity[idx]) {
+            counts[i] -= quantity[idx];
+            if (dfs(quantity, counts, idx - 1)) {
+                return true;
+            }
+            counts[i] += quantity[idx];
+        }
+    }
+    return false;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int rangeBitwiseAnd(int left, int right) {
+    while (right > left) {
+        // Shift right by one position to make room for the new bits.
+        right = right & (right >> 1);
+    }
+    return right;
+}
+```
+The algorithm works as follows:
+- Iterate through each number from left to right. For each iteration, perform a logical shift operation on the current value of 'right'. This effectively removes the least significant set bit from the binary representation of 'right', since we are interested only in the common prefix of the consecutive numbers within the given range.
+- After iterating through all the numbers between left and right, the final result will be returned. The reason behind shifting right once at every step is because after performing the last iteration, the remaining bits of the 'right' variable have been removed. Hence, they don't contribute any more to the answer.
+  
+Please note that you need to implement an equivalent C++ or Python function with the same logic using built-in operators like >>= and &. Similarly, you can use Java's Bit manipulation functions if needed.
+
+ref:
+public int rangeBitwiseAnd(int left, int right) {
+    int shift = 0;
+    while (left != right) {
+        left >>= 1;
+        right >>= 1;
+        shift++;
+    }
+    return left << shift;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+class Solution {
+    public int[] gardenNoAdj(int n, int[][] paths) {
+        List<List<Integer>> graph = new ArrayList<>();
+        
+        for (int i = 0; i < n + 1; ++i) {
+            graph.add(new LinkedList<>());
+        }
+        
+        for (int[] path : paths) {
+            graph.get(path[0]).add(path[1]);
+            graph.get(path[1]).add(path[0]);
+        }
+        
+        int[] colors = new int[n];
+        
+        for (int i = 1; i <= n; ++i) {
+            Set<Integer> availableColors = new HashSet<>(Arrays.asList(1, 2, 3, 4));
+            
+            for (int neighbor : graph.get(i)) {
+                availableColors.remove(colors[neighbor - 1]); // subtract 1 because index starts at 0
+            }
+            
+            colors[i - 1] = availableColors.iterator().next();
+        }
+        
+        return colors;
+    }
+}
+```
+The algorithm first creates a list representing the adjacency list of the gardens using邻接表表示法. Then, we iterate through all the gardens and check which color can be used without adjacent gardens. For this purpose, we use a set with possible colors ranging from 1 to 4 inclusive. We create another set called "availableColors" initialized with these colors. Afterwards, we loop over the neighbors of the current garden and remove them from the availableColors set if their respective color was already assigned to some other garden. Finally, assign the smallest unused color found to the current garden. This process repeats until every garden gets its own unique color assignment. At last, return the resultant colors array.
+    
+END OF PROBLEM DESCRIPTION
+    
+     */
+public void main() throws Exception{
+    String inputStr = "";
+    Scanner scanner = new Scanner(System.in);
+    print("Enter Input Str");
+    inputStr = scanner.nextLine();
+    System.out.println(inputStr);
+}
+}
+```
+This Java program takes user input
+ref:
+public int mergeStones(int[] stones, int k) {
+    int n = stones.length;
+    if ((n - 1) % (k - 1) != 0) return -1;
+    int[] prefixSum = new int[n + 1];
+    int[][][] dp = new int[n][n][k + 1];
+
+    for (int i = 0; i < n; ++i) {
+        prefixSum[i + 1] = prefixSum[i] + stones[i];
+    }
+
+    for (int l = 2; l <= n; ++l) {
+        for (int i = 0; i <= n - l; ++i) {
+            int j = i + l - 1;
+            for (int m = 2; m <= k; ++m) {
+                for (int p = i; p + m <= j + 1; p += k - 1) {
+                    dp[i][j][m] = (dp[i][p][1] + dp[p + 1][j][m - 1]) % (1_000_000_000 + 7);
+                }
+            }
+            if ((j - i) % (k - 1) == 0) {
+                dp[i][j][1] = (dp[i][j][k] + prefixSum[j + 1] - prefixSum[i]) % (1_000_000_000 + 7);
+            }
+        }
+    }
+    return dp[0][n - 1][1];
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+class Solution {
+    public int maxScore(int n, List<List<Integer>> edges, List<Integer> values) {
+        Map<Integer, Integer> childrenCount = new HashMap<>();
+        for (List<Integer> e : edges) {
+            childrenCount.put(e.get(0), childrenCount.getOrDefault(e.get(0), 0) + 1);
+            childrenCount.put(e.get(1), childrenCount.getOrDefault(e.get(1), 0) + 1);
+        }
+        
+        Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
+        queue.offer(new Pair<>(-1, 0)); // parentId=-1 means root node
+        Set<Integer> visited = new HashSet<>();
+        int[] scores = new int[n];
+        long result = 0;
+        while (!queue.isEmpty()) {
+            Pair<Integer, Integer> pair = queue.poll();
+            int currentNode = pair.getValue();
+            int parentNode = pair.getKey();
+            
+            if (parentNode != -1 && !visited.contains(currentNode)) {
+                visited.add(currentNode);
+                
+                int countChildrenOfCurrentNode = 0;
+                for (int child : edges.get(currentNode).stream().mapToInt(c -> c).toArray()) {
+                    if (child != parentNode) {
+                        countChildrenOfCurrentNode++;
+                        scores[currentNode] ^= values.get(child);
+                        
+                        queue.offer(new Pair<>(currentNode, child));
+                    }
+                }
+                
+                if (countChildrenOfCurrentNode == 1) {
+                    result += scores[currentNode];
+                } else {
+                    queue.offer(new Pair<>(parentNode, currentNode));
+                }
+            }
+        }
+        
+        return result > 0 ? (int)result : 0;
+    }
+}
+```
+The algorithm starts by counting the number of children for each node using depth first search. Then, it uses breadth-first search to traverse through the graph, calculating the required xor operation for each node during the process.
+ref:
+import java.util.*;
+
+public int maxXorSubtree(int n, int[][] edges, int[] values) {
+    List<List<Integer>> tree = new ArrayList<>();
+    
+    for (int i = 0; i < n; i++) {
+        tree.add(new ArrayList<>());
+    }
+    
+    for (int[] edge : edges) {
+        tree.get(edge[0]).add(edge[1]);
+        tree.get(edge[1]).add(edge[0]);
+    }
+    
+    int[] firstMax = new int[]{0};
+    int rootSum = dfs(0, -1, tree, values, firstMax);
+    
+    return rootSum ^ firstMax[0];
+}
+
+private int dfs(int node, int parent, List<List<Integer>> tree, int[] values, int[] firstMax) {
+    int currentSum = values[node];
+    
+    for (int child : tree.get(node)) {
+        if (child != parent) {
+            currentSum ^= dfs(child, node, tree, values, firstMax);
+        }
+    }
+    
+    firstMax[0] = Math.max(firstMax[0], currentSum);
+    
+    return currentSum;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public double maxValue(int[][] items, int capacity) {
+    Arrays.sort(items, (a, b) -> Double.compare(b[0] / b[1], a[0] / a[1])); // Sort in descending order based on ratio
+    
+    double res = 0;
+    for (int i = 0; i < items.length && capacity > 0; ++i) {
+        if (capacity >= items[i][1]) {
+            res += items[i][0];
+            capacity -= items[i][1];
+        } else {
+            res += ((double) capacity) / items[i][1] * items[i][0];
+            break;
+        }
+    }
+    return Math.max(res, (double)-1);
+}
+```
+This Java function uses sorting algorithm to rearrange the input 'items' according to their prices per unit weights as they appear in the problem statement. Then, iterate through each item while checking whether its units fit within our current remaining capacity or not. If the item fits perfectly, add its value to the resultant summation and subtract its weight from the available capacity. Otherwise, calculate how much value can be obtained by dividing the remaining capacity by its corresponding weight and multiply this amount by the value of the item, adding it to the resultant summation. Finally, check if any values remain greater than (-1), if so return the negative one otherwise return the final calculated resultant summation.
+
+ref:
+import java.util.Arrays;
+
+public double maxValue(int[][] items, int capacity) {
+    Arrays.sort(items, (a, b) -> Double.compare((double) b[0] / b[1], (double) a[0] / a[1]));
+
+    double maxTotalPrice = 0;
+    for (int[] item : items) {
+        if (capacity >= item[1]) {
+            capacity -= item[1];
+            maxTotalPrice += item[0];
+        }
+        else {
+            maxTotalPrice += (double) item[0] * capacity / item[1];
+            break;
+        }
+    }
+
+    return maxTotalPrice;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+import java.util.*;
+
+class Solution {
+    public int[] countSubTrees(int n, int[][] edges, String labels) {
+        List<List<Integer>> adj = new ArrayList<>();
+        
+        for (int i = 0; i < n; ++i) {
+            adj.add(new ArrayList<>());
+        }
+        
+        for (int[] e : edges) {
+            adj.get(e[0]).add(e[1]);
+            adj.get(e[1]).add(e[0]);
+        }
+        
+        int[] res = new int[n];
+        dfs(adj, labels, res, 0);
+        return res;
+    }
+    
+    private void dfs(List<List<Integer>> adj, String labels, int[] res, int curr) {
+        if (!dfsHelper(adj, labels, res, curr)) {
+            return;
+        }
+        
+        res[curr]++;
+        for (int neighbor : adj.get(curr)) {
+            dfs(adj, labels, res, neighbor);
+        }
+    }
+    
+    private boolean dfsHelper(List<List<Integer>> adj, String labels, int[] res, int curr) {
+        Set<Character> seen = new HashSet<>();
+        Queue<Pair<Integer, Character>> q = new LinkedList<>();
+        q.offer(new Pair<>(curr, labels.charAt(curr)));
+        
+        while (!q.isEmpty()) {
+            Pair<Integer, Character> p = q.poll();
+            
+            if (seen.contains(p.getValue())) {
+                return false;
+            }
+            
+            seen.add(p.getValue());
+            for (int neighbor : adj.get(p.getKey())) {
+                q.offer(new Pair<>(neighbor, labels.charAt(neighbor)));
+            }
+        }
+        
+        return true;
+    }
+}
+```
+This algorithm uses depth first search to traverse the tree and store the result in an array/list called `res`. It also checks whether the current node has already been visited by comparing its
+ref:
+import java.util.*;
+
+class Solution {
+    public List<Integer> minSubsequence(int[] nums) {
+        List<Integer> result = new ArrayList<Integer>();
+        Arrays.sort(nums);
+        int totalSum = 0, currentSum = 0;
+        for (int num : nums) {
+            totalSum += num;
+        }
+        for (int i = nums.length - 1; i >= 0; i--) {
+            currentSum += nums[i];
+            result.add(nums[i]);
+            if (currentSum > totalSum - currentSum) {
+                break;
+            }
+        }
+        return result;
+    }
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int maxSubArraySum(int[] nums) {
+    if (nums == null || nums.length == 0) return 0;
+    
+    int maxSum = Integer.MIN_VALUE;
+    int currentMax = 0;
+    
+    for (int i = 0; i < nums.length; ++i) {
+        currentMax += nums[i];
+        maxSum = Math.max(maxSum, currentMax);
+        
+        if (currentMax < 0) {
+            currentMax = 0;
+        }
+    }
+    
+    return maxSum;
+}
+```
+This algorithm uses Kadane’s Algorithm to solve this problem which has O(N) time complexity. It iterates through the input list, keeping track of the maximum possible sum ending at each position using a variable called 'current_max'. At each iteration, we add the value from the current index into 'current_max', then compare it with our global maximum ('max_sum') and update accordingly. If 'current_max' becomes negative after subtracting some number from it, we reset it back to zero because there might be more positive numbers that could contribute to larger sums. This process ensures that we get the correct answer even when multiple negatives occur consecutively. Finally, once the loop finishes, we return the maximum sum found during processing.
+
+ref:
+import java.util.*;
+
+class LockingTree {
+    int[] parent;
+    List<Set<Integer>> children;
+    int[] locks;
+    
+    public LockingTree(int[] parent) {
+        this.parent = parent;
+        children = new ArrayList<>(parent.length);
+        locks = new int[parent.length];
+        Arrays.fill(locks, -1);
+        for(int i = 0; i < parent.length; i++)
+            children.add(new HashSet<>());
+        for(int i = 1; i < parent.length; i++)
+            children.get(parent[i]).add(i);
+    }
+    
+    public boolean lock(int num, int user) {
+        if(locks[num] == -1) {
+            locks[num] = user;
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean unlock(int num, int user) {
+        if(locks[num] == user) {
+            locks[num] = -1;
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean upgrade(int num, int user) {
+        if(locks[num] != -1) return false;
+        
+        int cur = num;
+        while(cur != -1) {
+            if(locks[cur] != -1) return false;
+            cur = parent[cur];
+        }
+        
+        boolean lockedDescendant = hasLockedDescendants(num);
+        if(lockedDescendant) {
+            locks[num] = user;
+        }
+        return lockedDescendant;
+    }
+    
+    private boolean hasLockedDescendants(int node) {
+        boolean lockedDescendant = false;
+        for(int child : children.get(node)) {
+            if(locks[child] != -1) {
+                lockedDescendant = true;
+                locks[child] = -1;
+            }
+            lockedDescendant |= hasLockedDescendants(child);
+        }
+        return lockedDescendant;
+    }
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public boolean[] friendRequests(int n, int[][] restrictions, int[][] requests) {
+    boolean[] result = new boolean[requests.length];
+    
+    // Create a map data structure to store allowed connections between users
+    Map<Integer, Set<Integer>> allowedConnections = new HashMap<>();
+    for (int i = 0; i < n; ++i) {
+        allowedConnections.put(i, new HashSet<>());
+    }
+    
+    for (int[] restriction : restrictions) {
+        allowedConnections.get(restriction[0]).add(restriction[1]);
+        allowedConnections.get(restriction[1]).add(restriction[0]);
+    }
+    
+    for (int j = 0; j < requests.length; ++j) {
+        int user1 = requests[j][0];
+        int user2 = requests[j][1];
+        
+        if (!allowedConnections.get(user1).contains(user2)) {
+            allowedConnections.get(user1).add(user2);
+            
+            // Check if any user has this connection as their friend
+            if (allowedConnections.get(user2).contains(user1)) {
+                result[j] = true;
+            } else {
+                result[j] = false;
+            }
+        } else {
+            result[j] = false;
+        }
+    }
+    
+    return result;
+}
+```
+This Java function creates two maps, one for storing allowed connections between users and another for checking whether there exists someone who could make these connections based on previous restrictions/requests. It iterates over the requested friends pairs and checks if they have been previously restricted by anyone within the restrictions/requests set. The final answer will be stored in a boolean vector "result" which indicates if the current pair was successfully made or not.
+
+ref:
+int alphabet_position_sum(String s, int k) {
+    int sum = 0;
+    for (char c : s.toCharArray()) {
+        sum += c - 'a' + 1;
+    }
+    for (int i = 0; i < k; i++) {
+        int new_sum = 0;
+        while (sum > 0) {
+            new_sum += sum % 10;
+            sum /= 10;
+        }
+        sum = new_sum;
+    }
+    return sum;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int maxBooks(int[] books) {
+    long sum = 0;
+    for (int b : books) {
+        sum += ((long)b - 1);
+    }
+    return (int)(sum + Math.sqrt((double)books.length * 2)) / 2;
+}
+```
+In this algorithm, we first calculate the total number of books available by summing up all the books and subtracting one because we need to make sure there are no consecutive books. Then, we use binary search approach to find the maximum possible count of books. In Python, the problem could be solved using bisect module which has builtin functions like bisect_left and bisect_right which help us perform binary searches efficiently. However, since Java doesn't support these features out of the box, I will write the logic manually here with C++ version as reference. The main idea is similar but the syntax may differ slightly between languages. Also, please note that some versions of LeetCode might not accept arrays directly due to their language specific restrictions.
+
+ref:
+int maxBooks(int[] books) {
+    int n = books.length;
+    int max_books = 0;
+    
+    for (int l = 0; l < n; ++l) {
+        int r = l + 1, books_taken = books[l], min_taken = books[l];
+        max_books = Math.max(max_books, books_taken);
+        
+        while (r < n) {
+            min_taken = Math.min(min_taken, books[r]);
+            books_taken += min_taken;
+            max_books = Math.max(max_books, books_taken);
+            
+            if (min_taken <= 1) break; // Can't decrease further
+            ++r;
+        }
+    }
+    
+    return max_books;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int minLength(String s) {
+    while (true) {
+        StringBuilder sb = new StringBuilder();
+        
+        boolean foundPrefix = false;
+        boolean foundSuffix = false;
+        
+        char lastChar = '@';
+        for (char c : s.toCharArray()) {
+            if (lastChar != c && (!foundPrefix || !foundSuffix)) {
+                if (!foundPrefix) {
+                    sb.append('p');
+                    foundPrefix = true;
+                }
+                
+                sb.append(c);
+            } else {
+                sb.append(c);
+            }
+            
+            lastChar = c;
+        }
+        
+        if (!foundPrefix) break; // no more prefixes were found
+        
+        String nextStr = sb.toString().substring(1);
+        if (nextStr.isEmpty()) break; // no more suffixes were found
+        
+        s = nextStr + reverse(sb.reverse().toString());
+    }
+    
+    return s.length();
+}
+
+private String reverse(String str) {
+    return new StringBuilder(str).reverse().toString();
+}
+```
+The function first iterates through the given string until there are no more prefixes or suffixes left. For each iteration, it appends non-equal characters to the result string along with a character flag indicating whether the current character has been processed before. If the previous character was different but we didn't find a prefix yet, we add an extra 'p' character after processing the current character. At the end of the loop, the resulting string will have the minimum possible length of the original input string.
+
+ref:
+public int minimumLength(String s) {
+    if(s.isEmpty()) return 0;
+    int i = 0, j = s.length() - 1;
+    while(i < j){
+        if(s.charAt(i) != s.charAt(j)) break;
+        char remove_char = s.charAt(i);
+        while(i < s.length() && s.charAt(i) == remove_char) i++;
+        while(j >= 0 && s.charAt(j) == remove_char) j--;
+    }
+    return Math.max(0, j - i + 1);
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        int rows = board.length;
+        int cols = board[0].length;
+        
+        for (int i=0; i<rows; ++i){
+            for (int j=0; j<cols; ++j){
+                if (backtrack(board, row+1, col, word, index)) return true;
+                if (backtrack(board, row-1, col, word, index)) return true;
+                if (backtrack(board, row, col+1, word, index)) return true;
+                if (backtrack(board, row, col-1, word, index)) return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean backtrack(char[][] board, int row, int col, String word, int index){
+        // check base case
+        if (index == word.length()) return true;
+        if (row < 0 || col < 0 || row >= board.length || col >= board[0].length || 
+           board[row][col] != word.charAt(index)) return false;
+        
+        char temp = board[row][col];
+        board[row][col] = '0';   // mark as visited by changing value to '0'
+        boolean found = backtrack(board, row+1, col, word, index + 1) ||
+                        backtrack(board, row-1, col, word, index + 1) ||
+                        backtrack(board, row, col+1, word, index + 1) ||
+                        backtrack(board, row, col-1, word, index + 1);
+        board[row][col] = temp;   // restore original character
+        return found;
+    }
+}
+```
+In this Java implementation, we perform depth first search on all possible paths through the given board starting at each position (top left corner). We keep track of the current index of the word being searched and increment that index whenever a match is found during our DFS traversal. If there is no matching path after searching all positions, then we stop further exploration. To avoid visiting the same node multiple times due to overlapping subproblems, we change the state
+ref:
+public boolean exist(char[][] board, String word) {
+    int m = board.length;
+    int n = board[0].length;
+
+    boolean[][] visited = new boolean[m][n];
+
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            if (dfs(board, i, j, 0, word, visited)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+private boolean dfs(char[][] board, int i, int j, int k, String word, boolean[][] visited) {
+    if (i < 0 || i >= board.length || j < 0 || j >= board[0].length || board[i][j] != word.charAt(k) || visited[i][j]) {
+        return false;
+    }
+
+    if (k == word.length() - 1) {
+        return true;
+    }
+
+    visited[i][j] = true;
+    boolean result = dfs(board, i + 1, j, k + 1, word, visited)
+            || dfs(board, i - 1, j, k + 1, word, visited)
+            || dfs(board, i, j + 1, k + 1, word, visited)
+            || dfs(board, i, j - 1, k + 1, word, visited);
+    visited[i][j] = false;
+
+    return result;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+}
+
+public TreeNode trimBST(TreeNode root, int low, int high) {
+    if (root == null || root.val < low || root.val > high) return null;
+    
+    root.left = trimBST(root.left, low, high);
+    root.right = trimBST(root.right, low, high);
+    
+    return root;
+}
+```
+The algorithm starts by checking whether the current subtree rooted at the given root is empty or out of bound. If either condition is true, then we know that no need to traverse further, thus returning null. Otherwise, recursively calling the function with updated values for lower and upper boundary for both children subtrees until reaching leaf nodes where conditions are met. Finally, when traversal reaches leaves, check if their values lie within [low, high]. If they do not, remove them from the tree otherwise keep them. This way, only those parts of the tree which satisfy the provided constraints get removed while preserving the overall structure.
+
+ref:
+public class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(int x) { val = x; }
+}
+
+public TreeNode trimBST(TreeNode root, int low, int high) {
+    if (root == null) return null;
+
+    if (root.val < low) {
+        return trimBST(root.right, low, high);
+    } else if (root.val > high) {
+        return trimBST(root.left, low, high);
+    } else {
+        root.left = trimBST(root.left, low, high);
+        root.right = trimBST(root.right, low, high);
+    }
+    
+    return root;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public class MyHashSet {
+     private boolean[] arr;
+
+     public MyHashSet() {
+         arr = new boolean[10000];
+     }
+
+     public void add(int key) {
+        arr[key] = true;
+     }
+
+     public boolean contains(int key) {
+        return arr[key];
+     }
+
+     public void remove(int key) {
+        if (arr[key]) {
+            arr[key] = false;
+        }
+     }
+}
+```
+This algorithm uses an array of booleans where each index represents the integer from 0 to 9999 as specified by the problem constraints. When adding elements, we simply assign them a truthy value representing presence (true). Contains checks just returns the stored boolean at the given index, which indicates its existence. Remove sets the boolean at that index to falsy, effectively removing the element. This ensures all operations are constant time complexity due to direct accesses/assignments through indices.
+
+ref:
+class MyHashSet {
+    boolean[] storage;
+
+    public MyHashSet() {
+        storage = new boolean[1000001];
+    }
+
+    public void add(int key) {
+        storage[key] = true;
+    }
+
+    public void remove(int key) {
+        storage[key] = false;
+    }
+
+    public boolean contains(int key) {
+        return storage[key];
+    }
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+import java.util.*;
+
+class VideoSharingPlatform {
+     private static final int MAX_VIDEO_ID = 1000;
+     private Map<Integer, String> videoMap;
+     private Map<Integer, Integer> viewCountMap;
+     private Map<Integer, Integer> likesMap;
+     private Map<Integer, Integer> dislikesMap;
+     
+     public VideoSharingPlatform() {
+         videoMap = new HashMap<>();
+         viewCountMap = new HashMap<>();
+         likesMap = new HashMap<>();
+         dislikesMap = new HashMap<>();
+     }
+
+     public int upload(String video) {
+        int id = 0;
+        while (videoMap.containsKey(id)) ++id;
+        videoMap.put(id, video);
+        viewCountMap.put(id, 0);
+        likesMap.put(id, 0);
+        dislikesMap.put(id, 0);
+        return id;
+    }
+
+     public void remove(int videoId) {
+        videoMap.remove(videoId);
+        viewCountMap.remove(videoId);
+        likesMap.remove(videoId);
+        dislikesMap.remove(videoId);
+     }
+
+     public String watch(int videoId, int startMinute, int endMinute) {
+        if (!videoMap.containsKey(videoId)) return "-1 ";
+        String videoStr = videoMap.get(videoId);
+        int len = Math.min(endMinute + 1, videoStr.length());
+        return videoStr.substring(Math.max(0, startMinute), len);
+     }
+
+     public void like(int videoId) {
+        if (videoMap.containsKey(videoId)) ++likesMap.get(videoId);
+     }
+
+     public void dislike(int videoId) {
+        if (videoMap.containsKey(videoId)) ++dislikesMap.get(videoId);
+     }
+
+     public int[] getLikesAndDislikes(int videoId) {
+        if (!videoMap.containsKey(videoId)) return new int[]{-1};
+        return new int[]{
+ref:
+import java.util.HashSet;
+
+public boolean isValidMatrix(int[][] matrix) {
+    int n = matrix.length;
+    for (int i = 0; i < n; ++i) {
+        HashSet<Integer> row = new HashSet<>(), col = new HashSet<>();
+        for (int j = 0; j < n; ++j) {
+            row.add(matrix[i][j]);
+            col.add(matrix[j][i]);
+        }
+        if (row.size() != n || col.size() != n)
+            return false;
+    }
+    return true;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int minimumDeleteSum(String s1, String s2) {
+    int m = s1.length();
+    int n = s2.length();
+    
+    int[][] dp = new int[m + 1][n + 1];
+    
+    for (int i = 1; i <= m; ++i) {
+        dp[i][0] = dp[i - 1][0] + s1.charAt(i - 1);
+    }
+    
+    for (int j = 1; j <= n; ++j) {
+        dp[0][j] = dp[0][j - 1] + s2.charAt(j - 1);
+    }
+    
+    for (int i = 1; i <= m; ++i) {
+        for (int j = 1; j <= n; ++j) {
+            if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                dp[i][j] = dp[i - 1][j - 1];
+            } else {
+                dp[i][j] = Math.min(dp[i - 1][j] + s1.charAt(i - 1), dp[i][j - 1] + s2.charAt(j - 1));
+            }
+        }
+    }
+    
+    return dp[m][n];
+}
+```
+This Java function uses dynamic programming to solve the problem by maintaining a table that stores the minimum deletion sums at each step. The final result will be in the last cell of the table after iterating through all cells. For each character pair in the input strings, it checks whether they are equal. If so, it keeps the current score as it was before deleting them. Otherwise, it computes the minumum deletions required between these pairs using previously computed values and updates the DP array accordingly. This approach ensures that the optimal substructure property is maintained while solving the problem.
+
+ref:
+public int minimumDeleteSum(String s1, String s2) {
+    int[][] dp = new int[s1.length() + 1][s2.length() + 1];
+    for (int i = 1; i <= s1.length(); i++) {
+        dp[i][0] = dp[i - 1][0] + s1.charAt(i - 1);
+    }
+    for (int j = 1; j <= s2.length(); j++) {
+        dp[0][j] = dp[0][j - 1] + s2.charAt(j - 1);
+    }
+    for (int i = 1; i <= s1.length(); i++) {
+        for (int j = 1; j <= s2.length(); j++) {
+            if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                dp[i][j] = dp[i - 1][j - 1];
+            } else {
+                dp[i][j] = Math.min(dp[i - 1][j] + s1.charAt(i - 1), dp[i][j - 1] + s2.charAt(j - 1));
+            }
+        }
+    }
+    return dp[s1.length()][s2.length()];
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int slidingPuzzle(int[][] board) {
+    Set<Integer> used = new HashSet<>();
+    Queue<State> queue = new LinkedList<>();
+    State initial_state = new State(board);
+    
+    queue.add(initial_state);
+    while (!queue.isEmpty()) {
+        State current = queue.poll();
+        
+        if (current.isSolved()) return current.moves;
+        
+        List<Integer> zero_pos = Arrays.asList(current.zeroPos / 3, current.zeroPos % 3);
+        
+        // Generate neighbors using manhattan distance
+        List<Integer> neighbors = generateNeighbors(zero_pos);
+        
+        for (int neighbor : neighbors) {
+            State next_state = new State(current.nextBoard, neighbor, current.moves + 1);
+            
+            if (!used.contains(next_state.hashCode())) {
+                queue.add(next_state);
+                used.add(next_state.hashCode());
+            }
+        }
+    }
+    return -1;
+}
+
+class State {
+    public boolean isSolved() { /* implement */ };
+    public void addZeroToBoard() { /* implement */ };
+    public String hashCode() { /* implement */ };
+};
+
+private static List<Integer> generateNeighbors(List<Integer> pos) { /* implement */ };
+```
+Note: The above Java code snippet may not work as expected because I can't guarantee its correctness or performance due to lack of detailed implementation details. Please use this skeleton template as a starting point when implementing the methods according to your language specific requirements.
+
+ref:
+public class TreeNode {
+    boolean isLeaf;
+    boolean val;
+    TreeNode topLeft;
+    TreeNode topRight;
+    TreeNode bottomLeft;
+    TreeNode bottomRight;
+}
+
+public TreeNode intersect(TreeNode quadTree1, TreeNode quadTree2) {
+    if (quadTree1.isLeaf) {
+        return quadTree1.val ? quadTree1 : quadTree2;
+    }
+    if (quadTree2.isLeaf) {
+        return quadTree2.val ? quadTree2 : quadTree1;
+    }
+
+    quadTree1.topLeft = intersect(quadTree1.topLeft, quadTree2.topLeft);
+    quadTree1.topRight = intersect(quadTree1.topRight, quadTree2.topRight);
+    quadTree1.bottomLeft = intersect(quadTree1.bottomLeft, quadTree2.bottomLeft);
+    quadTree1.bottomRight = intersect(quadTree1.bottomRight, quadTree2.bottomRight);
+
+    if (quadTree1.topLeft.isLeaf && quadTree1.topRight.isLeaf && quadTree1.bottomLeft.isLeaf && quadTree1.bottomRight.isLeaf && quadTree1.topLeft.val == quadTree1.topRight.val && quadTree1.topRight.val == quadTree1.bottomLeft.val && quadTree1.bottomLeft.val == quadTree1.bottomRight.val) {
+        quadTree1.isLeaf = true;
+        quadTree1.val = quadTree1.topLeft.val;
+    }
+
+    return quadTree1;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int xorOperation(int n, int start) {
+    int[] nums = new int[n];
+    for (int i = 0; i < n; ++i) {
+        nums[i] = start + 2 * i;
+    }
+    
+    int result = 0;
+    for (int num : nums) {
+        result ^= num;
+    }
+    
+    return result;
+}
+```
+In this function, we first initialize a list or array with length 'n', then fill each element in that list/array using the formula provided by the problem statement. After filling up the list/array, we iterate through the list/array only once, performing the XOR operation on every pair of adjacent numbers at each iteration, storing the results into variable 'result'. Finally, after looping through the entire list/array, we return the final value stored in 'result' as our answer. This approach ensures optimal time complexity due to its linear traversal nature. The algorithm uses bitwise operators which have constant O(1) time complexity, making it more efficient than other methods like brute force method.
+
+ref:
+public int findTheDistanceValue(int[] arr1, int[] arr2, int d) {
+    int count = 0;
+    for (int i = 0; i < arr1.length; i++) {
+        boolean valid = true;
+        for (int j = 0; j < arr2.length; j++) {
+            if (Math.abs(arr1[i] - arr2[j]) <= d) {
+                valid = false;
+                break;
+            }
+        }
+        if (valid) count++;
+    }
+    return count;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int balancedString(String s) {
+    Map<Character, Integer> count = new HashMap<>();
+    
+    for (char c : s.toCharArray()) {
+        count.put(c, count.getOrDefault(c, 0) + 1);
+    }
+    
+    int i = 0;
+    int j = 0;
+    int minLength = s.length();
+    while (j < s.length()) {
+        count.put(s.charAt(j), count.get(s.charAt(j)) - 1);
+        
+        while (i <= j && allCharsBalanced(count)) {
+            minLength = Math.min(minLength, j - i + 1);
+            
+            count.put(s.charAt(i), count.get(s.charAt(i)) + 1);
+            i++;
+        }
+        
+        j++;
+    }
+    
+    return minLength;
+}
+
+private boolean allCharsBalanced(Map<Character, Integer> counts) {
+    for (int v : counts.values()) {
+        if (v % 2 != 0) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+```
+The algorithm uses two pointers (`i` and `j`) to slide the window over the input string. It keeps track of character frequencies in the sliding window using a hashmap or dictionary. When the current window has an equal number of occurrences of every type of character ('Q', 'W', 'E', and 'R'), we update our answer by comparing the size of the current window against the previous smallest one found. This way, we ensure that any replacement operation will result in a balance between the different types of characters. The time complexity of this approach is O(N).
+
+ref:
+import java.util.*;
+
+public class Solution {
+    public int[] getMaxSumAndCount(String[] board) {
+        int mod = 1000000007;
+        int n = board.length;
+        int[][][] dp = new int[n][n][2];
+        dp[n - 1][n - 1][1] = 1;
+
+        for (int i = n - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+                if (board[i].charAt(j) == 'X' || (i == n - 1 && j == n - 1)) continue;
+                int currVal = board[i].charAt(j) == 'E' ? 0 : board[i].charAt(j) - '0';
+                int[] up = i > 0 ? dp[i - 1][j] : new int[]{-1, 0};
+                int[] left = j > 0 ? dp[i][j - 1] : new int[]{-1, 0};
+                int[] diag = i > 0 && j > 0 ? dp[i - 1][j - 1] : new int[]{-1, 0};
+
+                int[] maxArray = getMax(up, left, diag);
+                if (maxArray[0] == -1) continue;
+
+                dp[i][j][0] = maxArray[0] + currVal;
+                if (Arrays.equals(up, maxArray)) dp[i][j][1] = (dp[i][j][1] + up[1] % mod) % mod;
+                if (Arrays.equals(left, maxArray)) dp[i][j][1] = (dp[i][j][1] + left[1] % mod) % mod;
+                if (Arrays.equals(diag, maxArray)) dp[i][j][1] = (dp[i][j][1] + diag[1] % mod) % mod;
+            }
+        }
+        return dp[0][0];
+    }
+
+    public int[] getMax(int[] a, int[] b, int[] c) {
+        if (a[0] >= b[0] && a[0] >= c[0]) return a;
+        if (b[0] >= a[0] && b[0] >= c[0]) return b;
+        return c;
+    }
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int arrayNesting(int[] nums) {
+    int res = 0;
+    boolean[] visited = new boolean[nums.length];
+    
+    for (int i = 0; i < nums.length; ++i) {
+        if (!visited[i]) {
+            int count = 0;
+            
+            while (!visited[nums[i]]) {
+                visited[nums[i]] = true;
+                ++count;
+                i = nums[i];
+            }
+            
+            res = Math.max(res, count);
+        }
+    }
+    
+    return res;
+}
+```
+This algorithm uses depth-first search or backtracking to find the longest cycle within the permutation. It iterates through each number starting from index 0 using a visited flag to keep track of whether we have visited that position already. If we haven't visited this number yet, we start exploring its cycle by repeatedly updating our current index until we reach another number that has been visited. Then, we update our result value as well as increment our counter whenever we explore a cycle. Finally, after visiting all elements, we return the maximum size found during iterations.
+
+ref:
+public int arrayNesting(int[] nums) {
+    int n = nums.length;
+    int max_len = 0;
+    for (int i = 0; i < n; ++i) {
+        if (nums[i] != -1) {       
+            int start = nums[i];
+            int count = 0;
+            while (nums[start] != -1) {
+                int temp = start;
+                start = nums[start];
+                count++;
+                nums[temp]=-1;
+            }
+            max_len = Math.max(max_len, count);
+        }
+    }
+    return max_len;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+import java.util.*;
+
+class Solution {
+     private Random rand;
+     private Map<String, Integer> counts;
+     public Solution(int m, int n) {
+         this.rand = new Random();
+         this.counts = new HashMap<>();
+         initializeMatrix(m, n);
+     }
+     
+     void initializeMatrix(int m, int n){
+        String key = m + "_" + n;
+        if (!this.counts.containsKey(key)) {
+            this.counts.put(key, (int)(Math.random() * ((double) Math.pow(m, n) + 1)));
+        }
+        System.out.println("Initialized "+ count_to_str(m) +"x" + count_to_str(n));
+     }
+
+     private String count_to_str(int num) {
+       return num < 10 ? "0" + num : "" + num;
+     }
+
+     public int[] flip() {
+        double prob = 1 / (double)(counts.getOrDefault((Integer.toString(counts.size())), 0) + 1);
+        List<Integer> result = new ArrayList<>();
+        while (true) {
+            int i = rand.nextInt(prob);
+            if (i < counts.getOrDefault((Integer.toString(result.size())), 0)){
+                break;
+            } else{
+                prob += (1.0 - prob) / ++result.size();
+            }
+        }
+        return new int[]{result.get(0), result.get(1)};
+     }
+
+     public void reset() {
+          counts.clear();
+     }
+}
+```
+This Java implementation uses a hash map or dictionary data structure to store the probabilities that we need to calculate in order to generate the required output. The probability is calculated using the formula given below:
+
+Probability = Probability/(Count + 1). This way, we ensure that our generated numbers have equal chance to appear as per their positions within the array/grid. We use these probabilities to determine which element needs to be selected when calling the 'flip' method. If the next value has less than its previous ones, we stop generating more elements
+ref:
+import java.util.Random;
+
+class Solution {
+    int m, n, total;
+    int[][] matrix;
+    Random random;
+
+    public Solution(int m, int n) {
+        this.m = m;
+        this.n = n;
+        total = m * n;
+        matrix = new int[m][n];
+        random = new Random();
+    }
+
+    public int[] flip() {
+        int idx = random.nextInt(total);
+        total--;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == 0) {
+                    if (idx == 0) {
+                        matrix[i][j] = 1;
+                        return new int[] { i, j };
+                    }
+                    idx--;
+                }
+            }
+        }
+        return new int[] { -1, -1 }; // This line should never be reached
+    }
+
+    public void reset() {
+        total = m * n;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = 0;
+            }
+        }
+    }
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int chalkReplacement(int[] chalk, int k) {
+    long sum = 0;
+    for (int c : chalk) sum += c;
+    
+    while (k >= chalk[0]) {
+        k -= chalk[0];
+        Arrays.shift(chalk);
+    }
+    
+    return binarySearch(chalk, k / (long)(++sum));
+}
+
+private int binarySearch(int[] arr, long x) {
+    int left = 0, right = arr.length - 1;
+    while (left < right) {
+        int mid = left + ((right - left) >> 1);
+        if (arr[mid] > x) right = mid; else left = mid + 1;
+    }
+    return left;
+}
+```
+In this Java implementation, we first calculate the total number of chalks using a loop and store them in a variable named 'sum'. Then we run a while loop where we subtract the value at index 0 from 'k', shifting all elements by one position down, and checking whether 'k' is still greater or equal to the remaining chalk after performing these operations. If 'k' remains positive after running through the loop, we perform a binary search to find the smallest element such that its count plus the previous counts equals the target count minus the initial empty count times two. This step ensures that the replacement happens when there are sufficient chalks available. Finally, we return the result obtained during the binary search operation.
+
+ref:
+public String mergeAlternately(String word1, String word2) {
+    StringBuilder merged = new StringBuilder();
+    int i = 0, j = 0;
+    while (i < word1.length() || j < word2.length()) {
+        if (i < word1.length()) merged.append(word1.charAt(i++));
+        if (j < word2.length()) merged.append(word2.charAt(j++));
+    }
+    return merged.toString();
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+import java.util.*;
+public boolean minSuperSequence(int[] nums, int[][] sequences) {
+    Map<Integer, Integer> countMap = new HashMap<>();
+    Queue<Integer> queue = new LinkedList<>();
+    
+    // Count occurrences of each number in nums
+    for (int num : nums) {
+        countMap.put(num, countMap.getOrDefault(num, 0) + 1);
+    }
+    
+    // Add numbers with counts greater than zero to the queue
+    for (var entry : countMap.entrySet()) {
+        if (entry.getValue() > 0) {
+            queue.offer(entry.getKey());
+        }
+    }
+    
+    while (!queue.isEmpty()) {
+        var currentNum = queue.poll();
+        
+        // Check if currentNum is a part of any sequence
+        for (int[] seq : sequences) {
+            Set<Integer> set = new HashSet<>();
+            
+            for (int i = 0; i < seq.length && !set.contains(seq[i]); ++i) {
+                set.add(seq[i]);
+                
+                // If set contains all numbers in nums then break out of loop
+                if (set.size() >= nums.length) {
+                    break;
+                }
+            }
+            
+            // If set doesn't contain all numbers in nums remove them from queue
+            if (set.size() < nums.length) {
+                continue;
+            }
+            
+            int nextCount = countMap.get(currentNum) - set.size();
+            
+            if (nextCount == 0) {
+                return false;
+            } else if (nextCount > 0) {
+                queue.offer(currentNum);
+            }
+            
+            countMap.put(currentNum, nextCount);
+        }
+    }
+    
+    return true;
+}
+```
+
+};
+```
+
+Please note that this problem requires understanding of graph theory which isn't directly applicable here since you need to check whether every element occurs exactly once in the input list/array 'nums'. So, this approach will require more advanced knowledge about graphs. However, the algorithm
+ref:
+public boolean isShortestAndUniqueSupersequence(int[] nums, int[][] sequences) {
+    Map<Integer, Integer> pos = new HashMap<>();
+    for (int i = 0; i < nums.length; i++) {
+        pos.put(nums[i], i);
+    }
+
+    for (int[] seq : sequences) {
+        if (pos.get(seq[0]) > pos.get(seq[seq.length - 1])) {
+            return false;
+        }
+    }
+    return true;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public String largestOddValue(String num) {
+    int maxVal = -1;
+    for (char c : num.toCharArray()) {
+        if ((c - '0') % 2 != 0 && (c - '0') > maxVal) {
+            maxVal = c - '0';
+        }
+    }
+    return maxVal == -1 ? "" : Integer.toString(maxVal);
+}
+```
+This algorithm iterates through each character in the input string, checking whether it represents an odd digit and updating the maximum value found so far. If there is no such digit available, then we return an empty string. Otherwise, we convert the maximum value to a string and return it.
+    
+Note: This problem can be solved using dynamic programming as well but this approach provides an optimal solution with O(n) complexity.
+    
+The time complexity of this function is linear because it needs to scan all characters in the input string once. In terms of space complexity, it uses constant extra space to store the result variable and loop counter variables. Therefore, its overall time complexity is O(1).
+
+ref:
+public String largestOddNumber(String num) {
+    for (int i = num.length() - 1; i >= 0; i--) {
+        if ((num.charAt(i) - '0') % 2 != 0) {
+            return num.substring(0, i + 1);
+        }
+    }
+    return "";
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public double calculateTax(int[][] brackets, int income) {
+    double sum = 0;
+    for (int i = 0; i < brackets.length && income > brackets[i][0]; ++i) {
+        if (i == 0) {
+            sum += Math.min(income, brackets[i][0]) * ((double)brackets[i][1] / 100);
+        } else {
+            sum += (brackets[i][0] - brackets[i - 1][0]) * ((double)brackets[i][1] / 100);
+        }
+    }
+    return sum;
+}
+```
+This function calculates the cumulative tax based on the input parameters. It iterates through each tax bracket from top to bottom until reaching the required income level, calculating the tax contribution using the provided rates. If there is any overlap between the current bracket and the previous one, we add only the difference in their respective bounds. We use the min function to ensure that our tax calculation doesn't exceed the available income levels. This way, we can cover all possible combinations with minimum effort and complexity.
+
+ref:
+double taxAmount(int[][] brackets, int income) {
+    double tax = 0;
+    int prev_upper = 0;
+    for (int[] bracket : brackets) {
+        int upper = bracket[0];
+        double percent = bracket[1] / 100.0;
+        tax += (Math.min(upper, income) - prev_upper) * percent;
+        prev_upper = upper;
+        if (income <= upper) break;
+    }
+    return tax;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int findTargetSumWays(int[] nums, int target) {
+    int sum = 0;
+    for (int num : nums) {
+        sum += num;
+    }
+    
+    if ((sum + target) % 2 != 0 || Math.abs(target) > sum) {
+        return 0;
+    }
+    
+    int s = (sum + target) / 2;
+    int[] dp = new int[s + 1];
+    dp[0] = 1;
+    
+    for (int i = 0; i < nums.length; ++i) {
+        for (int j = s; j >= nums[i]; --j) {
+            dp[j] += dp[j - nums[i]];
+        }
+    }
+    
+    return dp[s];
+}
+```
+In this problem, we first calculate the required sum from the input numbers. If the calculated sum plus the given target value isn't even or absolute value of the target exceeds the calculated sum, then there are no valid combinations so we return 0. Otherwise, we create an dynamic programming table with size equal to the calculated sum divided by 2 (since each combination needs two parts). We initialize all values in the table as 0 except for the initial element which should be 1 because one way to get exactly zero can be found using only zeros. Then we iterate through the input numbers and update our dynamic programming table according to whether adding that current number will increase the final result or not. Finally, after filling up the entire table, we return the last cell filled out, which represents the count of ways to make the desired sum.
+  
+Note: This approach assumes that you have enough memory available to store the DP table. The time complexity is O(n * S), where n is the length of the input list and S is the maximum possible sum in the input list.
+
+ref:
+public int subarraySum(int[] nums, int k) {
+    Map<Integer, Integer> prefixSumFrequency = new HashMap<>();
+    prefixSumFrequency.put(0, 1);
+    int prefixSum = 0, result = 0;
+    
+    for (int num : nums) {
+        prefixSum += num;
+        result += prefixSumFrequency.getOrDefault(prefixSum - k, 0);
+        prefixSumFrequency.put(prefixSum, prefixSumFrequency.getOrDefault(prefixSum, 0) + 1);
+    }
+    
+    return result;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+/* Definition for a Node */
+class Node {
+    public int val;
+    public List<Node> children;
+}
+
+public Node findRoot(List<Node> tree) {
+    int sum = 0;
+    for (Node child : tree) {
+        if (!child.children.isEmpty()) sum += child.val;
+    }
+    
+    for (Node node : tree) {
+        boolean foundChild = false;
+        for (Node child : node.children) {
+            if (node.val == child.val && !foundChild) {
+                foundChild = true;
+            } else {
+                sum -= child.val;
+            }
+        }
+        
+        if (!foundChild || sum == 0) return node;
+    }
+    
+    throw new IllegalArgumentException("Unable to find root");
+}
+```
+This Java program uses depth first search to calculate the sum of values of non-empty children while also checking whether any child was visited before updating the parent's value. This approach ensures that we don't double count subtrees when calculating their sums. We then iterate through the list again to check which subtree had no children left after removal, thus finding the root.
+```java
+
+```
+
+ref:
+class Solution {
+    public Node findRoot(List<Node> nodes) {
+        int valueSum = 0;
+        
+        for (Node node : nodes) {
+            valueSum += node.val;
+            
+            for (Node child : node.children) {
+                valueSum -= child.val;
+            }
+        }
+        
+        for (Node node : nodes) {
+            if (node.val == valueSum) {
+                return node;
+            }
+        }
+        
+        return null;
+    }
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+import java.util.*;
+public List<List<Integer>> permute(int[] nums) {
+    List<List<Integer>> result = new ArrayList<>();
+    backtrack(result, new ArrayList<>(), nums);
+    return result;
+}
+private void backtrack(List<List<Integer>> result, List<Integer> currentPermutation, int[] nums) {
+    if (currentPermutation.size() == nums.length) {
+        result.add(new ArrayList<>(currentPermutation));
+    } else {
+        for (int i = 0; i < nums.length; ++i) {
+            if (!currentPermutation.contains(nums[i])) {
+                currentPermutation.add(nums[i]);
+                backtrack(result, currentPermutation, nums);
+                currentPermutation.remove(currentPermutation.size() - 1);
+            }
+        }
+    }
+}
+```
+This algorithm uses a depth-first search approach to generate all possible permutations by exploring different branches and undoing decisions when they fail or yield no further results. It starts with an empty list representing the current permutation, then iterates through each number in the input array. If that number has not been added already, we add it to the current permutation, perform a recursive call on the remaining elements, and remove the last element from the current permutation before moving on to another branch. When there are no more numbers left in the current permutation, we have generated a valid permutation, so we append this permutation to our final result. This process continues until every permutation is found. The time complexity of this algorithm is O(n * n!) where n is the length of the input array.
+
+ref:
+import java.util.ArrayList;
+import java.util.List;
+
+public List<List<Integer>> permute(int[] nums) {
+    List<List<Integer>> results = new ArrayList<>();
+    helper(nums, 0, results);
+    return results;
+}
+
+private void helper(int[] nums, int index, List<List<Integer>> results) {
+    if (index == nums.length - 1) {
+        List<Integer> tempList = new ArrayList<>();
+        for (int n : nums) {
+            tempList.add(n);
+        }
+        results.add(tempList);
+        return;
+    }
+
+    for (int i = index; i < nums.length; i++) {
+        swap(nums, index, i);
+        helper(nums, index + 1, results);
+        swap(nums, index, i);
+    }
+}
+
+private void swap(int[] nums, int i, int j) {
+    int temp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = temp;
+}
+
+*****EXAMPLE*****
+
+
+
+generated:
+```java
+public int[] numOfBurgers(int tomatoSlices, int cheeseSlices) {
+    if (tomatoSlices > 2 * cheeseSlices || tomatoSlices < cheeseSlices) return new int[]{};
+    int jumbo = (tomatoSlices - cheeseSlices) / 2;
+    int small = cheeseSlices - jumbo;
+    return new int[]{jumbo, small};
+}
+```
+This algorithm first checks whether it's possible to create both a jumbo burger and a small burger with the given amount of tomatoes and cheese. If this condition isn't met, then an empty array is returned because it doesn't meet the conditions to make both types of burgers. Then, using the information from the problem statement, the variables "jumbo" and "small" store the required quantities of each type of burger based on their respective amounts of slicing requirements. Finally, these values are returned in an integer array format. This function has O(1) time complexity since it only performs a fixed number of arithmetic operations regardless of input size.
+    
+END OF JAVA CODE
+
+ref:
+public int[] closestFactors(int num) {
+    int factor1 = (int) Math.sqrt(num + 2);
+    while (true) {
+        int factor2 = (num + 2) / factor1;
+        if (factor1 * factor2 == num + 2) {
+            return new int[] {factor1, factor2};
+        }
+        factor2 = (num + 1) / factor1;
+        if (factor1 * factor2 == num + 1) {
+            return new int[] {factor1, factor2};
+        }
+        factor1--;
+    }
+}
+
